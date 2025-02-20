@@ -1,4 +1,4 @@
-package chooser.trackbite;
+package chooser.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
