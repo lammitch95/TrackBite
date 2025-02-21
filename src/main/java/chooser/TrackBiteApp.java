@@ -23,17 +23,17 @@ public class TrackBiteApp extends Application {
         /**This part is example usage of the read/write/delete functions******/
 
         Map<String, Object> data = new HashMap<>();
-        data.put("name", "Mitchell Lam");
-        data.put("email", "1234Mitch@gmail.com");
+        data.put("name", "Corinne Koubek");
+        data.put("email", "corinne123@gmail.com");
 
-        FirestoreUtils.writeDoc("Employees", "mlam1234", data);
+        FirestoreUtils.writeDoc("Employees", "ckoub123", data);
 
-        Map<String, Object> userData = FirestoreUtils.readDoc("Employees", "mlam1234");
+        Map<String, Object> userData = FirestoreUtils.readDoc("Employees", "ckoub123");
         if (userData != null) {
             System.out.println("User Data: " + userData);
         }
 
-        FirestoreUtils.deleteDoc("Employees", "mlam1234");
+       // FirestoreUtils.deleteDoc("Employees", "mlam1234");
 
         /******** read/write/delete functions example ends here*****/
 
