@@ -22,7 +22,7 @@ public class Main extends Application {
             backgroundImage.fitWidthProperty().bind(primaryStage.widthProperty());
             backgroundImage.fitHeightProperty().bind(primaryStage.heightProperty());
         }
-        // Set the window properly
+        // Set the window properly to view
         Scene scene = new Scene(root);
         primaryStage.setTitle("TrackBite - Login");
         primaryStage.setScene(scene);
