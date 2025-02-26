@@ -1,5 +1,6 @@
 package chooser.database;
 
+import chooser.model.User;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.*;
 import com.google.cloud.firestore.WriteResult;
@@ -62,4 +63,39 @@ public class FirestoreUtils {
             System.err.println("Error deleting data: " + e.getMessage());
         }
     }
+
+
+    public static User authenticateUser(String username, String password){
+        try {
+            Query query = FirestoreContext.getFirestore().collection("Employees")
+                    .whereEqualTo("username", username)
+                    .whereEqualTo("password", password);
+
+            QuerySnapshot querySnapshot = query.get().get();
+            if (!querySnapshot.isEmpty()) {
+                DocumentSnapshot document = querySnapshot.getDocuments().getFirst(); // Get first document if found
+                return createUserFromDocument(document);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private static User createUserFromDocument(DocumentSnapshot document) {
+        String userId = document.getId();
+        String username = document.getString("username");
+        String password = document.getString("password");
+        String firstName = document.getString("firstName");
+        String lastName = document.getString("lastName");
+        String dob = document.getString("dob");
+        String phoneNum = document.getString("phoneNum");
+        String role = document.getString("role");
+        return new User(userId, username, password, firstName, lastName, dob, phoneNum, role);
+    }
 }
+
+
+

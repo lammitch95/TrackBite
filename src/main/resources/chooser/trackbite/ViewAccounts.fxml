@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="449.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.ViewAccountsController">
+   <center>
+      <TableView fx:id="accountsTableView" prefHeight="485.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn prefWidth="91.33333158493042" text="Employee ID" />
+          <TableColumn prefWidth="111.77780151367188" text="Name" />
+            <TableColumn prefWidth="97.55560302734375" text="Date of Birth" />
+            <TableColumn prefWidth="99.77777099609375" text="Phone #" />
+            <TableColumn prefWidth="84.0" text="Role" />
+            <TableColumn prefWidth="98.88894653320312" text="Password" />
+        </columns>
+      </TableView>
+   </center>
+</BorderPane>
