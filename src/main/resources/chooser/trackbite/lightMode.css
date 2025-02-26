@@ -1,0 +1,298 @@
+/**button or hbox hover effects***/
+.hover-effect:hover{
+    -fx-background-color: #008ae8;
+}
+
+.hover-effect{
+    -fx-background-color: #0279cb;
+}
+
+/**textfields valid or invalid effect**/
+.text-field {
+    -fx-border-color: transparent;
+    -fx-border-width: 1px;
+    -fx-text-fill: black;
+}
+
+
+.text-field.valid {
+    -fx-border-color: #07d600;
+    -fx-text-fill: #07d600;
+}
+
+.label.validSubmit{
+    -fx-text-fill: #07d600;
+}
+
+/* LoginPage.fxml quick image view */
+#loginPane{
+    -fx-background-image: url("LoginImage.jpg");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+#loginLogoImage{
+    -fx-background-image: url("trackBiteLogoBlack.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+#loginVBox{
+    -fx-background-color: white;
+}
+
+#loginBtn{
+    -fx-background-color: #0183dc;
+    -fx-background-radius: 7;
+    -fx-border-radius: 7;
+    -fx-padding: 10px 10px;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+/** New User Form css ***/
+#passRulesText{
+    -fx-background-color: transparent; /* Transparent background */
+
+}
+
+#passRulesText .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+#passRulesText .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+
+#passRulesText .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+
+
+
+
+/*CSS for homepage.fxml*/
+
+#LoginButtonChange{
+    -fx-background-color: transparent;
+}
+
+
+
+#sideNavBar{
+    -fx-background-color: #0279cb;
+}
+
+.tool-bar{
+    -fx-background-color: #0279cb;
+    -fx-border-color:  transparent transparent white transparent;
+    -fx-border-width: 0 0 2 0;
+}
+
+#settingNavbar{
+    -fx-background-color: #0082dc;
+}
+
+#mainOrderScroll, #orderDisplayContainer{
+    -fx-background-color: white;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color:  #22aae1;
+    -fx-background-radius: 0;
+}
+
+#deliverReturnBtn,
+#newDeliveryButton,
+#editBtn{
+    -fx-border-color: white;
+    -fx-border-width: 1;
+
+}
+
+#deliverReturnBtn:disabled,
+#newDeliveryButton:disabled,
+#editBtn:disabled {
+    -fx-opacity: 0.5;
+}
+
+#searchBarHbox{
+    -fx-background-color: transparent;
+}
+
+/*CSS for homepage.fxml ends*/
+
+/*CSS for OrderCard.fxml*/
+#orderTemplate{
+    -fx-background-color: transparent;
+    -fx-border-color:  #22aae1;
+    -fx-border-width: 2;
+
+}
+
+#mrnDisplay,
+#patientNameDisplay,
+#locationDisplay,
+#medicationDisplay,
+#doseDisplay,
+#doseQuantityDisplay{
+    -fx-text-fill: black;
+}
+
+#orderStatusDisplay{
+    -fx-background-color: transparent;
+    -fx-control-inner-background: transparent;
+    -fx-line-spacing: 10px;
+
+
+}
+#orderStatusDisplay .scroll-pane{
+    -fx-background-color: transparent;
+    -fx-hbar-policy: never;
+    -fx-vbar-policy: never;
+}
+
+#orderStatusDisplay:disabled{
+    -fx-opacity: 1;
+    -fx-text-fill:  #3C5B6F;
+    -fx-line-spacing: 10px;
+}
+
+#orderStatusDisplay .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+
+#orderStatusDisplay .scroll-pane .content{
+    -fx-background-color: transparent;
+    -fx-cursor: default;
+    -fx-user-select: none;
+}
+
+#orderSplit{
+    -fx-background-color:  #22aae1;
+}
+
+#viewOrderHistoryMore{
+    -fx-background-color: transparent;
+    -fx-text-fill: #1e90f5;
+}
+
+/*CSS for OrderCard.fxml Ends*/
+
+/*CSS for DeliveryForm.fxml*/
+#deliveryFormPane{
+    -fx-background-color: #fafafa;
+}
+#mrnLbl,
+#nameLbl,
+#locationlbl,
+#medDescriplbl,
+#doselbl,
+#doseQuantlbl,
+#formDescriplbl{
+    -fx-text-fill: black;
+}
+
+#mrnText
+#locationText,
+#medicationText,
+#doseText,
+#doseAmountText{
+    -fx-background-color: #ffffff;
+    -fx-text-fill: black;
+    -fx-border-width: 1px;
+    -fx-border-color: lightgrey;
+}
+
+#addNoteText{
+    -fx-control-inner-background: #ffffff;
+    -fx-text-fill: black;
+}
+
+/*CSS for DeliveryForm.fxml Ends*/
+
+
+/*CSS for CreateUserForm.fxml*/
+#adminNavBar{
+    -fx-background-color:  #1678a8;
+}
+
+#createUserButton{
+    -fx-background-color:  #22aae1;
+}
+
+#textFieldEmployeeID,
+#textFieldFirstName,
+#textFieldLastName,
+#textFieldEmail,
+#textFieldPassword1,
+#textFieldConfirmPassword
+{
+    -fx-background-color: #ffffff;
+    -fx-text-fill: black;
+}
+/*CSS for CreateUserForm.fxml Ends*/
+
+/**NotifyMessage.fxml file*/
+#notifyPanel{
+    -fx-background-color: #22aae1;
+}
+
+/*LoginForm.fxml CSS Stuff*/
+#LogInVbox{
+    -fx-background-color:  rgba(0,0,0,0.75);
+}
+
+#LoginButton{
+    -fx-background-color:  #22aae1;
+}
+
+#loginPanel{
+    -fx-background-color: white;
+}
+
+#textFieldUsername,
+#textFieldPassword{
+    -fx-background-color:  lightgrey;
+    -fx-text-fill: gray;
+    -fx-prompt-text-fill: gray;
+
+}
+
+/*Languagemenu faxml css*/
+#languagePane{
+    -fx-background-color:  #22aae1;
+}
+
+
+/***Toggle changes on homepage***/
+.isToggled{
+    -fx-background-color: #5ac6fc;
+    -fx-text-fill: white;
+}
+
+.isNotToggled{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
