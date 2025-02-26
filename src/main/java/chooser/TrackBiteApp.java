@@ -14,8 +14,6 @@ import java.util.Map;
 
 
 public class TrackBiteApp extends Application {
-
-
     @Override
     public void start(Stage stage) throws IOException {
         FirestoreContext.getFirestore();
