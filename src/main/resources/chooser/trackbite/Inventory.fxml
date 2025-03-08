@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="chooser.view.Inventory"
+          alignment="center" hgap="10" vgap="10">
+
+    <!-- Labels -->
+    <Label text="Item Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <Label text="Quantity:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <Label text="Price:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+
+    <!-- Input Fields -->
+    <TextField fx:id="itemNameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+    <TextField fx:id="quantityField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    <TextField fx:id="priceField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+    <!-- Buttons -->
+    <Button text="Add New Stock" fx:id="newStockButton" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+    <Button text="View Inventory" fx:id="viewInventoryButton" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+    <Button text="Order History" fx:id="orderHistoryButton" GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
+
+</GridPane>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <Label text="Inventory Item" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+
+    <HBox spacing="10">
+        <Label text="Item Name:" />
+        <TextField fx:id="itemNameField" />
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="Quantity:" />
+        <TextField fx:id="quantityField" />
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="Price:" />
+        <TextField fx:id="priceField" />
+    </HBox>
+
+    <HBox spacing="10">
+        <Button text="New Stock Item" fx:id="newStockButton" />
+        <Button text="View Inventory" fx:id="viewInventoryButton" />
+        <Button text="Order History" fx:id="orderHistoryButton" />
+    </HBox>
+</VBox>
