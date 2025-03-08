@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/javafx"
+            fx:controller="chooser.view.InventoryView">
+
+    <center>
+        <TableView fx:id="tableView">
+            <columns>
+                <TableColumn text="Item ID" fx:id="itemIdColumn"/>
+                <TableColumn text="Item Name" fx:id="itemNameColumn"/>
+                <TableColumn text="Unit" fx:id="unitColumn"/>
+                <TableColumn text="Category" fx:id="categoryColumn"/>
+                <TableColumn text="Quantity" fx:id="quantityColumn"/>
+                <TableColumn text="Stock Status" fx:id="stockStatusColumn"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER" spacing="10" padding="10">
+            <Button fx:id="backButton" text="Back to Main Menu"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
