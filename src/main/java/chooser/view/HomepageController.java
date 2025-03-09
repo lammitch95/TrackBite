@@ -89,12 +89,20 @@ public class HomepageController {
     @FXML
     private HBox signOutBtn;
 
+    @FXML
+    private Button EnterNewItemButton;
+
+    @FXML
+    private Button EnterDeliveryButton;
+
+
     private HomepageViewModel homepageViewModel;
     private HBox[] pageOptionBtnList;
-    @FXML
-    private void initialize(){
 
-        pageOptionBtnList = new HBox[]{pageOptionOneBtn,pageOptionTwoBtn};
+    @FXML
+    private void initialize() {
+
+        pageOptionBtnList = new HBox[]{pageOptionOneBtn, pageOptionTwoBtn};
 
         homepageViewModel = new HomepageViewModel();
 
@@ -110,14 +118,14 @@ public class HomepageController {
 
 
         User currLoggedUser = SessionManager.getLoggedInUser();
-        if(currLoggedUser != null){
+        if (currLoggedUser != null) {
             currUserNameLabel.setText(currLoggedUser.getFirstName() != null ? currLoggedUser.getFirstName() : currLoggedUser.getUsername());
             currUserTitleLabel.setText(currLoggedUser.getRole() != null ? currLoggedUser.getRole() : "Role Not Available");
 
-            if(currLoggedUser.getRole().equals("Admin")){
+            if (currLoggedUser.getRole().equals("Admin")) {
                 accountsBtn.setDisable(false);
                 accountsBtn.setVisible(true);
-            }else{
+            } else {
                 accountsBtn.setDisable(true);
                 accountsBtn.setVisible(false);
             }
@@ -155,7 +163,7 @@ public class HomepageController {
         }
     }
 
-    void changeUIPageOptions(String selectChoice){
+    void changeUIPageOptions(String selectChoice) {
         List<NavOptions> checkOptionsExist = homepageViewModel.getNavMap().get(selectChoice);
 
         pageMenuHeader.setPrefHeight(130);
@@ -163,14 +171,14 @@ public class HomepageController {
         pageMenuHeader.setDisable(false);
 
         homepageViewModel.removePreviousView();
-        System.out.println("Page Options Current: "+pageOptionBtnList.length);
+        System.out.println("Page Options Current: " + pageOptionBtnList.length);
 
         for (int i = 0; i < pageOptionBtnList.length; i++) {
             HBox pageOption = pageOptionBtnList[i];
             pageOption.setVisible(false);
             pageOption.setDisable(true);
 
-            if(checkOptionsExist != null){
+            if (checkOptionsExist != null) {
                 int optionSize = checkOptionsExist.size();
                 if (i < optionSize) {
 
@@ -204,6 +212,7 @@ public class HomepageController {
         }
 
     }
+
     @FXML
     void onAccountsClick(MouseEvent event) {
         homepageViewModel.setCurrentPage("Accounts");
@@ -248,8 +257,37 @@ public class HomepageController {
     @FXML
     void onSignOutClick(MouseEvent event) {
         System.out.println("Sign-out clicked");
-       homepageViewModel.userLogOut();
+        homepageViewModel.userLogOut();
 
     }
 
+    @FXML
+    void EnterNewItemPressed(ActionEvent event) {
+        System.out.println("test");
+
+        SceneNavigator.switchScene(
+                "AddNewItemPage",
+                "TrackBite/AddNewItemPage",
+                -1,
+                -1,
+                true
+        );
+
+
+
+    }
+
+    @FXML
+    void EnterDeliveryPressed(ActionEvent event) {
+        System.out.println("test");
+        SceneNavigator.switchScene(
+                "addDeliveryPage",
+                "TrackBite/addDeliveryPage",
+                -1,
+                -1,
+                true
+        );
+
+
+    }
 }
