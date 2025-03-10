@@ -5,13 +5,14 @@ import chooser.model.SessionManager;
 import chooser.model.User;
 import chooser.utils.SceneNavigator;
 import chooser.viewmodel.HomepageViewModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -23,6 +24,7 @@ import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.List;
+import java.io.IOException;
 
 public class HomepageController {
 
@@ -204,6 +206,8 @@ public class HomepageController {
         }
 
     }
+
+
     @FXML
     void onAccountsClick(MouseEvent event) {
         homepageViewModel.setCurrentPage("Accounts");
@@ -220,7 +224,25 @@ public class HomepageController {
     void onMenuClick(MouseEvent event) {
         homepageViewModel.setCurrentPage("Menu");
         changeUIPageOptions("Menu");
+        loadMenuPage();
     }
+
+    private void loadMenuPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/chooser/trackbite/Menupage.fxml"));
+            Parent menuPage = loader.load();
+
+            // Clear the current content and load Menupage
+            mainContentPane.getChildren().clear();
+            mainContentPane.getChildren().add(menuPage);
+
+            System.out.println("Menupage loaded successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error loading Menupage.fxml");
+        }
+    }
+
 
     @FXML
     void onChangeLanguageClick(ActionEvent event) {
@@ -248,7 +270,7 @@ public class HomepageController {
     @FXML
     void onSignOutClick(MouseEvent event) {
         System.out.println("Sign-out clicked");
-       homepageViewModel.userLogOut();
+        homepageViewModel.userLogOut();
 
     }
 

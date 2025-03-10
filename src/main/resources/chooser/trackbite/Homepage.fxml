@@ -15,228 +15,228 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="rootPane" prefHeight="632.0" prefWidth="1114.0" stylesheets="@lightMode.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.HomepageController">
-  <children>
-    <BorderPane fx:id="mainLayout" prefHeight="706.0" prefWidth="929.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <top>
-        <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="43.0" prefWidth="1114.0" BorderPane.alignment="CENTER">
-          <items>
-                  <Pane prefHeight="56.0" prefWidth="133.0">
-                     <children>
-                  <ImageView fitHeight="39.0" fitWidth="123.0" layoutX="2.0" layoutY="12.0" pickOnBounds="true">
-                    <image>
-                      <Image url="@trackBiteLogo.png" />
-                    </image>
-                  </ImageView>
-                     </children>
-                  </Pane>
-            <Pane maxWidth="-Infinity" minHeight="-Infinity" prefHeight="63.0" prefWidth="1.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS" />
-        <TextField fx:id="searchBarTextField" focusTraversable="false" minHeight="0.0" prefHeight="31.0" prefWidth="209.0" promptText="Search.." translateX="10.0">
-                     <font>
-                        <Font name="System Italic" size="18.0" />
-                     </font>
-        </TextField>
-                  <Pane prefHeight="63.0" prefWidth="57.0" HBox.hgrow="ALWAYS" />
-                  <Pane maxWidth="-Infinity" minHeight="-Infinity" prefHeight="63.0" prefWidth="1.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS" />
-                  <HBox fx:id="settingBtn" alignment="CENTER_RIGHT" onMouseClicked="#onSettingsClick" prefHeight="44.0" prefWidth="158.0" spacing="5.0">
-                     <children>
-                        <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@profile.png" />
-                           </image>
-                        </ImageView>
-                        <VBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="100.0">
-                           <children>
-                              <Label fx:id="currUserNameLabel" alignment="BOTTOM_LEFT" prefHeight="23.0" prefWidth="100.0" text="Student02" textFill="WHITE">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="currUserTitleLabel" alignment="TOP_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="7.0" prefWidth="100.0" text="Manager" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="14.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-          </items>
-        </ToolBar>
-      </top>
-         <left>
-            <VBox fx:id="sideNavBar" prefHeight="555.0" prefWidth="156.0" BorderPane.alignment="CENTER">
-               <children>
-                  <HBox fx:id="inventoryBtn" alignment="CENTER_LEFT" onMouseClicked="#onInventoryClick" prefHeight="44.0" prefWidth="156.0" spacing="5.0">
-                     <children>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@shipping.png" />
-                           </image>
-                        </ImageView>
-                        <Label prefHeight="58.0" prefWidth="96.0" text="Inventory" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </HBox>
-                  <HBox fx:id="menuBtn" alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" onMouseClicked="#onMenuClick" prefHeight="44.0" prefWidth="156.0" spacing="5.0">
-                     <children>
-                        <ImageView fitHeight="30.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@menu.png" />
-                           </image>
-                        </ImageView>
-                        <Label prefHeight="58.0" prefWidth="96.0" text="Menu" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </HBox>
-                  <HBox fx:id="accountsBtn" alignment="CENTER_LEFT" layoutX="10.0" layoutY="60.0" onMouseClicked="#onAccountsClick" prefHeight="44.0" prefWidth="156.0" spacing="5.0">
-                     <children>
-                        <ImageView fitHeight="30.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@accounts.png" />
-                           </image>
-                        </ImageView>
-                        <Label prefHeight="58.0" prefWidth="96.0" text="Accounts" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </HBox>
-               </children>
-            </VBox>
-         </left>
-         <center>
+    <children>
+        <BorderPane fx:id="mainLayout" prefHeight="706.0" prefWidth="929.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <top>
+                <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="43.0" prefWidth="1114.0" BorderPane.alignment="CENTER">
+                    <items>
+                        <Pane prefHeight="56.0" prefWidth="133.0">
+                            <children>
+                                <ImageView fitHeight="39.0" fitWidth="123.0" layoutX="2.0" layoutY="12.0" pickOnBounds="true">
+                                    <image>
+                                        <Image url="@trackBiteLogo.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </Pane>
+                        <Pane maxWidth="-Infinity" minHeight="-Infinity" prefHeight="63.0" prefWidth="1.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="searchBarTextField" focusTraversable="false" minHeight="0.0" prefHeight="31.0" prefWidth="209.0" promptText="Search.." translateX="10.0">
+                            <font>
+                                <Font name="System Italic" size="18.0" />
+                            </font>
+                        </TextField>
+                        <Pane prefHeight="63.0" prefWidth="57.0" HBox.hgrow="ALWAYS" />
+                        <Pane maxWidth="-Infinity" minHeight="-Infinity" prefHeight="63.0" prefWidth="1.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS" />
+                        <HBox fx:id="settingBtn" alignment="CENTER_RIGHT" onMouseClicked="#onSettingsClick" prefHeight="44.0" prefWidth="158.0" spacing="5.0">
+                            <children>
+                                <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@profile.png" />
+                                    </image>
+                                </ImageView>
+                                <VBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="100.0">
+                                    <children>
+                                        <Label fx:id="currUserNameLabel" alignment="BOTTOM_LEFT" prefHeight="23.0" prefWidth="100.0" text="Student02" textFill="WHITE">
+                                            <font>
+                                                <Font size="16.0" />
+                                            </font>
+                                        </Label>
+                                        <Label fx:id="currUserTitleLabel" alignment="TOP_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="7.0" prefWidth="100.0" text="Manager" textFill="WHITE">
+                                            <font>
+                                                <Font name="System Bold" size="14.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+                    </items>
+                </ToolBar>
+            </top>
+            <left>
+                <VBox fx:id="sideNavBar" prefHeight="555.0" prefWidth="156.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <HBox fx:id="inventoryBtn" alignment="CENTER_LEFT" onMouseClicked="#onInventoryClick" prefHeight="44.0" prefWidth="156.0" spacing="5.0">
+                            <children>
+                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@shipping.png" />
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="58.0" prefWidth="96.0" text="Inventory" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                            <padding>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </padding>
+                        </HBox>
+                        <HBox fx:id="menuBtn" alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" onMouseClicked="#onMenuClick" prefHeight="44.0" prefWidth="156.0" spacing="5.0">
+                            <children>
+                                <ImageView fitHeight="30.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@menu.png" />
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="58.0" prefWidth="96.0" text="Menu" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                            <padding>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </padding>
+                        </HBox>
+                        <HBox fx:id="accountsBtn" alignment="CENTER_LEFT" layoutX="10.0" layoutY="60.0" onMouseClicked="#onAccountsClick" prefHeight="44.0" prefWidth="156.0" spacing="5.0">
+                            <children>
+                                <ImageView fitHeight="30.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@accounts.png" />
+                                    </image>
+                                </ImageView>
+                                <Label prefHeight="58.0" prefWidth="96.0" text="Accounts" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                            <padding>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </padding>
+                        </HBox>
+                    </children>
+                </VBox>
+            </left>
+            <center>
 
-             <ScrollPane fx:id="mainOrderScroll" fitToHeight="true" fitToWidth="true" prefHeight="545.0" prefWidth="351.0" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
-                 <content>
-                     <VBox fx:id="mainContentPane" prefHeight="549.0" prefWidth="951.0" style="-fx-background-color: transparent;">
-                         <children>
-                        <VBox fx:id="pageMenuHeader" prefHeight="130.0" prefWidth="938.0">
-                           <children>
-                                   <VBox alignment="CENTER_LEFT" minHeight="0.0" prefHeight="53.0" prefWidth="951.0" style="-fx-background-color: transparent;">
-                                       <children>
-                                           <Label fx:id="pageName" prefHeight="35.0" text="Inventory">
-                                               <font>
-                                                   <Font size="24.0" />
-                                               </font>
-                                           </Label>
-                                           <Pane prefHeight="2.0" style="-fx-background-color: gray;" />
-                                       </children>
-                                       <padding>
-                                           <Insets left="30.0" right="30.0" />
-                                       </padding>
-                                   </VBox>
-                              <HBox alignment="CENTER_LEFT" minHeight="0.0" prefHeight="80.0" prefWidth="938.0" spacing="15.0">
-                                 <children>
-                                    <HBox fx:id="pageOptionOneBtn" alignment="CENTER" onMouseClicked="#onNewUserClick" prefHeight="60.0" prefWidth="152.0" spacing="7.0">
-                                       <children>
-                                          <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@newMenuItem.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Label prefHeight="58.0" prefWidth="85.0" text="New User" textFill="WHITE" wrapText="true">
-                                             <font>
-                                                <Font name="System Bold" size="15.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </HBox>
-                                    <HBox fx:id="pageOptionTwoBtn" alignment="CENTER" layoutX="40.0" layoutY="20.0" onMouseClicked="#onNewUserClick" prefHeight="60.0" prefWidth="152.0" spacing="7.0">
-                                       <children>
-                                          <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@viewAccounts.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Label prefHeight="58.0" prefWidth="85.0" text="View Accounts" textFill="WHITE" wrapText="true">
-                                             <font>
-                                                <Font name="System Bold" size="15.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
-                                 </padding>
-                              </HBox>
-                           </children>
+                <ScrollPane fx:id="mainOrderScroll" fitToHeight="true" fitToWidth="true" prefHeight="545.0" prefWidth="351.0" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
+                    <content>
+                        <VBox fx:id="mainContentPane" prefHeight="549.0" prefWidth="951.0" style="-fx-background-color: transparent;">
+                            <children>
+                                <VBox fx:id="pageMenuHeader" prefHeight="130.0" prefWidth="938.0">
+                                    <children>
+                                        <VBox alignment="CENTER_LEFT" minHeight="0.0" prefHeight="53.0" prefWidth="951.0" style="-fx-background-color: transparent;">
+                                            <children>
+                                                <Label fx:id="pageName" prefHeight="35.0" text="Inventory">
+                                                    <font>
+                                                        <Font size="24.0" />
+                                                    </font>
+                                                </Label>
+                                                <Pane prefHeight="2.0" style="-fx-background-color: gray;" />
+                                            </children>
+                                            <padding>
+                                                <Insets left="30.0" right="30.0" />
+                                            </padding>
+                                        </VBox>
+                                        <HBox alignment="CENTER_LEFT" minHeight="0.0" prefHeight="80.0" prefWidth="938.0" spacing="15.0">
+                                            <children>
+                                                <HBox fx:id="pageOptionOneBtn" alignment="CENTER" onMouseClicked="#onNewUserClick" prefHeight="60.0" prefWidth="152.0" spacing="7.0">
+                                                    <children>
+                                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@newMenuItem.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <Label prefHeight="58.0" prefWidth="85.0" text="New User" textFill="WHITE" wrapText="true">
+                                                            <font>
+                                                                <Font name="System Bold" size="15.0" />
+                                                            </font>
+                                                        </Label>
+                                                    </children>
+                                                </HBox>
+                                                <HBox fx:id="pageOptionTwoBtn" alignment="CENTER" layoutX="40.0" layoutY="20.0" onMouseClicked="#onNewUserClick" prefHeight="60.0" prefWidth="152.0" spacing="7.0">
+                                                    <children>
+                                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@viewAccounts.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                        <Label prefHeight="58.0" prefWidth="85.0" text="View Accounts" textFill="WHITE" wrapText="true">
+                                                            <font>
+                                                                <Font name="System Bold" size="15.0" />
+                                                            </font>
+                                                        </Label>
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                            <padding>
+                                                <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
+                                            </padding>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </children>
                         </VBox>
-                         </children>
-                     </VBox>
-                 </content>
-                 <padding>
-                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                 </padding>
-             </ScrollPane>
-         </center>
-    </BorderPane>
-    <VBox fx:id="settingNavbar" alignment="CENTER" layoutY="72.0" prefHeight="26.0" prefWidth="185.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="74.0">
-      <children>
-            <HBox fx:id="darkLightBtn" alignment="CENTER" onMouseClicked="#onDarkLightClick" prefHeight="60.0" prefWidth="152.0" spacing="4.0">
-               <children>
-                  <ImageView fitHeight="27.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@darkModeIcon.png" />
-                     </image>
-                  </ImageView>
-                  <Label prefHeight="58.0" text="Dark Mode" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Label>
-               </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </HBox>
-            <HBox fx:id="changeLanguageBtn" alignment="CENTER" layoutX="10.0" layoutY="10.0" onMouseClicked="#onChangeLanguageClick" prefHeight="60.0" prefWidth="152.0" spacing="4.0">
-               <children>
-                  <Label prefHeight="58.0" text="Language: Indonesian" textAlignment="CENTER" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Label>
-               </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </HBox>
-            <HBox fx:id="signOutBtn" alignment="CENTER" layoutX="10.0" layoutY="10.0" onMouseClicked="#onSignOutClick" prefHeight="60.0" prefWidth="152.0" spacing="4.0">
-               <children>
-                  <Label prefHeight="58.0" text="Sign Out" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                  </Label>
-               </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </HBox>
-      </children>
-    </VBox>
-  </children>
+                    </content>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding>
+                </ScrollPane>
+            </center>
+        </BorderPane>
+        <VBox fx:id="settingNavbar" alignment="CENTER" layoutY="72.0" prefHeight="26.0" prefWidth="185.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="74.0">
+            <children>
+                <HBox fx:id="darkLightBtn" alignment="CENTER" onMouseClicked="#onDarkLightClick" prefHeight="60.0" prefWidth="152.0" spacing="4.0">
+                    <children>
+                        <ImageView fitHeight="27.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@darkModeIcon.png" />
+                            </image>
+                        </ImageView>
+                        <Label prefHeight="58.0" text="Dark Mode" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="16.0" />
+                            </font>
+                        </Label>
+                    </children>
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding>
+                </HBox>
+                <HBox fx:id="changeLanguageBtn" alignment="CENTER" layoutX="10.0" layoutY="10.0" onMouseClicked="#onChangeLanguageClick" prefHeight="60.0" prefWidth="152.0" spacing="4.0">
+                    <children>
+                        <Label prefHeight="58.0" text="Language: Indonesian" textAlignment="CENTER" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="16.0" />
+                            </font>
+                        </Label>
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding>
+                </HBox>
+                <HBox fx:id="signOutBtn" alignment="CENTER" layoutX="10.0" layoutY="10.0" onMouseClicked="#onSignOutClick" prefHeight="60.0" prefWidth="152.0" spacing="4.0">
+                    <children>
+                        <Label prefHeight="58.0" text="Sign Out" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="16.0" />
+                            </font>
+                        </Label>
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
 </AnchorPane>
