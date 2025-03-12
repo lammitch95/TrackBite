@@ -190,7 +190,7 @@
              </ScrollPane>
          </center>
     </BorderPane>
-    <VBox fx:id="settingNavbar" alignment="CENTER" layoutY="72.0" prefHeight="26.0" prefWidth="185.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="74.0">
+    <VBox fx:id="settingNavbar" alignment="CENTER" layoutX="912.0" layoutY="73.33333333333333" prefHeight="138.0" prefWidth="202.0" visible="false" AnchorPane.bottomAnchor="425.0" AnchorPane.leftAnchor="912.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="73.0">
       <children>
             <HBox fx:id="darkLightBtn" alignment="CENTER" onMouseClicked="#onDarkLightClick" prefHeight="60.0" prefWidth="152.0" spacing="4.0">
                <children>
@@ -238,5 +238,14 @@
             </HBox>
       </children>
     </VBox>
+      <VBox fx:id="systemMessageBox" alignment="CENTER" prefHeight="119.0" prefWidth="1116.0" style="-fx-background-color: red;" AnchorPane.bottomAnchor="480.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0">
+         <children>
+            <Label fx:id="systemMessageLbl" contentDisplay="CENTER" text="Please fill out all the reuired fields..." textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
   </children>
 </AnchorPane>

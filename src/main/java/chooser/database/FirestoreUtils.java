@@ -7,10 +7,17 @@ import com.google.cloud.firestore.WriteResult;
 import com.google.api.core.ApiFuture;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class FirestoreUtils {
+
+    private static HashMap<String, HashMap<String, Map<String, Object>>> collectionMap = new HashMap<>();
+
+
 
     public static void writeDoc(String collectionName, String documentId, Map<String, Object> data){
         try {
@@ -48,7 +55,7 @@ public class FirestoreUtils {
         }
     }
 
-    public static void deleteDoc(String collectionName, String documentId) {
+    public static boolean deleteDoc(String collectionName, String documentId) {
         try {
             Firestore db = FirestoreContext.getFirestore();
 
@@ -56,12 +63,39 @@ public class FirestoreUtils {
 
             ApiFuture<WriteResult> result = docRef.delete();
 
-            System.out.println("Document deleted at " + result.get().getUpdateTime());
+            WriteResult writeResult = result.get();
+
+            if (writeResult.getUpdateTime() != null) {
+                System.out.println("Document deleted at " + writeResult.getUpdateTime());
+                return true;
+            }
 
         } catch (InterruptedException | ExecutionException | IOException e) {
 
             System.err.println("Error deleting data: " + e.getMessage());
         }
+
+        return false;
+    }
+
+    public static QuerySnapshot getAllDocuments(String collectionName) {
+        List<Map<String, Object>> documentsList = new ArrayList<>();
+
+        try {
+
+            Firestore db = FirestoreContext.getFirestore();
+            CollectionReference collectionRef = db.collection(collectionName);
+
+            ApiFuture<QuerySnapshot> future = collectionRef.get();
+            QuerySnapshot querySnapshot = future.get();
+
+            return querySnapshot;
+
+        } catch (InterruptedException | ExecutionException | IOException e) {
+            System.err.println("Error fetching documents: " + e.getMessage());
+        }
+
+        return null;
     }
 
 
@@ -84,16 +118,16 @@ public class FirestoreUtils {
         }
     }
 
-    private static User createUserFromDocument(DocumentSnapshot document) {
+    public static User createUserFromDocument(DocumentSnapshot document) {
         String userId = document.getId();
         String username = document.getString("username");
-        String password = document.getString("password");
         String firstName = document.getString("firstName");
         String lastName = document.getString("lastName");
         String dob = document.getString("dob");
         String phoneNum = document.getString("phoneNum");
         String role = document.getString("role");
-        return new User(userId, username, password, firstName, lastName, dob, phoneNum, role);
+        String password = document.getString("password");
+        return new User(userId, username, firstName, lastName, dob, phoneNum, role, password);
     }
 }
 

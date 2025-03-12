@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextArea?>
@@ -15,160 +14,248 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="newUserFormPane" focusTraversable="true" minWidth="-Infinity" prefHeight="600.0" prefWidth="515.0" stylesheets="@lightMode.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.NewUserFormController">
+<BorderPane fx:id="newUserFormPane" focusTraversable="true" minWidth="-Infinity" prefHeight="436.0" prefWidth="732.0" stylesheets="@lightMode.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.NewUserFormController">
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
     </padding>
     <top>
-        <VBox prefHeight="33.0" prefWidth="292.0" BorderPane.alignment="TOP_LEFT">
+        <VBox prefHeight="25.0" prefWidth="582.0" BorderPane.alignment="TOP_LEFT">
             <children>
-                <Label fx:id="deliveryFormLabel" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="52.0" prefWidth="292.0" text="New User Form" textFill="#1e90f5">
+                <Label fx:id="deliveryFormLabel" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="0.0" prefWidth="292.0" text="Accounts" textFill="#1e90f5">
                     <font>
-                        <Font name="System Bold" size="16.0" />
+                        <Font size="15.0" />
                     </font>
                 </Label>
-                <Label fx:id="formDescriplbl" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="59.0" prefWidth="292.0" text="Please fill out all the required fields." />
+                <Label fx:id="employeeIDLabel" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="7.0" prefWidth="292.0" text="New Record">
+               <font>
+                  <Font size="19.0" />
+               </font></Label>
+            <HBox alignment="BOTTOM_LEFT" prefHeight="27.0" prefWidth="661.0" spacing="5.0">
+               <children>
+                  <HBox fx:id="saveBtn" alignment="CENTER" prefHeight="18.0" prefWidth="24.0">
+                     <children>
+                        <ImageView fx:id="saveBtnImageView" fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@graySaveIcon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="addNewBtn" alignment="CENTER" layoutX="11.0" layoutY="10.0" prefHeight="17.0" prefWidth="27.0">
+                     <children>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@grayAddNew.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="deleteBtn" alignment="CENTER" disable="true" prefHeight="17.0" prefWidth="27.0" visible="false">
+                     <children>
+                        <ImageView disable="true" fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@grayTrashIcon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
             </children>
         </VBox>
     </top>
-    <bottom>
-        <HBox alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="309.0" spacing="10.0" style="-fx-background-color: transparent;" BorderPane.alignment="TOP_LEFT">
-            <children>
-                <Button fx:id="clearBtn" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onClearText" prefHeight="33.0" prefWidth="85.0" style="-fx-background-color: red;" text="Clear" textFill="WHITE" HBox.hgrow="ALWAYS">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Button>
-                <Button fx:id="submitBtn" alignment="CENTER" contentDisplay="RIGHT" layoutX="253.0" layoutY="10.0" mnemonicParsing="false" onAction="#onSubmitUserForm" prefHeight="33.0" prefWidth="86.0" style="-fx-background-color: #1adca2;" text="Submit" textFill="WHITE">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Button>
-            <Label fx:id="errMessLabel" prefHeight="33.0" prefWidth="253.0" text="Submission Successful. Account Created." textFill="#00db12">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
-            </children>
-        </HBox>
-    </bottom>
     <center>
-        <VBox focusTraversable="true" prefHeight="428.0" prefWidth="300.0" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
+        <VBox focusTraversable="true" prefHeight="428.0" prefWidth="300.0" spacing="5.0" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
             <children>
-                <Label fx:id="patientInfoLbl" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="8.0" prefWidth="292.0" text="User Information" textFill="#1e90f5">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font>
-                </Label>
-                <HBox prefHeight="9.0" prefWidth="292.0" spacing="10.0">
-                    <children>
-                        <Pane prefHeight="25.0" prefWidth="150.0" />
-                    </children>
-                </HBox>
-            <HBox fx:id="nameHbox" layoutX="10.0" layoutY="40.0" prefHeight="9.0" prefWidth="292.0" spacing="3.0">
+            <HBox>
                <children>
-                      <Label prefHeight="28.0" text="Name" />
-                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@valid.png" />
-                     </image>
-                  </ImageView>
+                  <VBox prefHeight="481.0" prefWidth="417.0" spacing="5.0">
+                     <children>
+                            <Label alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="8.0" prefWidth="292.0" text="User Info" textFill="#1e90f5">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                            </Label>
+                            <HBox prefHeight="1.0" prefWidth="582.0" spacing="10.0">
+                                <children>
+                                    <Pane prefHeight="0.0" prefWidth="387.0" style="-fx-background-color: #1e90f5;" />
+                                </children>
+                            </HBox>
+                        <HBox prefHeight="24.0" prefWidth="582.0" spacing="65.0">
+                           <children>
+                              <HBox fx:id="nameHbox" alignment="CENTER_LEFT" prefHeight="15.0" spacing="3.0">
+                                 <children>
+                                        <Label prefHeight="28.0" text="Name:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@valid.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                                  <HBox prefHeight="10.0" prefWidth="292.0" spacing="10.0">
+                                      <children>
+                                          <TextField fx:id="firstnameText" prefHeight="28.0" prefWidth="107.0" promptText="First Name" />
+                                          <TextField fx:id="lastnameText" promptText="Last Name" />
+                                      </children>
+                                  </HBox>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="5.0" prefWidth="582.0" spacing="27.0">
+                           <children>
+                              <HBox fx:id="dobHbox" alignment="CENTER_LEFT" prefHeight="28.0" spacing="3.0">
+                                 <children>
+                                    <Label prefHeight="20.0" text="Date of Birth:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@valid.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                                  <HBox prefHeight="9.0" spacing="10.0">
+                                      <children>
+                                          <TextField fx:id="dobText" prefHeight="28.0" prefWidth="267.0" promptText="MM/DD/YYYY" />
+                                      </children>
+                                  </HBox>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="5.0" prefWidth="582.0" spacing="13.0">
+                           <children>
+                              <HBox fx:id="phoneNumHbox" alignment="CENTER_LEFT" prefHeight="25.0" spacing="3.0">
+                                 <children>
+                                    <Label prefHeight="17.0" text="Phone Number:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@valid.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                                  <HBox prefHeight="9.0" prefWidth="292.0" spacing="10.0">
+                                      <children>
+                                          <TextField fx:id="phoneNumText" prefHeight="49.0" prefWidth="267.0" promptText="000-000-0000" />
+                                      </children>
+                                  </HBox>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="5.0" prefWidth="582.0" spacing="40.0">
+                           <children>
+                              <HBox fx:id="roleHbox" alignment="CENTER_LEFT" prefHeight="25.0" spacing="3.0">
+                                 <children>
+                                    <Label prefHeight="17.0" text="Select Role:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@valid.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                              <HBox fx:id="roleHbox1" alignment="CENTER_LEFT" layoutX="323.0" layoutY="10.0" prefHeight="25.0" spacing="10.0">
+                                 <children>
+                                         <RadioButton fx:id="waitStaffRadio" mnemonicParsing="false" text="Wait Staff">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="roleToggleGroup" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                         <RadioButton fx:id="managerRadio" mnemonicParsing="false" text="Manager" toggleGroup="$roleToggleGroup" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="10.0" layoutY="10.0" prefHeight="319.0" prefWidth="285.0" spacing="5.0">
+                     <children>
+                        <Label alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="8.0" prefWidth="292.0" text="Password Info" textFill="#1e90f5">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <HBox prefHeight="1.0" prefWidth="582.0" spacing="10.0">
+                           <children>
+                              <Pane prefHeight="0.0" prefWidth="387.0" style="-fx-background-color: #1e90f5;" />
+                           </children>
+                        </HBox>
+                        <VBox prefHeight="83.0" prefWidth="245.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="90.0" text="Requirements:">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <TextArea fx:id="passRulesText" editable="false" prefHeight="68.0" prefWidth="300.0" text="At least 8 characters &#10;Must include uppercase, lowercase, number, &#10;and special character" />
+                           </children>
+                        </VBox>
+                        <HBox prefHeight="0.0" prefWidth="245.0" spacing="20.0">
+                           <children>
+                              <HBox fx:id="createPassHbox" alignment="CENTER_LEFT" prefHeight="28.0" prefWidth="251.0" spacing="3.0">
+                                 <children>
+                                    <Label prefHeight="19.0" text="Create Password:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@valid.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="28.0" prefWidth="283.0" spacing="10.0">
+                                 <children>
+                                    <TextField fx:id="createPassText" prefHeight="28.0" prefWidth="165.0" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                        <HBox layoutX="10.0" layoutY="131.0" prefHeight="0.0" prefWidth="245.0" spacing="10.0">
+                           <children>
+                              <HBox fx:id="confirmPassHbox" alignment="CENTER_LEFT" prefHeight="28.0" prefWidth="274.0" spacing="3.0">
+                                 <children>
+                                    <Label prefHeight="17.0" text="Confirm Password:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@valid.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="9.0" prefWidth="292.0" spacing="10.0">
+                                 <children>
+                                    <TextField fx:id="confirmPassText" prefHeight="28.0" prefWidth="173.0" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
                </children>
             </HBox>
-                <HBox prefHeight="9.0" prefWidth="292.0" spacing="10.0">
-                    <children>
-                        <TextField fx:id="firstnameText" prefHeight="2.0" prefWidth="141.0" promptText="First" />
-                        <TextField fx:id="lastnameText" promptText="Last" />
-                    </children>
-                </HBox>
-            <HBox fx:id="dobHbox" alignment="CENTER_LEFT" layoutX="10.0" layoutY="49.0" prefHeight="25.0" prefWidth="387.0" spacing="3.0">
-               <children>
-                  <Label prefHeight="17.0" prefWidth="68.0" text="Date of Birth" />
-                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@invalid.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </HBox>
-                <HBox prefHeight="9.0" prefWidth="292.0" spacing="10.0">
-                    <children>
-                        <TextField fx:id="dobText" prefHeight="25.0" prefWidth="93.0" promptText="MM/DD/YYYY" />
-                        <Pane prefHeight="25.0" prefWidth="150.0" />
-                    </children>
-                </HBox>
-            <HBox fx:id="phoneNumHbox" alignment="CENTER_LEFT" layoutX="10.0" layoutY="95.0" prefHeight="25.0" prefWidth="387.0" spacing="3.0">
-               <children>
-                  <Label prefHeight="17.0" prefWidth="83.0" text="Phone Number" />
-                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@invalid.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </HBox>
-                <HBox prefHeight="9.0" prefWidth="292.0" spacing="10.0">
-                    <children>
-                        <TextField fx:id="phoneNumText" prefHeight="49.0" prefWidth="141.0" promptText="000-000-0000" />
-                        <Pane prefHeight="25.0" prefWidth="150.0" />
-                    </children>
-                </HBox>
-            <HBox fx:id="roleHbox" alignment="CENTER_LEFT" layoutX="10.0" layoutY="145.0" prefHeight="25.0" prefWidth="387.0" spacing="3.0">
-               <children>
-                  <Label prefHeight="17.0" prefWidth="61.0" text="Select Role:" />
-                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@invalid.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </HBox>
-            <VBox prefHeight="51.0" prefWidth="300.0" spacing="5.0">
-               <children>
-                       <RadioButton fx:id="waitStaffRadio" mnemonicParsing="false" text="Wait Staff">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="roleToggleGroup" />
-                     </toggleGroup></RadioButton>
-                       <RadioButton fx:id="managerRadio" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Manager" toggleGroup="$roleToggleGroup" />
-               </children>
-            </VBox>
-            <HBox fx:id="createPassHbox" alignment="CENTER_LEFT" layoutX="10.0" layoutY="196.0" prefHeight="25.0" prefWidth="387.0" spacing="3.0">
-               <children>
-                  <Label prefHeight="17.0" prefWidth="90.0" text="Create Password" />
-                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@invalid.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </HBox>
-            <TextArea fx:id="passRulesText" editable="false" prefHeight="68.0" prefWidth="300.0" text="At least 8 characters &#10;Must include uppercase, lowercase, &#10;number, and special character" />
-            <HBox layoutX="10.0" layoutY="184.0" prefHeight="9.0" prefWidth="292.0" spacing="10.0">
-               <children>
-                  <TextField fx:id="createPassText" prefHeight="49.0" prefWidth="141.0" />
-                  <Pane prefHeight="25.0" prefWidth="150.0" />
-               </children>
-            </HBox>
-            <HBox fx:id="confirmPassHbox" alignment="CENTER_LEFT" layoutX="10.0" layoutY="273.0" prefHeight="25.0" prefWidth="387.0" spacing="3.0">
-               <children>
-                  <Label prefHeight="17.0" prefWidth="97.0" text="Confirm Password" />
-                  <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@invalid.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </HBox>
-            <HBox layoutX="10.0" layoutY="317.0" prefHeight="9.0" prefWidth="292.0" spacing="10.0">
-               <children>
-                  <TextField fx:id="confirmPassText" prefHeight="49.0" prefWidth="141.0" />
-                  <Pane prefHeight="25.0" prefWidth="150.0" />
-               </children>
-            </HBox>
-            <Label fx:id="employeeIDLabel" layoutX="10.0" layoutY="342.0" prefHeight="42.0" prefWidth="292.0" text="Employee ID: Not Available">
-               <font>
-                  <Font name="System Italic" size="14.0" />
-               </font></Label>
             </children>
             <padding>
                 <Insets bottom="10.0" top="10.0" />

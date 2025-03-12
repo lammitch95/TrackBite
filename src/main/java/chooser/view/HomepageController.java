@@ -4,6 +4,7 @@ import chooser.model.NavOptions;
 import chooser.model.SessionManager;
 import chooser.model.User;
 import chooser.utils.SceneNavigator;
+import chooser.utils.SystemMessageUtils;
 import chooser.viewmodel.HomepageViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -89,10 +90,19 @@ public class HomepageController {
     @FXML
     private HBox signOutBtn;
 
+    @FXML
+    private VBox systemMessageBox;
+
+    @FXML
+    private Label systemMessageLbl;
+
     private HomepageViewModel homepageViewModel;
     private HBox[] pageOptionBtnList;
     @FXML
     private void initialize(){
+
+        SystemMessageUtils.setSystemMessageBox(systemMessageBox);
+        SystemMessageUtils.setSysteMessageLabel(systemMessageLbl);
 
         pageOptionBtnList = new HBox[]{pageOptionOneBtn,pageOptionTwoBtn};
 
@@ -111,8 +121,14 @@ public class HomepageController {
 
         User currLoggedUser = SessionManager.getLoggedInUser();
         if(currLoggedUser != null){
-            currUserNameLabel.setText(currLoggedUser.getFirstName() != null ? currLoggedUser.getFirstName() : currLoggedUser.getUsername());
+
+            String displayName = currLoggedUser.getFirstName() != null ? currLoggedUser.getFirstName() : currLoggedUser.getUsername();
+            currUserNameLabel.setText(displayName);
             currUserTitleLabel.setText(currLoggedUser.getRole() != null ? currLoggedUser.getRole() : "Role Not Available");
+
+            SystemMessageUtils.setCurrSystemText("Welcome to TrackBite "+displayName+"!");
+            SystemMessageUtils.setCurrPropertyColor("SUCCESS");
+            SystemMessageUtils.messageAnimation();
 
             if(currLoggedUser.getRole().equals("Admin")){
                 accountsBtn.setDisable(false);
@@ -131,7 +147,7 @@ public class HomepageController {
         homepageViewModel.setCurrentPage("Inventory");
         changeUIPageOptions("Inventory");
 
-        homepageViewModel.currentViewProperty().addListener((obs, oldView, newView) -> {
+        SceneNavigator.currentViewProperty().addListener((obs, oldView, newView) -> {
             if (oldView != null) {
                 mainContentPane.getChildren().remove(oldView);
             }
@@ -149,7 +165,7 @@ public class HomepageController {
             pageOption.setOnMouseClicked(event -> {
                 if (label != null) {
                     String buttonText = label.getText();
-                    homepageViewModel.loadView(buttonText);
+                    SceneNavigator.loadView(buttonText);
                 }
             });
         }
@@ -162,7 +178,7 @@ public class HomepageController {
         pageMenuHeader.setVisible(true);
         pageMenuHeader.setDisable(false);
 
-        homepageViewModel.removePreviousView();
+        SceneNavigator.removePreviousView();
         System.out.println("Page Options Current: "+pageOptionBtnList.length);
 
         for (int i = 0; i < pageOptionBtnList.length; i++) {
