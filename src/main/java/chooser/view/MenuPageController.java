@@ -60,17 +60,21 @@ public class MenuPageController {
     @FXML
     private void openAddItemForm() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/chooser/trackbite/AddItemForum.fxml")); // Updated name
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/chooser/trackbite/NewMenuItem.fxml"));
             Parent root = loader.load();
 
+            // Get the controller and initialize it
+            MenuForumController controller = loader.getController();
+
+            // Create the stage for the form
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Add New Menu Item");
             stage.setScene(new Scene(root));
-            stage.showAndWait();
+            stage.showAndWait(); // Wait for user input before proceeding
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Error loading AddItemForum.fxml");
+            System.err.println("Error loading NewMenuItem.fxml");
         }
     }
 
