@@ -1,5 +1,6 @@
 package chooser.database;
 
+import chooser.model.InventoryItem;
 import chooser.model.User;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.*;
@@ -7,6 +8,8 @@ import com.google.cloud.firestore.WriteResult;
 import com.google.api.core.ApiFuture;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -47,6 +50,34 @@ public class FirestoreUtils {
             return null;
         }
     }
+
+    public static  List<InventoryItem>  readCollection(String collectionName) {
+        try {
+            Firestore db = FirestoreContext.getFirestore();
+
+            ApiFuture<QuerySnapshot> snapshot = db.collection(collectionName).get();
+            List<QueryDocumentSnapshot> documents = snapshot.get().getDocuments();
+
+            List<InventoryItem> inventoryItems = new ArrayList<>();
+
+            for (QueryDocumentSnapshot document: documents) {
+                inventoryItems.add(new InventoryItem((String) document.getData().get("InventoryItemID"), document.getString("itemName"), document.getString("unit"), document.getString("category"), (String.valueOf(document.getData().get("quantity")))));
+                System.out.println(document.getString("InventoryItemID"));
+                System.out.println(document.getData());
+                System.out.println(document.getData().get("InventoryItemID"));
+
+
+
+            }
+
+            return inventoryItems;
+        } catch (InterruptedException | ExecutionException | IOException e) {
+            System.err.println("Error reading data: " + e.getMessage());
+            return null;
+        }
+    }
+
+
 
     public static void deleteDoc(String collectionName, String documentId) {
         try {
@@ -94,6 +125,16 @@ public class FirestoreUtils {
         String phoneNum = document.getString("phoneNum");
         String role = document.getString("role");
         return new User(userId, username, password, firstName, lastName, dob, phoneNum, role);
+    }
+
+    private static InventoryItem createInvItemFromDocument(DocumentSnapshot document) {
+        String itemId = document.getId();
+        String itemName = document.getString("username");
+        String unit = document.getString("password");
+        String category = document.getString("firstName");
+        String quantity = document.getString("lastName");
+
+        return new InventoryItem(itemId, itemName, unit, category, quantity);
     }
 }
 

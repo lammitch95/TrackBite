@@ -1,17 +1,21 @@
 package chooser.view;
 
+import chooser.database.FirestoreUtils;
+import chooser.model.InventoryItem;
 import chooser.model.NavOptions;
 import chooser.model.SessionManager;
 import chooser.model.User;
 import chooser.utils.SceneNavigator;
 import chooser.viewmodel.HomepageViewModel;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -95,6 +99,32 @@ public class HomepageController {
     @FXML
     private Button EnterDeliveryButton;
 
+    @FXML
+    private TableColumn<InventoryItem, String> itemIdCol;
+
+    @FXML
+    private TableColumn<InventoryItem, String> itemNameCol;
+
+    @FXML
+    private TableColumn<InventoryItem, String> unitCol;
+
+    @FXML
+    private TableColumn<InventoryItem, String> categoryCol;
+
+    @FXML
+    private TableColumn<InventoryItem, String> quantityCol;
+
+    @FXML
+    private TableColumn stockCol;
+
+    @FXML
+    private TableColumn actionCol;
+
+    @FXML
+    private TableView itemTable;
+
+
+
 
     private HomepageViewModel homepageViewModel;
     private HBox[] pageOptionBtnList;
@@ -161,6 +191,23 @@ public class HomepageController {
                 }
             });
         }
+
+
+        itemIdCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().itemIdProperty()));
+        itemNameCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().itemNameProperty()));
+        unitCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().unitProperty()));
+        categoryCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().categoryProperty()));
+        quantityCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().quantityProperty()));
+
+
+
+
+        List<InventoryItem> documents=FirestoreUtils.readCollection("Inventory");
+        System.out.println(documents);
+        itemTable.setItems (FXCollections.observableList(documents));
+
+
+
     }
 
     void changeUIPageOptions(String selectChoice) {

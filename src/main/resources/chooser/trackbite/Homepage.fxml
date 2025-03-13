@@ -190,15 +190,15 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <TableView prefHeight="200.0" prefWidth="200.0">
+                        <TableView fx:id="itemTable" prefHeight="200.0" prefWidth="200.0">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="Item ID" />
-                            <TableColumn prefWidth="75.0" text="Item Name" />
-                              <TableColumn prefWidth="75.0" text="Unit" />
-                              <TableColumn prefWidth="75.0" text="Category" />
-                              <TableColumn prefWidth="113.0" text="Total Quantity" />
-                              <TableColumn prefWidth="91.0" text="Stock Status" />
-                              <TableColumn prefWidth="79.0" text="Action" />
+                            <TableColumn fx:id="itemIdCol" prefWidth="75.0" text="Item ID" />
+                            <TableColumn fx:id="itemNameCol" prefWidth="75.0" text="Item Name" />
+                              <TableColumn fx:id="unitCol" prefWidth="75.0" text="Unit" />
+                              <TableColumn fx:id="categoryCol" prefWidth="75.0" text="Category" />
+                              <TableColumn fx:id="quantityCol" prefWidth="113.0" text="Total Quantity" />
+                              <TableColumn fx:id="stockCol" prefWidth="91.0" text="Stock Status" />
+                              <TableColumn fx:id="actionCol" prefWidth="79.0" text="Action" />
                           </columns>
                         </TableView>
                          </children>
