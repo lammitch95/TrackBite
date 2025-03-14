@@ -74,7 +74,7 @@ public class SystemMessageUtils {
         TranslateTransition moveDown = new TranslateTransition(Duration.millis(500), systemMessageBox);
         moveDown.setToY(initialY);
 
-        PauseTransition holdDuration = new PauseTransition(Duration.seconds(2));
+        PauseTransition holdDuration = new PauseTransition(Duration.seconds(1));
 
         FadeTransition fadeOut = new FadeTransition(Duration.millis(500), systemMessageBox);
         fadeOut.setFromValue(1);

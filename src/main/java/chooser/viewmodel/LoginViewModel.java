@@ -6,6 +6,8 @@ import chooser.model.User;
 import chooser.utils.ProgressLoadUtils;
 import chooser.utils.SceneNavigator;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
@@ -15,6 +17,16 @@ public class LoginViewModel {
     private StringProperty password = new SimpleStringProperty("");;
     private StringProperty loginStatusMessage = new SimpleStringProperty("");;
 
+    private BooleanProperty isVisiblePassword = new SimpleBooleanProperty(false);
+
+
+    public  LoginViewModel(){
+        isVisiblePassword.set(false);
+    }
+    public void togglePasswordVisibleButton(){
+        isVisiblePassword.set(!isVisiblePassword.get());
+    }
+
     public void checkLogin() {
 
         ProgressLoadUtils.showProgressLoad();
@@ -23,6 +35,8 @@ public class LoginViewModel {
             protected Void call() {
                 String enteredUsername = username.get();
                 String enteredPassword = password.get();
+
+                System.out.println("Checking credentials username: "+enteredUsername+" ,password: "+enteredPassword);
 
                 User userInfo = FirestoreUtils.authenticateUser(enteredUsername, enteredPassword);
                 Platform.runLater(() -> {
@@ -60,5 +74,7 @@ public class LoginViewModel {
     public StringProperty getUsername() { return username; }
     public StringProperty getPassword() { return password; }
     public StringProperty getLoginStatusMessage() { return loginStatusMessage; }
+
+    public BooleanProperty getIsVisiblePasswordProperty(){return isVisiblePassword;}
 
 }

@@ -34,6 +34,8 @@ public class NewUserFormViewModel {
 
     private final BooleanProperty hasChanged = new SimpleBooleanProperty(false);
 
+    private final BooleanProperty isNewRecord = new SimpleBooleanProperty(false);
+
 
 
     private final BooleanProperty usernameValid = new SimpleBooleanProperty(false);
@@ -52,6 +54,7 @@ public class NewUserFormViewModel {
     private List<StringProperty> userInputList;
 
     public NewUserFormViewModel() {
+        isNewRecord.set(false);
 
         username.addListener((obs, oldVal, newVal) -> {
             usernameValid.set(!username.get().equals("New User"));
@@ -120,6 +123,12 @@ public class NewUserFormViewModel {
 
     public BooleanProperty roleValidProperty(){return roleValid;}
 
+    public BooleanProperty isNewRecordProperty(){return isNewRecord;}
+
+    public void setIsNewRedcordBoolean(boolean value){
+        isNewRecord.set(value);
+    }
+
     public BooleanProperty formValidProperty() {
         return formValid;
     }
@@ -187,7 +196,7 @@ public class NewUserFormViewModel {
                 Image validImage = new Image(getClass().getResource("/chooser/trackbite/valid.png").toExternalForm());
                 imageView.setImage(validImage);
 
-                if(label.getText().equals("Name:")){
+                if(label.getText().equals("Name:") && isNewRecord.get()){
                     String newEmployeeId = generateEmployeeID();
                     username.set(newEmployeeId);
                     System.out.println("CHECKING NEW GENERATED EMPLOYEEID: "+newEmployeeId);
@@ -196,7 +205,7 @@ public class NewUserFormViewModel {
             } else {
                 imageView.setVisible(false);
 
-                if(label.getText().equals("Name:")){
+                if(label.getText().equals("Name:") && isNewRecord.get()){
                     username.set("New User");
                 }
             }
@@ -207,6 +216,7 @@ public class NewUserFormViewModel {
 
 
     public void populateTextFields(){
+
         Object selectedData = TableViewUtils.retrieveDocumentData(TableViewUtils.getStoredCollectionName(),TableViewUtils.getSelectedRowID());
         if(selectedData instanceof User obj){
             username.set(obj.getUsername());

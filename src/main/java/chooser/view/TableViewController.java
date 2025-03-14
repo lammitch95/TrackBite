@@ -112,7 +112,7 @@ public class TableViewController {
         });
 
         tableViewMain.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null && tableViewMain.isFocused()) {
+            if (newSelection != null) {
                 tableViewVM.storeRowSelectedID(newSelection);
             }
         });

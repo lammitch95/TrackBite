@@ -238,7 +238,7 @@
             </HBox>
       </children>
     </VBox>
-      <VBox fx:id="systemMessageBox" alignment="CENTER" prefHeight="119.0" prefWidth="1116.0" style="-fx-background-color: red;" AnchorPane.bottomAnchor="480.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0">
+      <VBox fx:id="systemMessageBox" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="79.0" prefWidth="959.0" style="-fx-background-color: red;" AnchorPane.bottomAnchor="520.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="75.0">
          <children>
             <Label fx:id="systemMessageLbl" contentDisplay="CENTER" text="Please fill out all the reuired fields..." textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>

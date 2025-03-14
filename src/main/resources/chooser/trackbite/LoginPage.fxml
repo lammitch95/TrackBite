@@ -6,6 +6,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -29,11 +31,29 @@
                         <Font size="13.0" />
                      </font>
                   </TextField>
-                  <PasswordField fx:id="passwordField" prefHeight="13.0" prefWidth="204.0" promptText="Password" style="-fx-pref-width: 250px; -fx-pref-height: 40px;">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </PasswordField>
+                  <AnchorPane prefHeight="38.0" prefWidth="291.0">
+                     <children>
+                        <PasswordField fx:id="passwordField" prefHeight="13.0" prefWidth="291.0" promptText="Password" style="-fx-pref-width: 250px; -fx-pref-height: 40px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </PasswordField>
+                        <TextField fx:id="visiblePasswordText" disable="true" promptText="Password" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </TextField>
+                        <HBox fx:id="showPasswordBtn" alignment="CENTER" layoutX="246.0" layoutY="1.3333333333333333" prefHeight="29.0" prefWidth="31.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="255.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                           <children>
+                              <ImageView fx:id="showPasswordImageView" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@grayHidePassword.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
                   <HBox prefHeight="49.0" prefWidth="234.0">
                      <children>
                         <Button fx:id="loginBtn" onAction="#onHandleLogin" prefHeight="31.0" prefWidth="82.0" text="Log In">

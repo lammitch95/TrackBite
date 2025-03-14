@@ -5,6 +5,7 @@ import chooser.model.CurrentPageOptions;
 import chooser.model.User;
 import chooser.utils.ProgressLoadUtils;
 import chooser.utils.SceneNavigator;
+import chooser.utils.SystemMessageUtils;
 import chooser.utils.TableViewUtils;
 import com.google.cloud.firestore.QuerySnapshot;
 import javafx.application.Platform;
@@ -78,9 +79,15 @@ public class TableViewViewModel {
         if(selectedRowID!=null && collectionName!=null){
             boolean checkHasDeleted = FirestoreUtils.deleteDoc(collectionName, selectedRowID);
             if(checkHasDeleted){
+                SystemMessageUtils.setCurrSystemText(selectedRowID+" has been successfully delete.");
+                SystemMessageUtils.setCurrPropertyColor("SUCCESS");
+                SystemMessageUtils.messageAnimation();
                 setUp();
             }else{
                 System.out.println("DOCUMENT DELETION FAILED. SOMETHING WENT WRONG!!");
+                SystemMessageUtils.setCurrSystemText("An error occurred when deleting account for user: "+selectedRowID);
+                SystemMessageUtils.setCurrPropertyColor("ERROR");
+                SystemMessageUtils.messageAnimation();
             }
 
         }
@@ -103,14 +110,23 @@ public class TableViewViewModel {
             boolean hasExportSucess = exportTable(currentTableView);
             if(hasExportSucess){
                 System.out.println("Excel file saved successfully.");
+                SystemMessageUtils.setCurrSystemText("Excel file created successfully.");
+                SystemMessageUtils.setCurrPropertyColor("SUCCESS");
+                SystemMessageUtils.messageAnimation();
             }else{
                 System.err.println("Error exporting to Excel.");
+                SystemMessageUtils.setCurrSystemText("Error occurred creating excel file.");
+                SystemMessageUtils.setCurrPropertyColor("ERROR");
+                SystemMessageUtils.messageAnimation();
             }
 
             setUp();
         } catch (IOException ex) {
 
             System.out.println("Couldn't export table data to excel.");
+            SystemMessageUtils.setCurrSystemText("Error occurred creating excel file.");
+            SystemMessageUtils.setCurrPropertyColor("ERROR");
+            SystemMessageUtils.messageAnimation(); 
             throw new RuntimeException(ex);
 
         }

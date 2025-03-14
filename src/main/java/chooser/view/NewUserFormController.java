@@ -89,11 +89,12 @@ public class NewUserFormController {
     @FXML
     private RadioButton waitStaffRadio;
 
-    private final NewUserFormViewModel newUserformViewModel = new NewUserFormViewModel();
+    private NewUserFormViewModel newUserformViewModel;
     private List<HBox> inputLabelHbox;
 
     @FXML
     public void initialize(){
+        newUserformViewModel = new NewUserFormViewModel();
 
         saveBtn.disableProperty().bind(newUserformViewModel.allowSaveProperty().not());
 
@@ -179,6 +180,9 @@ public class NewUserFormController {
         resetForm();
 
 
+        addNewBtn.setOnMouseClicked(mouseEvent -> resetForm());
+
+
         saveBtn.setOnMouseClicked(mouseEvent -> {
             boolean validSubmission = newUserformViewModel.onSubmit();
             if(validSubmission){
@@ -192,6 +196,7 @@ public class NewUserFormController {
         String selectedRowID = TableViewUtils.getSelectedRowID();
         String collectionName = TableViewUtils.getStoredCollectionName();
         if(selectedRowID!=null && collectionName.equals("Employees")){
+            newUserformViewModel.setIsNewRedcordBoolean(false);
             newUserformViewModel.populateTextFields();
         }
 
@@ -199,6 +204,7 @@ public class NewUserFormController {
     }
 
     private void resetForm(){
+        newUserformViewModel.setIsNewRedcordBoolean(true);
         newUserformViewModel.clearInputs();
 
         for(HBox labelHbox: inputLabelHbox){
@@ -216,6 +222,7 @@ public class NewUserFormController {
         //errMessLabel.setText("");
 
         newUserformViewModel.usernameProperty().set("New User");
+
     }
     private void addValidationStyle(TextField field, BooleanProperty validProperty) {
         validProperty.addListener((obs, wasValid, isValid) -> {
