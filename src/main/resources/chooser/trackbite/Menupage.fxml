@@ -1,117 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.MenuPageController">
-    <VBox spacing="10" alignment="TOP_CENTER" prefWidth="800" prefHeight="600" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-        <Label text="Menu" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.MenuPageController">
+    <VBox prefHeight="800" prefWidth="1000" spacing="10" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label text="Menu"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold;"
+                   alignment="CENTER_LEFT"
+                   textAlignment="LEFT"
+                   HBox.hgrow="NEVER"/>
+        </HBox>
 
-        <!-- Appetizers Section -->
-        <TitledPane text="Appetizers" expanded="true" VBox.vgrow="ALWAYS">
-            <VBox spacing="5" VBox.vgrow="ALWAYS">
-                <HBox alignment="TOP_RIGHT">
-                    <Button text="Add Item" onAction="#openAddItemForm"/>  <!--This line was just updated-->
-                </HBox>
-                <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS">
-                    <GridPane fx:id="appetizerGrid" hgap="10" vgap="10" GridPane.vgrow="ALWAYS">
-                        <padding>
-                            <Insets top="10" right="10" bottom="10" left="10"/>
-                        </padding>
-                        <columnConstraints>
-                            <ColumnConstraints percentWidth="33"/>
-                            <ColumnConstraints percentWidth="33"/>
-                            <ColumnConstraints percentWidth="33"/>
-                        </columnConstraints>
-                    </GridPane>
-                </ScrollPane>
-            </VBox>
-        </TitledPane>
+        <!-- Category Selection Bar aligned to the left -->
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <Button onAction="#showAppetizers" text="Appetizers" />
+            <Button onAction="#showLunch" text="Lunch" />
+            <Button onAction="#showDinner" text="Dinner" />
+            <Button onAction="#showDesserts" text="Desserts" />
+            <Button onAction="#showSpecials" text="Specials" />
+            <Button onAction="#showDrinks" text="Drinks" />
+        </HBox>
 
-        <!-- Lunch Section -->
-        <TitledPane text="Lunch" expanded="false" VBox.vgrow="ALWAYS">
-            <VBox spacing="5" VBox.vgrow="ALWAYS">
-                <HBox alignment="TOP_RIGHT">
-                    <Button text="Add Item" onAction="#openAddItemForm"/>  <!-- updated -->
-                </HBox>
-                <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS">
-                    <GridPane fx:id="lunchGrid" hgap="10" vgap="10" GridPane.vgrow="ALWAYS">
-                        <padding>
-                            <Insets top="10" right="10" bottom="10" left="10"/>
-                        </padding>
-                        <columnConstraints>
-                            <ColumnConstraints percentWidth="33"/>
-                            <ColumnConstraints percentWidth="33"/>
-                            <ColumnConstraints percentWidth="33"/>
-                        </columnConstraints>
-                    </GridPane>
-                </ScrollPane>
-            </VBox>
-        </TitledPane>
+        <!-- Add Item Button -->
+        <HBox alignment="TOP_RIGHT" spacing="10">
+            <Button fx:id="addItemButton" onAction="#openAddItemForm" text="Add Item" />
+            <Button fx:id="editItemButton" onAction="#openEditItemForm" text="Edit Item" disable="true"/>
+            <Button fx:id="deleteItemButton" onAction="#handleDeleteItem" text="Delete Item" disable="true"/>
+            <HBox.margin>
+                <Insets right="20.0" />
+            </HBox.margin>
+        </HBox>
 
-        <!-- Dinner Section -->
-        <TitledPane text="Dinner" expanded="false" VBox.vgrow="ALWAYS">
-            <VBox spacing="5" VBox.vgrow="ALWAYS">
-                <HBox alignment="TOP_RIGHT">
-                    <Button text="Add Item" onAction="#openAddItemForm"/>  <!-- updated -->
-                </HBox>
-                <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS">
-                    <GridPane fx:id="dinnerGrid" hgap="10" vgap="10" GridPane.vgrow="ALWAYS">
-                        <padding>
-                            <Insets top="10" right="10" bottom="10" left="10"/>
-                        </padding>
-                        <columnConstraints>
-                            <ColumnConstraints percentWidth="33"/>
-                            <ColumnConstraints percentWidth="33"/>
-                            <ColumnConstraints percentWidth="33"/>
-                        </columnConstraints>
-                    </GridPane>
-                </ScrollPane>
-            </VBox>
-        </TitledPane>
-
-        <!-- Dessert Section -->
-        <TitledPane text="Dessert" expanded="false" VBox.vgrow="ALWAYS">
-            <VBox spacing="5" VBox.vgrow="ALWAYS">
-                <HBox alignment="TOP_RIGHT">
-                    <Button text="Add Item" onAction="#openAddItemForm"/>  <!-- updated -->
-                </HBox>
-                <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS">
-                    <GridPane fx:id="dessertGrid" hgap="10" vgap="10" GridPane.vgrow="ALWAYS">
-                        <padding>
-                            <Insets top="10" right="10" bottom="10" left="10"/>
-                        </padding>
-                        <columnConstraints>
-                            <ColumnConstraints percentWidth="33"/>
-                            <ColumnConstraints percentWidth="33"/>
-                            <ColumnConstraints percentWidth="33"/>
-                        </columnConstraints>
-                    </GridPane>
-                </ScrollPane>
-            </VBox>
-        </TitledPane>
-
-        <!-- Specials Section -->
-        <TitledPane text="Specials" expanded="false" VBox.vgrow="ALWAYS">
-            <VBox spacing="5" VBox.vgrow="ALWAYS">
-                <HBox alignment="TOP_RIGHT">
-                    <Button text="Add Item" onAction="#openAddItemForm"/>  <!-- updated -->
-                </HBox>
-                <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS">
-                    <GridPane fx:id="specialsGrid" hgap="10" vgap="10" GridPane.vgrow="ALWAYS">
-                        <padding>
-                            <Insets top="10" right="10" bottom="10" left="10"/>
-                        </padding>
-                        <columnConstraints>
-                            <ColumnConstraints percentWidth="33"/>
-                            <ColumnConstraints percentWidth="33"/>
-                            <ColumnConstraints percentWidth="33"/>
-                        </columnConstraints>
-                    </GridPane>
-                </ScrollPane>
-            </VBox>
-        </TitledPane>
-
+        <!-- Item Display Area -->
+        <VBox fx:id="itemContainer" alignment="TOP_CENTER" spacing="10" VBox.vgrow="ALWAYS">
+            <!-- Items will be dynamically added here -->
+        </VBox>
     </VBox>
 </AnchorPane>

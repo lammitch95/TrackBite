@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import java.io.File;
+import chooser.model.MenuItem;
 
 public class MenuForumController {
 
@@ -46,6 +47,8 @@ public class MenuForumController {
 
     private ObservableList<String> ingredientsList;
     private MenuFormViewModel menuforumvm;
+    private MenuPageController menuPageController;
+
     @FXML
     public void initialize() {
         menuforumvm = new MenuFormViewModel();
@@ -109,6 +112,30 @@ public class MenuForumController {
         ingredientAmountSpinner.getValueFactory().setValue(1);
         unitSuggestionComboBox.setValue("Pieces");
     }
+
+    public void setMenuPageController(MenuPageController controller) {
+        this.menuPageController = controller;
+    }
+
+    public void loadExistingMenuItem(MenuItem item) {
+        if (item == null) {
+            return;
+        }
+
+        menuIdLabel.setText(item.getMenuId());
+        menuItemNameField.setText(item.getItemName());
+        descriptionField.setText(item.getDescription());
+        priceField.setText(item.getPrice());
+        categoryComboBox.setValue(item.getCategory());
+        ingredientsList.setAll(item.getIngredients());
+
+        // Load image if available
+        if (item.getImageUrl() != null) {
+            menuItemImageView.setImage(new Image(item.getImageUrl()));
+        }
+    }
+
+
 
     @FXML
     private void handleSubmit() {

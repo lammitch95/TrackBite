@@ -48,11 +48,12 @@
                             <ComboBox fx:id="categoryComboBox" prefHeight="37.0" prefWidth="139.0" styleClass="combo-box">
                                 <items>
                                     <FXCollections fx:factory="observableArrayList">
+                                        <String fx:value="Appetizers" />
                                         <String fx:value="Lunch" />
                                         <String fx:value="Dinner" />
                                         <String fx:value="Specials" />
                                         <String fx:value="Drinks" />
-                                        <String fx:value="Deserts" />
+                                        <String fx:value="Desserts" />
                                     </FXCollections>
                                 </items>
                             </ComboBox>

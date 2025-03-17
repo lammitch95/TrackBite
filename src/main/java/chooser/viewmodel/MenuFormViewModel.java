@@ -142,6 +142,24 @@ public class MenuFormViewModel {
         currency.set("$");
     }
 
+    public void updateMenuItem(String menuId) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("itemName", itemName.get());
+        data.put("description", description.get());
+        data.put("price", price.get());
+        data.put("currency", currency.get());
+        data.put("category", category.get());
+        data.put("ingredients", ingredients.get());
+
+        FirestoreUtils.updateDoc("NewMenuItems", menuId, data);
+        System.out.println("Menu item updated successfully.");
+    }
+
+    public void deleteMenuItem(String menuId) {
+        FirestoreUtils.deleteDoc("NewMenuItems", menuId);
+        System.out.println("Menu item deleted successfully.");
+    }
+
 
     public void updateValidImageViews(HBox hBox, BooleanProperty... properties) {
         ImageView imageView = (ImageView) hBox.lookup(".image-view");

@@ -5,9 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -15,46 +14,34 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import chooser.model.MenuItem;
+import chooser.database.FirestoreUtils;
+
+//import com.google.firebase.database.*;
+import javafx.application.Platform;
 
 public class MenuPageController {
 
-    @FXML
-    private GridPane appetizerGrid, lunchGrid, dinnerGrid, dessertGrid, specialsGrid;
+    private MenuItem selectedMenuItem; // Stores the currently selected item
+    private VBox selectedMenuItemVBox; // Stores the corresponding VBox UI component
 
-    private int appetizerCount = 0, lunchCount = 0, dinnerCount = 0, dessertCount = 0, specialsCount = 0;
+    @FXML
+    private Button editItemButton, deleteItemButton;
+
+    @FXML
+    private VBox itemContainer; // The menu item container
+
+    // List to store all menu items
+    private List<VBox> allItems = new ArrayList<>();
+
+    //private DatabaseReference databaseRef;
+
 
     @FXML
     private void initialize() {
-        addItemToGrid(appetizerGrid, "Spring Rolls", "/chooser/trackbite/SpringRolls.jpg", 0);
-        addItemToGrid(appetizerGrid, "Mozzarella Sticks", "/chooser/trackbite/menu.png", 1);
-        addItemToGrid(appetizerGrid, "Garlic Bread", "/chooser/trackbite/menu.png", 2);
-        addItemToGrid(appetizerGrid, "Stuffed Mushrooms", "/chooser/trackbite/menu.png", 3);
-    }
-
-
-    @FXML
-    private void addAppetizer() {
-        openAddItemForm();
-    }
-
-    @FXML
-    private void addLunch() {
-        openAddItemForm();
-    }
-
-    @FXML
-    private void addDinner() {
-        openAddItemForm();
-    }
-
-    @FXML
-    private void addDessert() {
-        openAddItemForm();
-    }
-
-    @FXML
-    private void addSpecials() {
-        openAddItemForm();
+        itemContainer.getChildren().clear(); // Clear existing items
     }
 
     @FXML
@@ -63,99 +50,228 @@ public class MenuPageController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/chooser/trackbite/NewMenuItem.fxml"));
             Parent root = loader.load();
 
-            // Get the controller and initialize it
+            // Get the controller and link it to this page
             MenuForumController controller = loader.getController();
+            controller.setMenuPageController(this);
 
-            // Create the stage for the form
+            // Open the form as a new window
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("Add New Menu Item");
             stage.setScene(new Scene(root));
-            stage.showAndWait(); // Wait for user input before proceeding
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error loading NewMenuItem.fxml");
         }
     }
 
+    @FXML
+    private void openEditItemForm() {
+        if (selectedMenuItem == null) {
+            showAlert("No item selected", "Please select an item to edit.");
+            return;
+        }
 
-    private void addItemToGrid(GridPane grid, String itemName, String imagePath, int index) {
-        VBox itemBox = createMenuItemBox(itemName, imagePath, index);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/chooser/trackbite/NewMenuItem.fxml"));
+            Parent root = loader.load();
 
-        grid.setHgap(50); // Increased spacing between columns
-        grid.setVgap(30); // Increased spacing between rows
+            // Get the controller and pass data
+            MenuForumController controller = loader.getController();
+            controller.loadExistingMenuItem(selectedMenuItem);
 
-        int column = index % 2; // Arrange items in 2 columns
-        int row = index / 2; // Expand dynamically into new rows
-        grid.add(itemBox, column, row);
+            // Open edit form in a new window
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Edit Menu Item");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+            refreshMenuList(); // Reload menu items after editing
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleEditMenuItem(MenuItem item, VBox itemBox) {
+        if (item == null) {
+            showAlert("No item selected", "Please select an item to edit.");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/chooser/trackbite/NewMenuItem.fxml"));
+            Parent root = loader.load();
+
+            // Get controller and pass data
+            MenuForumController controller = loader.getController();
+            controller.loadExistingMenuItem(item); // Now works correctly!
+
+            // Open edit form in a new window
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Edit Menu Item");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+            refreshMenuList(); // Reload menu items after editing
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleDeleteItem() {
+        if (selectedMenuItem == null) {
+            showAlert("No item selected", "Please select an item to delete.");
+            return;
+        }
+
+        // Confirmation alert
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this item?", ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            FirestoreUtils.deleteDoc("NewMenuItems", selectedMenuItem.getMenuId()); // Delete from Firestore
+            itemContainer.getChildren().remove(selectedMenuItemVBox); // Remove from UI
+            showAlert("Success", "Item deleted successfully.");
+        }
     }
 
 
-    private VBox createMenuItemBox(String itemName, String imagePath, int index) {
+
+
+    @FXML
+    private void handleDeleteMenuItem(MenuItem item, VBox itemBox) {
+        if (item == null) {
+            showAlert("No item selected", "Please select an item to delete.");
+            return;
+        }
+
+        // Confirmation alert
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this item?", ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            FirestoreUtils.deleteDoc("NewMenuItems", item.getMenuId()); // Delete from database
+            itemContainer.getChildren().remove(itemBox); // Remove from UI
+            showAlert("Success", "Item deleted successfully.");
+        }
+    }
+
+
+    // Refresh the menu list by reloading all items
+    private void refreshMenuList() {
+        itemContainer.getChildren().clear(); // Clear current menu items
+
+        // Fetch updated items from Firestore (assuming FirestoreUtils has a readAllDocs method)
+        List<MenuItem> updatedMenuItems = FirestoreUtils.readAllDocs("NewMenuItems");
+
+        for (MenuItem item : updatedMenuItems) {
+            VBox menuItemBox = createMenuItemBox(item); // Create updated UI components
+            itemContainer.getChildren().add(menuItemBox);
+        }
+    }
+
+
+
+    private VBox createMenuItemBox(MenuItem menuItem) { // Now uses chooser.model.MenuItem
         VBox itemBox = new VBox(10);
         itemBox.setAlignment(Pos.TOP_CENTER);
         itemBox.setStyle("-fx-border-color: black; -fx-padding: 20; -fx-background-color: #f9f9f9;");
         itemBox.setPadding(new Insets(20));
-        itemBox.setPrefSize(350, 420); // Item box size
+        itemBox.setPrefSize(900, 250);
+        itemBox.setUserData(menuItem); // Store menu item as user data
 
-        // Image Section (Top Half)
-        ImageView itemImage;
-        try {
-            itemImage = new ImageView(new Image(getClass().getResource(imagePath).toExternalForm()));
-        } catch (Exception e) {
-            System.err.println("Image not found, using placeholder.");
-            itemImage = new ImageView(new Image("https://via.placeholder.com/300x150")); // Fallback image
+        // Image Section
+        ImageView itemImage = new ImageView();
+        if (menuItem.getImageUrl() != null) {
+            itemImage.setImage(new Image(menuItem.getImageUrl()));
         }
         itemImage.setFitWidth(320);
         itemImage.setFitHeight(180);
 
-        // Details Section (Bottom Half)
-        VBox detailsBox = new VBox(8);
-        detailsBox.setAlignment(Pos.CENTER);
-
-        // Name Label
-        Label nameLabel = new Label(itemName);
+        // Details Section
+        Label nameLabel = new Label(menuItem.getItemName());
         nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
 
-        // Editable Price TextField
-        TextField priceField = new TextField();
-        priceField.setPromptText("Enter Price");
-        priceField.setPrefWidth(150);
-        priceField.setPrefHeight(30);
+        Label priceLabel = new Label("Price: " + menuItem.getPrice());
 
-        // Editable Description TextField
-        TextField descriptionField = new TextField();
-        descriptionField.setPromptText("Enter Description");
-        descriptionField.setPrefWidth(250);
-        descriptionField.setPrefHeight(50);
+        Label descriptionLabel = new Label("Description: " + menuItem.getDescription());
 
-        // Edit Button (Allows Editing)
+        // Buttons for Edit and Delete
         Button editButton = new Button("Edit");
-        editButton.setOnAction(e -> {
-            System.out.println("Editing item: " + itemName);
-            priceField.setEditable(true);
-            descriptionField.setEditable(true);
-        });
+        editButton.setOnAction(event -> handleEditMenuItem(menuItem, itemBox));
 
-        // Delete Button (Removes Item)
         Button deleteButton = new Button("Delete");
-        deleteButton.setOnAction(e -> deleteItem(index));
+        deleteButton.setOnAction(event -> handleDeleteMenuItem(menuItem, itemBox));
 
-        // Buttons Section
         HBox buttonBox = new HBox(10, editButton, deleteButton);
         buttonBox.setAlignment(Pos.CENTER);
 
-        // Add elements to layout
-        detailsBox.getChildren().addAll(nameLabel, priceField, descriptionField, buttonBox);
-        itemBox.getChildren().addAll(itemImage, detailsBox);
+        itemBox.getChildren().addAll(itemImage, nameLabel, priceLabel, descriptionLabel, buttonBox);
+
+        // Handle selection click
+        itemBox.setOnMouseClicked(event -> {
+            selectedMenuItem = menuItem; // Now correctly assigns chooser.model.MenuItem
+            selectedMenuItemVBox = itemBox;
+        });
 
         return itemBox;
     }
 
 
 
-    private void deleteItem(int index) {
-        System.out.println("Removing item at index: " + index);
-        appetizerGrid.getChildren().remove(index);
+    // Category Filtering Methods
+    @FXML
+    private void showAppetizers() {
+        filterItemsByCategory("Appetizers");
     }
+
+    @FXML
+    private void showLunch() {
+        filterItemsByCategory("Lunch");
+    }
+
+    @FXML
+    private void showDinner() {
+        filterItemsByCategory("Dinner");
+    }
+
+    @FXML
+    private void showDesserts() {
+        filterItemsByCategory("Desserts");
+    }
+
+    @FXML
+    private void showSpecials() {
+        filterItemsByCategory("Specials");
+    }
+
+    @FXML
+    private void showDrinks() {
+        filterItemsByCategory("Drinks");
+    }
+
+    private void filterItemsByCategory(String category) {
+        itemContainer.getChildren().clear();
+        for (VBox item : allItems) {
+            if (item.getUserData().equals(category)) {
+                itemContainer.getChildren().add(item);
+            }
+        }
+    }
+    // Helper method to display alerts
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+
+
 }

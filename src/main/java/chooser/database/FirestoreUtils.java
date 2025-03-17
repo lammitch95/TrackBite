@@ -9,8 +9,14 @@ import com.google.api.core.ApiFuture;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.List;
+import java.util.ArrayList;
+import chooser.model.MenuItem;
+
+
 
 public class FirestoreUtils {
+
 
     public static void writeDoc(String collectionName, String documentId, Map<String, Object> data){
         try {
@@ -95,6 +101,49 @@ public class FirestoreUtils {
         String role = document.getString("role");
         return new User(userId, username, password, firstName, lastName, dob, phoneNum, role);
     }
+
+    public static void updateDoc(String collectionName, String documentId, Map<String, Object> updatedData) {
+        try {
+            Firestore db = FirestoreContext.getFirestore();
+            DocumentReference docRef = db.collection(collectionName).document(documentId);
+
+            ApiFuture<WriteResult> result = docRef.update(updatedData);
+
+            System.out.println("Document updated at: " + result.get().getUpdateTime());
+
+        } catch (InterruptedException | ExecutionException | IOException e) {
+            System.err.println("Error updating document: " + e.getMessage());
+        }
+    }
+
+    public static List<MenuItem> readAllDocs(String collectionName) {
+        List<MenuItem> menuItems = new ArrayList<>();
+        try {
+            Firestore db = FirestoreContext.getFirestore();
+            ApiFuture<QuerySnapshot> query = db.collection(collectionName).get();
+            List<QueryDocumentSnapshot> documents = query.get().getDocuments();
+
+            for (QueryDocumentSnapshot document : documents) {
+                MenuItem item = new MenuItem(
+                        document.getId(),
+                        document.getString("itemName"),
+                        document.getString("description"),
+                        document.getString("price"),
+                        document.getString("category"),
+                        (List<String>) document.get("ingredients"),
+                        document.getString("imageUrl")
+                );
+                menuItems.add(item);
+            }
+        } catch (Exception e) {
+            System.err.println("Error retrieving menu items: " + e.getMessage());
+        }
+        return menuItems;
+    }
+
+
+
+
 }
 
 
