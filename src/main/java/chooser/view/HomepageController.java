@@ -115,10 +115,10 @@ public class HomepageController {
     private TableColumn<InventoryItem, String> quantityCol;
 
     @FXML
-    private TableColumn stockCol;
+    private TableColumn<InventoryItem, String> stockCol;
 
     @FXML
-    private TableColumn actionCol;
+    private TableColumn<InventoryItem, String> actionCol;
 
     @FXML
     private TableView itemTable;
@@ -193,22 +193,53 @@ public class HomepageController {
         }
 
 
+
         itemIdCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().itemIdProperty()));
         itemNameCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().itemNameProperty()));
         unitCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().unitProperty()));
         categoryCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().categoryProperty()));
         quantityCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().quantityProperty()));
 
+        stockCol.setCellValueFactory(data -> {
+            return new SimpleStringProperty(data.getValue().getStockStatus()); // get the stock status
+        });
 
+        actionCol.setCellFactory(column -> new TableCell<InventoryItem, String>() {
+                    private final Button deleteButton = new Button("Delete");
+
+                    {
+                        deleteButton.setOnAction(event -> {
+                            InventoryItem item = getTableRow().getItem();
+                            if (item != null) {
+                                handleDelete(item);
+                            }
+                        });
+                    }
+
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(deleteButton);
+                        }
+                    }
+                });
 
 
         List<InventoryItem> documents=FirestoreUtils.readCollection("Inventory");
         System.out.println(documents);
         itemTable.setItems (FXCollections.observableList(documents));
 
-
-
     }
+
+    private void handleDelete(InventoryItem item) {
+        if (item != null) {
+            itemTable.getItems().remove(item);
+            FirestoreUtils.deleteDoc("Inventory",  item.getItemId());
+        }
+        }
 
     void changeUIPageOptions(String selectChoice) {
         List<NavOptions> checkOptionsExist = homepageViewModel.getNavMap().get(selectChoice);

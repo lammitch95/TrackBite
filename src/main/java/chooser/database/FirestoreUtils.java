@@ -45,6 +45,8 @@ public class FirestoreUtils {
                 System.out.println("No such document!");
                 return null;
             }
+
+            
         } catch (InterruptedException | ExecutionException | IOException e) {
             System.err.println("Error reading data: " + e.getMessage());
             return null;

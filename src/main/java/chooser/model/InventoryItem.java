@@ -48,4 +48,25 @@ public class InventoryItem {
     public String getItemName() {
         return itemName;
     }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public String getStockStatus() {
+        float qty = 0;
+        try {
+            qty = Float.parseFloat(quantity);
+        } catch (NumberFormatException e) {
+            System.err.println("Invalid quantity value: " + quantity);
+        }
+        if (qty == 0) {
+            return "Out of Stock";
+        } else if (qty < 5) {
+            return "Low Stock";
+        } else {
+            return "In Stock";
+        }
+    }
+
 }

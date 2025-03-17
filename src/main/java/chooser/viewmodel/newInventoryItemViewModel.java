@@ -31,9 +31,14 @@ public class newInventoryItemViewModel {
 
         if (itemName.get().isEmpty() ||  unit.get().isEmpty() || category.get().isEmpty()) {
             System.out.println("Invalid Submission, Please fill out all the fields");
-        }  else {
+        } else if (!isValidItemName(itemName.get())) {
+            System.out.println("Invalid item name");
+        } else if (!isValidUnit(unit.get())) {
+            System.out.println("Invalid unit selection");
+        } else if (!isValidCategory(category.get())) {
+            System.out.println("Invalid category selection");
+        } else {
             System.out.println("Submission Successful");
-
             String itemId = generateItemId(itemName.get());
 
             Map<String, Object>  map = new HashMap<>();
@@ -46,8 +51,29 @@ public class newInventoryItemViewModel {
             FirestoreUtils.writeDoc("Inventory", itemId, map);
 
             System.out.println("Successfully Storing Date for Inventory Item");
+
+            clearFields();
         }
     }
+
+    private boolean isValidItemName(String itemName) {
+        return itemName != null && !itemName.isEmpty();
+    }
+
+    private boolean isValidUnit(String unit) {
+        return unit != null && (unit.equals("Lbs") || unit.equals("Oz") || unit.equals("Gal") || unit.equals("Pieces"));
+    }
+
+    private boolean isValidCategory(String category) {
+        return category != null && (category.equals("Meat") || category.equals("Dairy") || category.equals("Bread") || category.equals("Produce") || category.equals("Condiments"));
+    }
+
+    private void clearFields() {
+        itemName.set("");
+        unit.set("");
+        category.set("");
+    }
+
 
     private void FirestoreUtils() {
     }

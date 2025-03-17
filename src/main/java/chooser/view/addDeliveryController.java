@@ -1,12 +1,17 @@
 package chooser.view;
 
 
+import chooser.Inventory;
 import chooser.utils.SceneNavigator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+
+import java.time.LocalDate;
+
+
 
 public class addDeliveryController {
     @FXML
@@ -20,6 +25,9 @@ public class addDeliveryController {
 
     @FXML
     private TextField itemName;
+
+    @FXML
+    private TextField pricePerUnit;
 
     @FXML
     private TextField quantity;
@@ -60,10 +68,7 @@ public class addDeliveryController {
     void pricePerUnitEntered(ActionEvent event) {
 
     }
-    @FXML
-    void addDeliverySelected(ActionEvent event) {
 
-    }
 
     @FXML
     void backToMainSelected
@@ -76,7 +81,17 @@ public class addDeliveryController {
                 true);
 
     }
-}
+
+    @FXML
+    void addDeliverySelected(ActionEvent event) {
+    }}
+
+
+
+
+
+        
+
 
 
 
