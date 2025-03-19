@@ -12,7 +12,7 @@
       <VBox prefHeight="400.0" prefWidth="602.0">
          <children>
             <Label text="Item ID" />
-            <TextField fx:id="itemID" onAction="#itemIdEntered" />
+            <TextField fx:id="itemID" onInputMethodTextChanged="#itemIdEntered" />
             <Label text="Item Name" />
             <TextField fx:id="itemName" layoutX="10.0" layoutY="27.0" onAction="#itemNameEntered" />
             <Label layoutX="10.0" layoutY="52.0" text="Quantity" />

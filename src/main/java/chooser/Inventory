@@ -55,7 +55,7 @@ public class Main extends Application {
             return itemName.get();
         }
         //calculates the total quantity to be delievered plus current
-        public void addDelivery(InventoryDelivery delivery) {
+        public void addDelivery(chooser.model.InventoryDelivery delivery) {
             quantityTotal.set(quantityTotal.get() + delivery.getQuantity());
         }
 
@@ -70,8 +70,8 @@ public class Main extends Application {
         }
     }
 
-    // InventoryDelivery class
-    public static class InventoryDelivery {
+    // chooser.model.InventoryDelivery class
+    public static class chooser.model.InventoryDelivery {
         private final String itemId;
         private final String itemName;
         private final float quantity;
@@ -79,7 +79,7 @@ public class Main extends Application {
         private final LocalDate expDate;
         private final float pricePerUnit;
 
-        public InventoryDelivery(String itemId, String itemName, float quantity, LocalDate deliveryDate, LocalDate expDate, float pricePerUnit) {
+        public chooser.model.InventoryDelivery(String itemId, String itemName, float quantity, LocalDate deliveryDate, LocalDate expDate, float pricePerUnit) {
             this.itemId = itemId;
             this.itemName = itemName;
             this.quantity = quantity;
@@ -261,7 +261,7 @@ public class Main extends Application {
                 LocalDate expDate = expDatePicker.getValue();
                 float pricePerUnit = Float.parseFloat(pricePerUnitField.getText());
 
-                InventoryDelivery delivery = new InventoryDelivery(itemId, itemName, quantity, deliveryDate, expDate, pricePerUnit);
+                chooser.model.InventoryDelivery delivery = new chooser.model.InventoryDelivery(itemId, itemName, quantity, deliveryDate, expDate, pricePerUnit);
                 InventoryItem item = InventoryManager.getInventoryItemById(itemId);
                 if (item != null) {
                     item.addDelivery(delivery);

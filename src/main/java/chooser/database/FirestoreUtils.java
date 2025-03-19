@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 public class FirestoreUtils {
@@ -33,6 +34,7 @@ public class FirestoreUtils {
 
     public static Map<String, Object> readDoc(String collectionName, String documentId) {
         try {
+            System.out.println(documentId);
             Firestore db = FirestoreContext.getFirestore();
 
             DocumentReference docRef = db.collection(collectionName).document(documentId);
@@ -63,7 +65,12 @@ public class FirestoreUtils {
             List<InventoryItem> inventoryItems = new ArrayList<>();
 
             for (QueryDocumentSnapshot document: documents) {
-                inventoryItems.add(new InventoryItem((String) document.getData().get("InventoryItemID"), document.getString("itemName"), document.getString("unit"), document.getString("category"), (String.valueOf(document.getData().get("quantity")))));
+                System.out.println(document.getData());
+                Object test1DocValue = document.getData().get("quantity");
+                long testElse = (long)0;
+                String testOptionalFix = Optional.ofNullable(String.valueOf(test1DocValue )).orElse("0");
+                float testFinal = Float.parseFloat(testOptionalFix);
+                inventoryItems.add(new InventoryItem((String) document.getData().get("InventoryItemID"), document.getString("itemName"), document.getString("unit"), document.getString("category"), (String.valueOf(document.getData().get("quantity"))), testFinal));
                 System.out.println(document.getString("InventoryItemID"));
                 System.out.println(document.getData());
                 System.out.println(document.getData().get("InventoryItemID"));
@@ -135,8 +142,9 @@ public class FirestoreUtils {
         String unit = document.getString("password");
         String category = document.getString("firstName");
         String quantity = document.getString("lastName");
+        float pricePerUnit = Float.parseFloat((String) document.getData().get("pricePerUnit"));;
 
-        return new InventoryItem(itemId, itemName, unit, category, quantity);
+        return new InventoryItem(itemId, itemName, unit, category, quantity, pricePerUnit);
     }
 }
 

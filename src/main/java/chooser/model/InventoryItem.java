@@ -1,19 +1,15 @@
 package chooser.model;
 
-import javafx.beans.property.FloatProperty;
-import javafx.beans.property.SimpleFloatProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
 public class InventoryItem {
     private final String itemId;
     private final String itemName;
     private final String unit;
     private final String category;
     private final String quantity;
+    private final float pricePerUnit;
 
     //constructor for invItem class
-    public InventoryItem(String itemId, String ItemName, String unit, String category, String quantity) {
+    public InventoryItem(String itemId, String ItemName, String unit, String category, String quantity, float pricePerUnit) {
 
         this.itemId = itemId;  // itemId = String, letters and 3 random digits
         this.itemName = ItemName;
@@ -21,6 +17,7 @@ public class InventoryItem {
         this.category = category;
         this.quantity = quantity;
         // initialize quantity to 0
+        this.pricePerUnit = pricePerUnit;
     }
 
     // getter methods
@@ -53,6 +50,10 @@ public class InventoryItem {
         return itemId;
     }
 
+    public float getPricePerUnit() {
+        return pricePerUnit;
+    }
+
     public String getStockStatus() {
         float qty = 0;
         try {
@@ -68,5 +69,6 @@ public class InventoryItem {
             return "In Stock";
         }
     }
+
 
 }
