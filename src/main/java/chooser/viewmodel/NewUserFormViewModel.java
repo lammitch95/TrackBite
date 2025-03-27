@@ -141,6 +141,7 @@ public class NewUserFormViewModel {
         String randomDigits = String.format("%04d", new Random().nextInt(10000));
 
         return firstInitial + lastNameStr + randomDigits;
+
     }
 
 
