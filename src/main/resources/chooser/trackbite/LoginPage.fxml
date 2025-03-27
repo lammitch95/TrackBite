@@ -6,55 +6,80 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="loginPane" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@lightMode.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.LoginPageController">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.LoginPageController">
    <children>
-      <VBox fx:id="loginVBox" alignment="CENTER" focusTraversable="true" prefHeight="400.0" spacing="15">
+      <HBox fx:id="loginPane" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@lightMode.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Pane fx:id="loginLogoImage" maxWidth="-Infinity" prefHeight="57.0" prefWidth="143.0" />
-            <Label prefHeight="29.0" prefWidth="291.0" text="Enter Credentials" translateY="15.0">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <TextField fx:id="usernameField" prefHeight="16.0" prefWidth="204.0" promptText="Username" style="-fx-pref-width: 250px; -fx-pref-height: 40px;">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </TextField>
-            <PasswordField fx:id="passwordField" prefHeight="13.0" prefWidth="204.0" promptText="Password" style="-fx-pref-width: 250px; -fx-pref-height: 40px;">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </PasswordField>
-            <HBox prefHeight="49.0" prefWidth="234.0">
+            <VBox fx:id="loginVBox" alignment="CENTER" focusTraversable="true" prefHeight="400.0" spacing="15">
                <children>
-                  <Button fx:id="loginBtn" onAction="#onHandleLogin" prefHeight="31.0" prefWidth="82.0" text="Log In">
+                  <Pane fx:id="loginLogoImage" maxWidth="-Infinity" prefHeight="57.0" prefWidth="143.0" />
+                  <Label prefHeight="29.0" prefWidth="291.0" text="Enter Credentials" translateY="15.0">
                      <font>
-                        <Font name="System Bold" size="4.0" />
+                        <Font size="16.0" />
                      </font>
-                  </Button>
-                  <Pane prefHeight="49.0" prefWidth="73.0" />
-                  <Hyperlink alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="44.0" prefWidth="172.0" text="Forgot your credentials?" textAlignment="RIGHT">
+                  </Label>
+                  <TextField fx:id="usernameField" prefHeight="16.0" prefWidth="204.0" promptText="Username" style="-fx-pref-width: 250px; -fx-pref-height: 40px;">
                      <font>
                         <Font size="13.0" />
                      </font>
-                  </Hyperlink>
+                  </TextField>
+                  <AnchorPane prefHeight="38.0" prefWidth="291.0">
+                     <children>
+                        <PasswordField fx:id="passwordField" prefHeight="13.0" prefWidth="291.0" promptText="Password" style="-fx-pref-width: 250px; -fx-pref-height: 40px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </PasswordField>
+                        <TextField fx:id="visiblePasswordText" disable="true" promptText="Password" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </TextField>
+                        <HBox fx:id="showPasswordBtn" alignment="CENTER" layoutX="246.0" layoutY="1.3333333333333333" prefHeight="29.0" prefWidth="31.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="255.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                           <children>
+                              <ImageView fx:id="showPasswordImageView" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@grayHidePassword.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+                  <HBox prefHeight="49.0" prefWidth="234.0">
+                     <children>
+                        <Button fx:id="loginBtn" onAction="#onHandleLogin" prefHeight="31.0" prefWidth="82.0" text="Log In">
+                           <font>
+                              <Font name="System Bold" size="4.0" />
+                           </font>
+                        </Button>
+                        <Pane prefHeight="49.0" prefWidth="73.0" />
+                        <Hyperlink alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="44.0" prefWidth="172.0" text="Forgot your credentials?" textAlignment="RIGHT">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Hyperlink>
+                     </children>
+                  </HBox>
+                  <Label fx:id="errorMessageLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="289.0" text="Invalid credentials. Please try again." textAlignment="CENTER" textFill="RED">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
                </children>
-            </HBox>
-            <Label fx:id="errorMessageLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="289.0" text="Invalid credentials. Please try again." textAlignment="CENTER" textFill="RED">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
+               <padding>
+                  <Insets left="20.0" right="20.0" />
+               </padding>
+            </VBox>
          </children>
-         <padding>
-            <Insets left="20.0" right="20.0" />
-         </padding>
-      </VBox>
+      </HBox>
    </children>
-</HBox>
+</AnchorPane>

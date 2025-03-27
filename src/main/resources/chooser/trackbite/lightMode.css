@@ -1,4 +1,21 @@
-/**button or hbox hover effects***/
+/*******hbox/button hover for tablview buttons*****/
+.tableview-hover-effect:hover{
+    -fx-background-color: #d9d9d9;
+}
+
+.tableview-hover-effect{
+    -fx-background-color: transparent;
+}
+
+/****other tableview css adjustments*******/
+.table-view{
+    -fx-selection-bar: #d7e7f5;
+}
+
+
+
+
+/**button or hbox hover effects homepage***/
 .hover-effect:hover{
     -fx-background-color: #008ae8;
 }

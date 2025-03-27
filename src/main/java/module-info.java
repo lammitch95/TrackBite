@@ -9,6 +9,9 @@ module chooser.trackbite {
     requires com.google.api.apicommon;
     requires com.google.auth;
     requires google.cloud.core;
+    requires org.apache.poi.poi;
+    requires org.apache.poi.ooxml;
+    requires com.gluonhq.charm.glisten;
 
     opens chooser to javafx.fxml, javafx.graphics;
 

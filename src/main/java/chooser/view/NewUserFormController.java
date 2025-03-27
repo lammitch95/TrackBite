@@ -1,6 +1,8 @@
 package chooser.view;
 
+import chooser.utils.TableViewUtils;
 import chooser.viewmodel.NewUserFormViewModel;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
@@ -16,7 +18,7 @@ import java.util.List;
 public class NewUserFormController {
 
     @FXML
-    private Button clearBtn;
+    private HBox addNewBtn;
 
     @FXML
     private HBox confirmPassHbox;
@@ -31,6 +33,9 @@ public class NewUserFormController {
     private TextField createPassText;
 
     @FXML
+    private HBox deleteBtn;
+
+    @FXML
     private Label deliveryFormLabel;
 
     @FXML
@@ -43,13 +48,7 @@ public class NewUserFormController {
     private Label employeeIDLabel;
 
     @FXML
-    private Label errMessLabel;
-
-    @FXML
     private TextField firstnameText;
-
-    @FXML
-    private Label formDescriplbl;
 
     @FXML
     private TextField lastnameText;
@@ -67,9 +66,6 @@ public class NewUserFormController {
     private TextArea passRulesText;
 
     @FXML
-    private Label patientInfoLbl;
-
-    @FXML
     private HBox phoneNumHbox;
 
     @FXML
@@ -79,21 +75,34 @@ public class NewUserFormController {
     private HBox roleHbox;
 
     @FXML
-    private Button submitBtn;
-
-    @FXML
-    private RadioButton waitStaffRadio;
+    private HBox roleHbox1;
 
     @FXML
     private ToggleGroup roleToggleGroup;
 
-    private final NewUserFormViewModel newUserformViewModel = new NewUserFormViewModel();
+    @FXML
+    private HBox saveBtn;
+
+    @FXML
+    private ImageView saveBtnImageView;
+
+    @FXML
+    private RadioButton waitStaffRadio;
+
+    private NewUserFormViewModel newUserformViewModel;
     private List<HBox> inputLabelHbox;
 
     @FXML
     public void initialize(){
+        newUserformViewModel = new NewUserFormViewModel();
 
-        submitBtn.disableProperty().bind(newUserformViewModel.formValidProperty().not());
+        saveBtn.disableProperty().bind(newUserformViewModel.allowSaveProperty().not());
+
+        saveBtnImageView.opacityProperty().bind(
+                Bindings.when(newUserformViewModel.allowSaveProperty())
+                        .then(1.0)
+                        .otherwise(0.25)
+        );
 
         inputLabelHbox = List.of(nameHbox,phoneNumHbox,dobHbox,confirmPassHbox,createPassHbox,roleHbox);
 
@@ -145,7 +154,8 @@ public class NewUserFormController {
         });
 
         newUserformViewModel.usernameValidProperty().addListener((obs, oldVal, newVal) -> {
-            employeeIDLabel.setText("Employee ID: "+newUserformViewModel.usernameProperty().get());
+            System.out.println();
+            employeeIDLabel.setText(newUserformViewModel.usernameProperty().get());
         });
 
         roleToggleGroup.selectedToggleProperty().addListener((obs, oldToggle, newToggle) -> {
@@ -155,30 +165,46 @@ public class NewUserFormController {
             }
         });
 
+        newUserformViewModel.roleProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null) {
+                for (Toggle toggle : roleToggleGroup.getToggles()) {
+                    RadioButton radioButton = (RadioButton) toggle;
+                    if (radioButton.getText().equals(newValue)) {
+                        roleToggleGroup.selectToggle(radioButton);
+                        break;
+                    }
+                }
+            }
+        });
+
         resetForm();
 
 
-    }
+        addNewBtn.setOnMouseClicked(mouseEvent -> resetForm());
 
-    @FXML
-    void onClearText(ActionEvent event) {
-        resetForm();
-    }
 
-    @FXML
-    void onSubmitUserForm(ActionEvent event) {
-        boolean validSubmission = newUserformViewModel.onSubmit();
-        if(validSubmission){
-            System.out.println("Submission Sucessful. New User Created.");
-            resetForm();
-            errMessLabel.setText("Submission Successful. Account Created.");
-        }else{
-            System.out.println("Error occured creating new user.");
+        saveBtn.setOnMouseClicked(mouseEvent -> {
+            boolean validSubmission = newUserformViewModel.onSubmit();
+            if(validSubmission){
+                System.out.println("Submission Sucessful. New User Created.");
+                //resetForm();
+            }else{
+                System.out.println("Error occured creating new user.");
+            }
+        });
+
+        String selectedRowID = TableViewUtils.getSelectedRowID();
+        String collectionName = TableViewUtils.getStoredCollectionName();
+        if(selectedRowID!=null && collectionName.equals("Employees")){
+            newUserformViewModel.setIsNewRedcordBoolean(false);
+            newUserformViewModel.populateTextFields();
         }
-    }
 
+
+    }
 
     private void resetForm(){
+        newUserformViewModel.setIsNewRedcordBoolean(true);
         newUserformViewModel.clearInputs();
 
         for(HBox labelHbox: inputLabelHbox){
@@ -192,8 +218,11 @@ public class NewUserFormController {
         newUserformViewModel.roleProperty().set("Wait Staff");
         newUserformViewModel.updateValidImageViews(roleHbox, newUserformViewModel.roleValidProperty());
 
-        errMessLabel.setText("");
-        newUserformViewModel.usernameProperty().set("Not Available");
+        //Later replace with universal message system
+        //errMessLabel.setText("");
+
+        newUserformViewModel.usernameProperty().set("New User");
+
     }
     private void addValidationStyle(TextField field, BooleanProperty validProperty) {
         validProperty.addListener((obs, wasValid, isValid) -> {
