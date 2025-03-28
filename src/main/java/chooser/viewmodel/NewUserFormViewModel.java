@@ -1,7 +1,10 @@
 package chooser.viewmodel;
 
 import chooser.database.FirestoreUtils;
+import chooser.model.User;
 import chooser.utils.NewUserUtils;
+import chooser.utils.SystemMessageUtils;
+import chooser.utils.TableViewUtils;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -27,6 +30,13 @@ public class NewUserFormViewModel {
     private final StringProperty password = new SimpleStringProperty("");
     private final StringProperty confirmPassword = new SimpleStringProperty("");
 
+    private final BooleanProperty allowSave = new SimpleBooleanProperty(false);
+
+    private final BooleanProperty hasChanged = new SimpleBooleanProperty(false);
+
+    private final BooleanProperty isNewRecord = new SimpleBooleanProperty(false);
+
+
 
     private final BooleanProperty usernameValid = new SimpleBooleanProperty(false);
     private final BooleanProperty firstNameValid = new SimpleBooleanProperty(false);
@@ -44,15 +54,40 @@ public class NewUserFormViewModel {
     private List<StringProperty> userInputList;
 
     public NewUserFormViewModel() {
+        isNewRecord.set(false);
 
-        username.addListener((obs, oldVal, newVal) -> usernameValid.set(!username.get().equals("Not Available")));
-        firstName.addListener((obs, oldVal, newVal) -> firstNameValid.set(NewUserUtils.isValidName(newVal)));
-        lastName.addListener((obs, oldVal, newVal) -> lastNameValid.set(NewUserUtils.isValidName(newVal)));
-        dateOfBirth.addListener((obs, oldVal, newVal) -> dobValid.set(NewUserUtils.isValidDateOfBirth(newVal)));
-        phoneNumber.addListener((obs, oldVal, newVal) -> phoneValid.set(NewUserUtils.isValidPhoneNum(newVal)));
-        password.addListener((obs, oldVal, newVal) -> passwordValid.set(NewUserUtils.isValidPassword(newVal)));
-        confirmPassword.addListener((obs, oldVal, newVal) -> confirmPasswordValid.set(NewUserUtils.isValidConfirmPassword(password.get(), newVal)));
-        role.addListener((obs, oldVal, newVal) -> roleValid.set(!role.get().isEmpty()));
+        username.addListener((obs, oldVal, newVal) -> {
+            usernameValid.set(!username.get().equals("New User"));
+            hasChanged.set(true);
+        });
+        firstName.addListener((obs, oldVal, newVal) -> {
+            firstNameValid.set(NewUserUtils.isValidName(newVal));
+            hasChanged.set(true);
+        });
+        lastName.addListener((obs, oldVal, newVal) -> {
+            lastNameValid.set(NewUserUtils.isValidName(newVal));
+            hasChanged.set(true);
+        });
+        dateOfBirth.addListener((obs, oldVal, newVal) -> {
+            dobValid.set(NewUserUtils.isValidDateOfBirth(newVal));
+            hasChanged.set(true);
+        });
+        phoneNumber.addListener((obs, oldVal, newVal) -> {
+            phoneValid.set(NewUserUtils.isValidPhoneNum(newVal));
+            hasChanged.set(true);
+        });
+        password.addListener((obs, oldVal, newVal) -> {
+            passwordValid.set(NewUserUtils.isValidPassword(newVal));
+            hasChanged.set(true);
+        });
+        confirmPassword.addListener((obs, oldVal, newVal) -> {
+            confirmPasswordValid.set(NewUserUtils.isValidConfirmPassword(password.get(), newVal));
+            hasChanged.set(true);
+        });
+        role.addListener((obs, oldVal, newVal) -> {
+            roleValid.set(!role.get().isEmpty());
+            hasChanged.set(true);
+        });
 
         validInputList = List.of(firstNameValid,lastNameValid,roleValid,dobValid,phoneValid, passwordValid,confirmPasswordValid);
         userInputList = List.of(username,firstName,lastName,role,dateOfBirth,phoneNumber,password,confirmPassword);
@@ -65,6 +100,8 @@ public class NewUserFormViewModel {
                         .and(confirmPasswordValidProperty())
                         .and(roleValidProperty())
         );
+
+        allowSave.bind(formValid.and(hasChanged));
     }
 
     public StringProperty usernameProperty(){return username;}
@@ -86,10 +123,17 @@ public class NewUserFormViewModel {
 
     public BooleanProperty roleValidProperty(){return roleValid;}
 
+    public BooleanProperty isNewRecordProperty(){return isNewRecord;}
+
+    public void setIsNewRedcordBoolean(boolean value){
+        isNewRecord.set(value);
+    }
+
     public BooleanProperty formValidProperty() {
         return formValid;
     }
 
+    public BooleanProperty allowSaveProperty(){return allowSave;}
 
     public String generateEmployeeID() {
         String firstInitial = firstName.get().substring(0, 1).toLowerCase();
@@ -97,6 +141,7 @@ public class NewUserFormViewModel {
         String randomDigits = String.format("%04d", new Random().nextInt(10000));
 
         return firstInitial + lastNameStr + randomDigits;
+
     }
 
 
@@ -109,6 +154,10 @@ public class NewUserFormViewModel {
             }
         }
 
+        SystemMessageUtils.setCurrSystemText("New user record has been saved: "+username.get());
+        SystemMessageUtils.setCurrPropertyColor("SUCCESS");
+        SystemMessageUtils.messageAnimation();
+
         Map<String, Object> data = new HashMap<>();
         data.put("username", username.get());
         data.put("password", password.get());
@@ -119,7 +168,7 @@ public class NewUserFormViewModel {
         data.put("phoneNum", phoneNumber.get());
 
         FirestoreUtils.writeDoc("Employees", username.get(), data);
-
+        hasChanged.set(false);
         return true;
     }
 
@@ -148,20 +197,41 @@ public class NewUserFormViewModel {
                 Image validImage = new Image(getClass().getResource("/chooser/trackbite/valid.png").toExternalForm());
                 imageView.setImage(validImage);
 
-                if(label.getText().equals("Name")){
+                if(label.getText().equals("Name:") && isNewRecord.get()){
                     String newEmployeeId = generateEmployeeID();
                     username.set(newEmployeeId);
+                    System.out.println("CHECKING NEW GENERATED EMPLOYEEID: "+newEmployeeId);
                 }
 
             } else {
                 imageView.setVisible(false);
 
-                if(label.getText().equals("Name")){
-                    username.set("Not Available");
+                if(label.getText().equals("Name:") && isNewRecord.get()){
+                    username.set("New User");
                 }
             }
         } else {
             System.out.println("ImageView not found inside the HBox.");
+        }
+    }
+
+
+    public void populateTextFields(){
+
+        Object selectedData = TableViewUtils.retrieveDocumentData(TableViewUtils.getStoredCollectionName(),TableViewUtils.getSelectedRowID());
+        if(selectedData instanceof User obj){
+            username.set(obj.getUsername());
+            firstName.set(obj.getFirstName());
+            lastName.set(obj.getLastName());
+            dateOfBirth.set(obj.getDob());
+            phoneNumber.set(obj.getPhoneNum());
+            role.set(obj.getRole());
+            password.set(obj.getPassword());
+            confirmPassword.set(obj.getPassword());
+            hasChanged.set(false);
+
+            TableViewUtils.setStoreCollectionName("");
+            TableViewUtils.setSelectedRowID(null);
         }
     }
 
