@@ -72,6 +72,7 @@ public class newInventoryItemViewModel {
         itemName.set("");
         unit.set("");
         category.set("");
+
     }
 
 

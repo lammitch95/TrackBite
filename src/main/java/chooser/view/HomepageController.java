@@ -206,15 +206,39 @@ public class HomepageController {
 
         actionCol.setCellFactory(column -> new TableCell<InventoryItem, String>() {
                     private final Button deleteButton = new Button("Delete");
+                    private final Button editButton = new Button("Edit");
 
-                    {
+            {
+
                         deleteButton.setOnAction(event -> {
                             InventoryItem item = getTableRow().getItem();
                             if (item != null) {
                                 handleDelete(item);
                             }
                         });
-                    }
+
+
+                        editButton.setOnAction(event -> {
+                             InventoryItem item = getTableRow().getItem();
+                             if (item != null) {
+                                 System.out.println("Edit button clicked for item: " + item.getItemId());
+                                 SceneNavigator.setSelectedItemId(item.getItemId());
+                                 SceneNavigator.switchScene(
+                                         "editItemForm",
+                                         "TrackBite/editItemForm",
+
+                                         -1,
+                                         -1,
+
+                                         true
+                                 );
+                                 System.out.println("Switch scene called.");
+
+                             } else {
+                                 System.out.println("No item selected.");
+                             }
+                        });
+                     }
 
                     @Override
                     protected void updateItem(String item, boolean empty) {
@@ -222,7 +246,10 @@ public class HomepageController {
                         if (empty) {
                             setGraphic(null);
                         } else {
-                            setGraphic(deleteButton);
+                            HBox buttonBox = new HBox(10);  // Create a container for the buttons
+                            buttonBox.getChildren().addAll(editButton, deleteButton);  // Add both buttons
+                            setGraphic(buttonBox);  // Set the buttons as the graphic of the ce
+
                         }
                     }
                 });
@@ -237,7 +264,11 @@ public class HomepageController {
     private void handleDelete(InventoryItem item) {
         if (item != null) {
             itemTable.getItems().remove(item);
+            System.out.println("Deleting item with ID: " + item.getItemId());
             FirestoreUtils.deleteDoc("Inventory",  item.getItemId());
+            itemTable.getItems().remove(item);
+            itemTable.refresh();
+            showAlert("Item Deleted", "The item has been successfully deleted.");
         }
         }
 
@@ -368,4 +399,18 @@ public class HomepageController {
 
 
     }
+
+    private void refreshTable() {
+        List<InventoryItem> updatedDocuments = FirestoreUtils.readCollection("Inventory");
+        itemTable.setItems(FXCollections.observableList(updatedDocuments));
+        itemTable.refresh();
+    }
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 }

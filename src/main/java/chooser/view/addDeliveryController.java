@@ -129,6 +129,29 @@ public class addDeliveryController {
         }
     }
 
+    @FXML
+    void editItemButtonPressed(ActionEvent event) {
+        if (selectedItem != null) {
+            // Create an instance of the edit form controller
+            editItemFormController controller = new editItemFormController();
+            controller.setItemToEdit(selectedItem); // Pass the selected item to the edit form
+
+            // Switch to the edit item form
+            SceneNavigator.switchScene(
+                    "EditItemPage",
+                    "TrackBite/EditItemPage",
+                    -1,
+                    -1,
+                    true
+            );
+        } else {
+            showAlert("Item Not Selected", "Please select a valid item to edit.");
+        }
+    }
+
+
+
+
     private void updateInventoryQuantity(String itemId, float quantityAdded) {
         Map<String, Object> itemData = FirestoreUtils.readDoc("Inventory", itemId);
         if (itemData != null) {

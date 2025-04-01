@@ -54,6 +54,16 @@ public class InventoryItem {
         return pricePerUnit;
     }
 
+    public String getUnit() {
+        return unit;
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public String getCategory() { return category; }
+
     public String getStockStatus() {
         float qty = 0;
         try {

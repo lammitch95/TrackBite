@@ -12,6 +12,15 @@ public class SceneNavigator {
     private static Stage mainStage;
     private static double currWidth;
     private static double currHeight;
+    private static String selectedItemId; // Stores the selected item ID
+
+    public static void setSelectedItemId(String itemId) {
+        selectedItemId = itemId;
+    }
+
+    public static String getSelectedItemId() {
+        return selectedItemId;
+    }
 
     public static void setMainStage(Stage stage) {
         mainStage = stage;
@@ -22,8 +31,20 @@ public class SceneNavigator {
 
             boolean wasFullscreen = mainStage.isFullScreen();
 
-            FXMLLoader loader = new FXMLLoader(SceneNavigator.class.getResource("/chooser/trackbite/"+fxmlFile+".fxml"));
+            //debugging
+            String resourcePath = "/chooser/trackbite/" + fxmlFile + ".fxml";
+            System.out.println("Trying to load resource: " + resourcePath);
+
+            // uncomment after. debugging. FXMLLoader loader = new FXMLLoader(SceneNavigator.class.getResource("/chooser/trackbite/"+fxmlFile+".fxml"));
+            FXMLLoader loader = new FXMLLoader(SceneNavigator.class.getResource(resourcePath));
+            //debugging
+            if (SceneNavigator.class.getResource(resourcePath) == null) {
+                throw new IOException("FXML file not found at: " + resourcePath);
+            }
             Parent root = loader.load();
+
+            //debugging
+            System.out.println("FXML Loaded Successfully");
 
             if(width > 0.0 && height > 0.0){
                 currWidth = width;
@@ -39,8 +60,14 @@ public class SceneNavigator {
                 mainStage.setFullScreen(true);
             }
             mainStage.show();
+
+            //debugging
+            System.out.println("Scene switched successfully.");
         } catch (IOException e) {
+            //debugging
+            System.out.println("Failed to load FXML: " + e.getMessage());
             e.printStackTrace();
         }
     }
 }
+
