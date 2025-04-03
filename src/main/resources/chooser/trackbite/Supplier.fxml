@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Pos?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="chooser.view.SupplierController">
+    <children>
+        <VBox alignment="CENTER" spacing="20" layoutX="20" layoutY="20" prefWidth="500">
+            <Label text="Supplier Information" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+
+            <GridPane hgap="10" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints halignment="RIGHT" minWidth="120" />
+                    <ColumnConstraints hgrow="ALWAYS" />
+                </columnConstraints>
+
+                <!-- Supplier ID -->
+                <Label text="Supplier ID:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="supplierID" editable="false" promptText="Auto-generated" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <!-- Supplier Name -->
+                <Label text="Supplier Name:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="supplierName" promptText="Enter Supplier Name" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <!-- Contact Information (Centered) -->
+                <HBox alignment="CENTER" GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.columnSpan="2">
+                    <Label text="Contact Information" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+                </HBox>
+
+                <Label text="Person Name:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <HBox spacing="10" GridPane.rowIndex="3" GridPane.columnIndex="1">
+                    <TextField fx:id="personFirstName" promptText="First Name"/>
+                    <TextField fx:id="personLastName" promptText="Last Name"/>
+                </HBox>
+
+                <Label text="Phone Number:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <TextField fx:id="phoneNumber" promptText="XXX-XXX-XXXX" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                <Label text="Email Address:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <TextField fx:id="emailAddress" promptText="example@example.com" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                <Label text="Website:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <TextField fx:id="websiteLink" promptText="http://www.website.com" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+                <!-- Address Information (Centered) -->
+                <HBox alignment="CENTER" GridPane.rowIndex="7" GridPane.columnIndex="0" GridPane.columnSpan="2">
+                    <Label text="Address &amp; Location" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+                </HBox>
+
+                <Label text="Business Address:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                <TextField fx:id="businessAddress" promptText="Enter Business Address" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+
+                <Label text="Warehouse Address:" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
+                <TextField fx:id="warehouseAddress" promptText="Enter Warehouse Address" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+
+                <Label text="Delivery Area:" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
+                <TextField fx:id="deliveryArea" promptText="Enter Delivery Area" GridPane.rowIndex="10" GridPane.columnIndex="1"/>
+            </GridPane>
+
+            <!-- Submit Button -->
+            <Button text="Submit" fx:id="submitButton" onAction="#handleSubmitButtonAction"
+                    style="-fx-background-color: #0073e6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8px 16px;" />
+
+            <!-- Feedback Label -->
+            <Label fx:id="feedbackLabel" text="" style="-fx-text-fill: green;" />
+        </VBox>
+    </children>
+</AnchorPane>

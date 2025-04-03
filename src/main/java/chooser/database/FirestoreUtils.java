@@ -5,6 +5,7 @@ import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.*;
 import com.google.cloud.firestore.WriteResult;
 import com.google.api.core.ApiFuture;
+import com.google.firebase.cloud.FirestoreClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -128,6 +129,41 @@ public class FirestoreUtils {
         String role = document.getString("role");
         String password = document.getString("password");
         return new User(userId, username, firstName, lastName, dob, phoneNum, role, password);
+    }
+
+    public static List<Map<String, Object>> readCollection(String suppliers) {
+        List<Map<String, Object>> results = new ArrayList<>();
+
+        try {
+            // Get Firestore instance
+            Firestore db = FirestoreClient.getFirestore();
+
+            // Create a reference to the "Suppliers" collection specifically
+            ApiFuture<QuerySnapshot> query = db.collection("Suppliers").get();
+
+            // Get all documents from the Suppliers collection
+            QuerySnapshot querySnapshot = query.get();
+            List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+
+            // Convert each document to a Map
+            for (QueryDocumentSnapshot document : documents) {
+                Map<String, Object> data = document.getData();
+                results.add(data);
+            }
+
+            return results;
+
+        } catch (InterruptedException e) {
+            System.err.println("Thread interrupted while fetching suppliers: " + e.getMessage());
+            Thread.currentThread().interrupt();
+            return results;
+        } catch (ExecutionException e) {
+            System.err.println("Error executing Firestore query for suppliers: " + e.getMessage());
+            return results;
+        } catch (Exception e) {
+            System.err.println("Unexpected error reading suppliers: " + e.getMessage());
+            return results;
+        }
     }
 }
 
