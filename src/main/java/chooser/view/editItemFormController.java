@@ -122,20 +122,26 @@ public class editItemFormController {
                 (String) itemData.get("itemName"),
                 (String) itemData.get("unit"),
                 (String) itemData.get("category"),
-                (String) itemData.get("quantity"),
+                getStringForValue(itemData.get("quantity")),
                 getFloatForValue(itemData.get("pricePerUnit"))
         );
     }
 
-    private float getFloatForValue(Object value) {
-        if (value == null) return 0.0f;
-        if (value instanceof Float) return (Float) value;
-        if (value instanceof String) return Float.parseFloat((String) value);
-        if (value instanceof Long) return ((Long) value).floatValue();
-        return 0.0f;
-
+    private String getStringForValue(Object value) {
+        return String.valueOf(value);
     }
+//changing this
+private float getFloatForValue(Object value) {
+    if (value == null) return 0.0f;
 
+    if (value instanceof Float) return (Float) value;
+    if (value instanceof Double) return ((Double) value).floatValue(); // ✅ FIX HERE
+    if (value instanceof Long) return ((Long) value).floatValue();
+    if (value instanceof String) return Float.parseFloat((String) value);
+
+    return Float.parseFloat(String.valueOf(value)); // fallback for safety
+}
+//end change
     @FXML
     void backToMainSelected
             (ActionEvent event) {
