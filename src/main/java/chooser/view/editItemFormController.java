@@ -86,10 +86,12 @@ public class editItemFormController {
             itemData.put("itemName", itemToEdit.getItemName());
             itemData.put("unit", itemToEdit.getUnit());
             itemData.put("category", itemToEdit.getCategory());
-            itemData.put("quantity", itemToEdit.getQuantity());
+            itemData.put("quantity", Float.parseFloat(itemToEdit.getQuantity()));
             itemData.put("pricePerUnit", itemToEdit.getPricePerUnit());
 
+            System.out.println("Updating Firestore with data: " + itemData);
             FirestoreUtils.writeDoc("Inventory", existingItemId, itemData);
+            System.out.println("Firestore update complete.");
 
             showAlert("Success", itemToEdit.getItemName() + " has been updated.");
             SceneNavigator.switchScene("Homepage", "TrackBite/Homepage", -1, -1, true);

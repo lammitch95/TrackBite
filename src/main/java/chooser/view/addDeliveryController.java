@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -54,6 +55,7 @@ public class addDeliveryController {
             Map<String, Object> itemData = FirestoreUtils.readDoc("Inventory", itemId);
             if (itemData != null) {
                 selectedItem = createInvItemFromMap(itemData);
+                System.out.println("Selected item loaded: " + selectedItem.getItemName() + " (Qty: " + selectedItem.getQuantity() + ")");
                 itemName.setText(selectedItem.getItemName());
                 pricePerUnit.setText(String.valueOf(selectedItem.getPricePerUnit()));
             } else {
@@ -104,6 +106,7 @@ public class addDeliveryController {
     @FXML
     void addDeliverySelected(ActionEvent event) {
         itemIdEntered();
+        System.out.println("Add Delivery button clicked");
         if (selectedItem != null) {
             try {
                 String itemId = itemID.getText().trim();
@@ -116,9 +119,12 @@ public class addDeliveryController {
                 InventoryDelivery newDelivery = new InventoryDelivery(
                         itemId, itemNameValue, quantityValue, deliveryDateValue, expirationDateValue, pricePerUnitValue
                 );
+                System.out.println("Writing to Firestore: " + itemId);
                 FirestoreUtils.writeDoc("inventoryDeliveries", itemId, newDeliveryToMap(newDelivery));
+                System.out.println("Write operation completed");
 
                 updateInventoryQuantity(selectedItem.getItemId(), quantityValue);
+
 
                 showAlert("Delivery Added", "The delivery has been successfully added.");
             } catch (NumberFormatException e) {
@@ -159,9 +165,10 @@ public class addDeliveryController {
 
             float newQuantity = (currentQuantity + quantityAdded);
 
-            itemData.put("quantity", String.valueOf(newQuantity));
+            itemData.put("quantity", newQuantity);
 
             FirestoreUtils.writeDoc("Inventory", itemId, itemData);
+            System.out.println("Current qty: " + currentQuantity + ", Adding: " + quantityAdded + ", New total: " + newQuantity);
         }
     }
 
@@ -169,10 +176,10 @@ public class addDeliveryController {
         return Map.of(
                 "itemId", delivery.getItemId(),
                 "itemName", delivery.getItemName(),
-                "quantity", delivery.getQuantity(),
+                "quantity", Float.parseFloat(String.valueOf(delivery.getQuantity())),
                 "deliveryDate", delivery.getDeliveryDate().toString(),
                 "expirationDate", delivery.getExpDate().toString(),
-                "pricePerUnit", delivery.getPricePerUnit()
+                "pricePerUnit", Float.parseFloat(String.valueOf(delivery.getPricePerUnit()))
         );
     }
 
@@ -185,7 +192,7 @@ public class addDeliveryController {
     }
 
     private InventoryItem createInvItemFromMap(Map<String, Object> itemData) {
-        System.out.println(itemData.get("quantity").getClass().getSimpleName());
+       // System.out.println(itemData.get("quantity").getClass().getSimpleName());
         String itemId = (String) itemData.get("InventoryItemID");
         String itemName = (String) itemData.get("itemName");
         String unit = (String) itemData.get("unit");
@@ -195,35 +202,25 @@ public class addDeliveryController {
 
         return new InventoryItem(itemId, itemName, unit, category, quantity, pricePerUnit);
     }
+//Im changing this
+private String getStringForValue(Object value) {
+    return String.valueOf(value);
+}
 
-    private String getStringForValue(Object value) {
-        if (value instanceof String) {
-            return (String) value;
-        }
-        if (value instanceof Long) {
-            return String.valueOf((long) value);
-        }
-        return (String) value;
 
-    }
-
+    //end change
     private float getFloatForValue(Object value) {
+        if (value == null) return 0.0f;
 
-            if (value == null) {
-                return 0;
-            }
+        if (value instanceof Float) return (Float) value;
+        if (value instanceof Double) return ((Double) value).floatValue(); // ✅ FIX HERE
+        if (value instanceof Long) return ((Long) value).floatValue();
+        if (value instanceof String) return Float.parseFloat((String) value);
 
-        if (value instanceof Float) {
-            return (float) value;
-        }
-        if (value instanceof String) {
-            return Float.parseFloat((String) value);
-        }
-        if (value instanceof Long) {
-            return (float)((long) value);
-        }
-        return (float) value;
+        return Float.parseFloat(String.valueOf(value)); // fallback for safety
     }
+
+
 }
 
 

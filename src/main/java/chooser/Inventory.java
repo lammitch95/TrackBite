@@ -1,5 +1,6 @@
 package chooser;
 
+
 import javafx.application.Application;
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.SimpleFloatProperty;
@@ -21,20 +22,21 @@ import java.util.Random;
 public class Inventory extends Application {
 
     // define InventoryItem class
-    public static class InventoryItem {
+    public static class InventoryItem  {
         private final StringProperty itemId;
         private final StringProperty itemName;
         private final StringProperty unit;
         private final StringProperty category;
-        private final FloatProperty quantityTotal;
+        private final FloatProperty quantity;
 
         //constructor for invItem class
-        public InventoryItem(String itemId, String itemName, String unit, String category) {
+        public InventoryItem(String itemId, String ItemName, String unit, String category) {
+            super();
             this.itemId = new SimpleStringProperty(itemId);  // itemId = String, letters and 3 random digits
-            this.itemName = new SimpleStringProperty(itemName);
+            this.itemName = new SimpleStringProperty(ItemName);
             this.unit = new SimpleStringProperty(unit);
             this.category = new SimpleStringProperty(category);
-            this.quantityTotal = new SimpleFloatProperty(0); // initialize quantity to 0
+            this.quantity = new SimpleFloatProperty(0); // initialize quantity to 0
         }
 
         // getter methods
@@ -54,8 +56,8 @@ public class Inventory extends Application {
             return category;
         }
 
-        public FloatProperty quantityTotalProperty() {
-            return quantityTotal;
+        public FloatProperty quantityProperty() {
+            return quantity;
         }
 
 
@@ -64,21 +66,28 @@ public class Inventory extends Application {
         }
         //calculates the total quantity to be delievered plus current
         public void addDelivery(InventoryDelivery delivery) {
-            quantityTotal.set(quantityTotal.get() + delivery.getQuantity());
+            quantity.set(quantity.get() + delivery.getQuantity());
         }
 
         @Override
         public String toString() {
-            return "Item ID=" + itemId.get() + " , Item Name='" + itemName.get() + "' , Total Quantity=" + quantityTotal.get() +
+            return "Item ID=" + itemId.get() + " , Item Name='" + itemName.get() + "' , Total Quantity=" + quantity.get() +
                     " " + unit.get() + ", Category='" + category.get() + "'";
         }
 
         public String getItemId() {
             return itemId.get();
         }
+
+
+        public float getQuantity() {
+            return quantity.get();
+        }
     }
 
-    // InventoryDelivery class
+
+
+    // chooser.model.InventoryDelivery class
     public static class InventoryDelivery {
         private final String itemId;
         private final String itemName;
@@ -186,7 +195,7 @@ public class Inventory extends Application {
     }
 
     // Add a new item
-    private void showNewItemForm(Stage primaryStage) {
+   private void showNewItemForm(Stage primaryStage) {
         Label itemIdLabel = new Label("Item ID:");
         TextField itemIdField = new TextField();
         itemIdField.setDisable(true);  // need to delete
@@ -234,7 +243,8 @@ public class Inventory extends Application {
         switchToLayout(primaryStage, newItemLayout);
     }
 
-    // generate Item ID with first 3 letters and 3 random digits
+
+     //generate Item ID with first 3 letters and 3 random digits // put in addNewItemController
     private String generateItemId(String itemName) {
         String prefix = itemName.length() >= 3 ? itemName.substring(0, 3).toUpperCase() : itemName.toUpperCase();
         String suffix = String.format("%03d", new Random().nextInt(1000));
@@ -312,11 +322,11 @@ public class Inventory extends Application {
         categoryColumn.setCellValueFactory(cellData -> cellData.getValue().categoryProperty());
 
         TableColumn<InventoryItem, Float> quantityColumn = new TableColumn<>("Total Quantity");
-        quantityColumn.setCellValueFactory(cellData -> cellData.getValue().quantityTotalProperty().asObject());
+        quantityColumn.setCellValueFactory(cellData -> cellData.getValue().quantityProperty().asObject());
 
         TableColumn<InventoryItem, String> stockStatusColumn = new TableColumn<>("Stock Status");
         stockStatusColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(getStockStatus(cellData.getValue().quantityTotalProperty().get())));
+                new SimpleStringProperty(getStockStatus(cellData.getValue().quantityProperty().get())));
 
         // delete feature moved to this table not its own form
         TableColumn<InventoryItem, Void> deleteColumn = new TableColumn<>("Action");
@@ -364,7 +374,7 @@ public class Inventory extends Application {
         switchToLayout(primaryStage, inventoryLayout);
     }
     private String getStockStatus(InventoryItem item) {
-        float quantity = item.quantityTotal.get();
+        float quantity = item.quantity.get();
         if (quantity == 0) {
             return "Out of Stock";
         } else if (quantity < 5) {
@@ -379,7 +389,7 @@ public class Inventory extends Application {
         Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
         confirmationAlert.setTitle("Confirm Deletion");
         confirmationAlert.setHeaderText("Are you sure you want to delete the item?");
-        confirmationAlert.setContentText("Item: " + item.getItemName() + "\nTotal in stock: " + item.quantityTotal.get());
+        confirmationAlert.setContentText("Item: " + item.getItemName() + "\nTotal in stock: " + item.quantity.get());
 
         Optional<ButtonType> result = confirmationAlert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {

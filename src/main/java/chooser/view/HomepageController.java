@@ -204,6 +204,7 @@ public class HomepageController {
             return new SimpleStringProperty(data.getValue().getStockStatus()); // get the stock status
         });
 
+
         actionCol.setCellFactory(column -> new TableCell<InventoryItem, String>() {
                     private final Button deleteButton = new Button("Delete");
                     private final Button editButton = new Button("Edit");
