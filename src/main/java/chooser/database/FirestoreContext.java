@@ -21,6 +21,7 @@ public class FirestoreContext {
         return firestore;
     }
 
+
     public static void initializeFirestore() {
         try {
             FileInputStream serviceAccount = new FileInputStream("key.json");

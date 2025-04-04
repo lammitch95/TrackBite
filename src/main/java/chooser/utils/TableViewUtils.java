@@ -1,6 +1,7 @@
 package chooser.utils;
 
 import chooser.database.FirestoreUtils;
+import chooser.model.MenuItem;
 import chooser.model.User;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
@@ -36,6 +37,17 @@ public class TableViewUtils {
         entireColumnNames.get("Employees").put("dob", "DOB (MM/DD/YYYY)");
         entireColumnNames.get("Employees").put("phoneNum", "Phone Number (XXX-XXX-XXXX)");
         entireColumnNames.get("Employees").put("password", "Password");
+
+
+        entireColumnNames.put("Menu",new HashMap<>());
+        entireColumnNames.get("Menu").put("id", "Menu Item ID");
+        entireColumnNames.get("Menu").put("name", "Name");
+        entireColumnNames.get("Menu").put("description", "Description");
+        entireColumnNames.get("Menu").put("category", "Category");
+        entireColumnNames.get("Menu").put("price", "Price");
+        entireColumnNames.get("Menu").put("uom", "UOM");
+        entireColumnNames.get("Menu").put("itemImage", "Item Image");
+        entireColumnNames.get("Menu").put("ingredientsList", "Ingredients");
     }
 
     public static void setStoreCollectionName(String value){storeCollectionName = value;}
@@ -55,6 +67,9 @@ public class TableViewUtils {
             case "Employees":
                 SceneNavigator.loadView("New User");
                 break;
+            case "Menu":
+                SceneNavigator.loadView("New Menu Item");
+                break;
             default:
                 System.out.println("Collection doesnt exist for ADD NEW operations");
         }
@@ -62,16 +77,20 @@ public class TableViewUtils {
     }
 
     public static void addCollectionToMap(String collectionName, List<?> data){
+
         HashMap<String, Object> newMap = new HashMap<>();
         for (Object obj : data) {
                 String retrieveId = null;
 
                 if (obj instanceof User) {
                     retrieveId = ((User) obj).getUsername();
-                } else {
+                } else if(obj instanceof MenuItem) {
+                    retrieveId = ((MenuItem) obj).getId();
+                }else{
                     System.out.println("Unknown object type: " + obj.getClass().getName());
                     continue;
                 }
+
                 if (retrieveId != null) {
                     newMap.put(retrieveId, obj);
                 }
@@ -100,6 +119,13 @@ public class TableViewUtils {
             }
         }
 
+        if (collectionName.equals("Menu") && clazz == MenuItem.class) {
+            for (QueryDocumentSnapshot document : documents) {
+                MenuItem formatMenuData = FirestoreUtils.createMenuItemFromDocument(document);
+                tableData.add(clazz.cast(formatMenuData));
+            }
+        }
+
         return tableData;
     }
 
@@ -118,13 +144,11 @@ public class TableViewUtils {
             String fieldName = field.getName();
 
             if (!columnNameMap.containsKey(fieldName)) {
-                System.out.println("Skipping column for field: " + fieldName);
+                //System.out.println("Skipping column for field: " + fieldName);
                 continue;
             }
 
             String columnTitle = columnNameMap.get(fieldName);
-
-
 
             if (fieldName.equals(clickableField) && status.equals("DEFAULT")) {
 
@@ -177,5 +201,8 @@ public class TableViewUtils {
 
         ObservableList<T> observableData = FXCollections.observableArrayList(data);
         tableView.setItems(observableData);
+
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
     }
 }
