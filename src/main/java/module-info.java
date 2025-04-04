@@ -12,8 +12,10 @@ module chooser.trackbite {
     requires org.apache.poi.poi;
     requires org.apache.poi.ooxml;
     requires com.gluonhq.charm.glisten;
+    requires google.cloud.storage;
 
     opens chooser to javafx.fxml, javafx.graphics;
+    opens chooser.model to javafx.base;
 
     exports chooser.view;
     opens chooser.view to javafx.fxml;

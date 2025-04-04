@@ -1,12 +1,23 @@
 package chooser.database;
 
+import chooser.model.IngredientItem;
+import chooser.model.MenuItem;
 import chooser.model.User;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.*;
 import com.google.cloud.firestore.WriteResult;
 import com.google.api.core.ApiFuture;
 
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
+import com.google.cloud.storage.Bucket;
+import com.google.cloud.storage.Blob;
+
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -128,6 +139,29 @@ public class FirestoreUtils {
         String role = document.getString("role");
         String password = document.getString("password");
         return new User(userId, username, firstName, lastName, dob, phoneNum, role, password);
+    }
+
+    public static MenuItem createMenuItemFromDocument(DocumentSnapshot document) {
+        String menuItemID = document.getString("id");
+        String name = document.getString("name");
+        String description = document.getString("description");
+        String category = document.getString("category");
+        String price = document.getString("price");
+        String uom = document.getString("uom");
+        String itemImage = document.getString("itemImage");
+        List<Map<String, Object>> ingredientsData = (List<Map<String, Object>>) document.get("ingredientsList");
+
+        List<IngredientItem> ingredientsList = new ArrayList<>();
+        for (Map<String, Object> ingredientMap : ingredientsData) {
+            String ingredientName = (String) ingredientMap.get("name");
+            String ingredientQuantity = (String) ingredientMap.get("quantity");
+            String ingredientUOM = (String) ingredientMap.get("uom");
+            String prepDetails = (String) ingredientMap.get("prepDetails");
+
+            IngredientItem ingredientItem = new IngredientItem(ingredientName, ingredientQuantity, ingredientUOM, prepDetails);
+            ingredientsList.add(ingredientItem);
+        }
+        return new MenuItem(menuItemID, name, description, category, price, uom, itemImage,ingredientsList);
     }
 }
 
