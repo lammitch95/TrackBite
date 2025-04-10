@@ -31,8 +31,8 @@ public class HomepageViewModel {
         ));
 
         navMap.put("Menu", List.of(
-                new NavOptions("Menu", "menuBtn", "newMenuItem.png"),
-                new NavOptions("Menu View", "menuBtn", "newMenuItem.png")
+                new NavOptions("New Menu Item", "newMenuItemBtn", "newMenuItem.png"),
+                new NavOptions("View Menu Items", "viewMenuBtn", "viewMenuItemsIcon.png")
         ));
 
         navMap.put("Supplier", List.of(

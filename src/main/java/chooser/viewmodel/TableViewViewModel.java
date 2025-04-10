@@ -2,6 +2,7 @@ package chooser.viewmodel;
 
 import chooser.database.FirestoreUtils;
 import chooser.model.CurrentPageOptions;
+import chooser.model.MenuItem;
 import chooser.model.User;
 import chooser.utils.ProgressLoadUtils;
 import chooser.utils.SceneNavigator;
@@ -13,6 +14,7 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.scene.control.Menu;
 import javafx.scene.control.TableView;
 
 import java.io.IOException;
@@ -52,11 +54,13 @@ public class TableViewViewModel {
 
     public TableViewViewModel(){
         initialSetRowDisplay = 12;
+        currentTableViewPage.set(1);
         selectedRowID = "";
         collectionName = "";
         entireDataCollection = null;
 
         titleMapping.put("View Accounts","Accounts");
+        titleMapping.put("View Menu Items","Menu");
 
     }
 
@@ -164,6 +168,16 @@ public class TableViewViewModel {
                     }
                     break;
 
+                case "Menu":
+                    if (value instanceof MenuItem selectedMenuItem) {
+                        String menuItemID = selectedMenuItem.getId();
+                        System.out.println("Selected Menu Item ID on selected Row: " + menuItemID);
+                        selectedRowID = menuItemID;
+                    } else {
+                        System.out.println("The selected value is not a Menu Item object.");
+                    }
+                    break;
+
 
                 default:
                     System.out.println("Collection doesnt exist to store row ID");
@@ -266,8 +280,6 @@ public class TableViewViewModel {
 
     public void setUp(){
 
-        System.out.println("INITIALIZED TABLE VIEW SETUP....");
-
         ProgressLoadUtils.showProgressLoad();
 
         Task<Void> task = new Task<>() {
@@ -278,6 +290,9 @@ public class TableViewViewModel {
                 switch(pageOption){
                     case "View Accounts":
                         collectionName = "Employees";
+                        break;
+                    case "View Menu Items":
+                        collectionName = "Menu";
                         break;
 
                     default:
@@ -309,6 +324,8 @@ public class TableViewViewModel {
                                 break;
 
                             case "Menu":
+                                entireDataCollection = TableViewUtils.prepareTableViewData(MenuItem.class, collectionName, snapshot);
+                                storedColumnClickableName = "id";
                                 break;
                             default:
                                 System.out.println("Collection Doesnt Exist. Table View Failed..");

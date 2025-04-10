@@ -27,7 +27,8 @@ public class SceneNavigator {
         pageMappings.put("New User", "NewUserForm.fxml");
         pageMappings.put("View Accounts", "TableView.fxml");
 
-        pageMappings.put("New Menu Item ", "NewMenuItem.fxml");
+        pageMappings.put("New Menu Item","NewMenuItemForm.fxml");
+        pageMappings.put("View Menu Items", "TableView.fxml");
 
         pageMappings.put("Suppliers", "Supplier.fxml");
         pageMappings.put("Supplier View", "SupplierTableView.fxml");
