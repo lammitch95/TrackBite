@@ -26,6 +26,8 @@ import java.net.URL;
 import java.util.List;
 
 public class HomepageController {
+    @FXML
+    private HBox supplierbtn;
 
     @FXML
     private HBox accountsBtn;
@@ -139,7 +141,7 @@ public class HomepageController {
             }
         }
 
-        HBox[] hboxList = new HBox[]{inventoryBtn, menuBtn, accountsBtn, settingBtn, pageOptionOneBtn, pageOptionTwoBtn, darkLightBtn, signOutBtn, changeLanguageBtn};
+        HBox[] hboxList = new HBox[]{inventoryBtn, menuBtn, accountsBtn, settingBtn, pageOptionOneBtn, pageOptionTwoBtn, darkLightBtn, signOutBtn, changeLanguageBtn, supplierbtn};
         for (HBox hbox : hboxList) {
             hbox.getStyleClass().add("hover-effect");
         }
@@ -236,6 +238,12 @@ public class HomepageController {
     void onMenuClick(MouseEvent event) {
         homepageViewModel.setCurrentPage("Menu");
         changeUIPageOptions("Menu");
+    }
+
+    @FXML
+    void onSupplierClick(MouseEvent event) {
+        homepageViewModel.setCurrentPage("Supplier");
+        changeUIPageOptions("Supplier");
     }
 
     @FXML

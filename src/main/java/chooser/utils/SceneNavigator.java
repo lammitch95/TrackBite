@@ -26,6 +26,11 @@ public class SceneNavigator {
     static{
         pageMappings.put("New User", "NewUserForm.fxml");
         pageMappings.put("View Accounts", "TableView.fxml");
+
+        pageMappings.put("New Menu Item ", "NewMenuItem.fxml");
+
+        pageMappings.put("Suppliers", "Supplier.fxml");
+        pageMappings.put("Supplier View", "SupplierTableView.fxml");
     }
 
     public static ObjectProperty<Parent> currentViewProperty() {
