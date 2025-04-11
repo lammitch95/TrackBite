@@ -34,6 +34,14 @@ public class HomepageViewModel {
                 new NavOptions("View Menu Items", "viewMenuBtn", "viewMenuItemsIcon.png")
         ));
 
+        navMap.put("Inventory", List.of(
+                new NavOptions("Add Inventory Item", "addInventory", "newMenuItem.png"),
+                //new NavOptions("Receive Inventory", "receiveInv", "viewMenuItemsIcon.png"),
+               new NavOptions("View Inventory", "viewInv", "viewMenuItemsIcon.png")
+                //new NavOptions("View Past Deliveries", "viewDeliveries", "viewMenuItemsIcon.png"),
+                //new NavOptions("Place Supply Order", "placeSupplyOrder", "viewMenuItemsIcon.png")
+        ));
+
 
     }
 

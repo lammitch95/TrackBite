@@ -204,14 +204,15 @@ public class FirestoreUtils {
         return new MenuItem(menuItemID, name, description, category, price, uom, itemImage,ingredientsList);
     }
 
-    private static InventoryItem createInvItemFromDocument(DocumentSnapshot document) {
+    public static InventoryItem createInvItemFromDocument(DocumentSnapshot document) {
         String itemId = document.getId();
-        String itemName = document.getString("username");
-        String unit = document.getString("password");
-        String category = document.getString("firstName");
-        String quantity = document.getString("lastName");
+        String itemName = document.getString("itemName");
+        String unit = document.getString("unit");
+        String category = document.getString("category");
+        String quantity = document.getString("quantity");
         float pricePerUnit = Float.parseFloat((String) document.getData().get("pricePerUnit"));;
         String supplier = document.getString("supplier");
+
 
         return new InventoryItem(itemId, itemName, unit, category, quantity, pricePerUnit, supplier);
     }

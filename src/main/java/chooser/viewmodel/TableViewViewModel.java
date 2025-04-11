@@ -2,6 +2,7 @@ package chooser.viewmodel;
 
 import chooser.database.FirestoreUtils;
 import chooser.model.CurrentPageOptions;
+import chooser.model.InventoryItem;
 import chooser.model.MenuItem;
 import chooser.model.User;
 import chooser.utils.ProgressLoadUtils;
@@ -61,6 +62,7 @@ public class TableViewViewModel {
 
         titleMapping.put("View Accounts","Accounts");
         titleMapping.put("View Menu Items","Menu");
+        titleMapping.put("View Inventory", "Inventory");
 
     }
 
@@ -175,6 +177,16 @@ public class TableViewViewModel {
                         selectedRowID = menuItemID;
                     } else {
                         System.out.println("The selected value is not a Menu Item object.");
+                    }
+                    break;
+
+                case "Inventory":
+                    if (value instanceof InventoryItem selectedUser) {
+                        String retrieveEmployeeID = selectedUser.getItemId();
+                        System.out.println("Selected Inventory Item ID on selected Row: " + retrieveEmployeeID);
+                        selectedRowID = retrieveEmployeeID;
+                    } else {
+                        System.out.println("The selected value is not a Inv object.");
                     }
                     break;
 
@@ -295,6 +307,10 @@ public class TableViewViewModel {
                         collectionName = "Menu";
                         break;
 
+                    case "View Inventory":
+                        collectionName = "Inventory";
+                        break;
+
                     default:
                         System.out.println("Collection Name doesnt exist for Table View");
                 }
@@ -321,6 +337,8 @@ public class TableViewViewModel {
                                 break;
 
                             case "Inventory":
+                                entireDataCollection = TableViewUtils.prepareTableViewData(InventoryItem.class, collectionName, snapshot);
+                                storedColumnClickableName = "itemId";
                                 break;
 
                             case "Menu":

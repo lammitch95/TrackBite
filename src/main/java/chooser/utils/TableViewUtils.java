@@ -1,6 +1,7 @@
 package chooser.utils;
 
 import chooser.database.FirestoreUtils;
+import chooser.model.InventoryItem;
 import chooser.model.MenuItem;
 import chooser.model.User;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
@@ -48,6 +49,17 @@ public class TableViewUtils {
         entireColumnNames.get("Menu").put("uom", "UOM");
         entireColumnNames.get("Menu").put("itemImage", "Item Image");
         entireColumnNames.get("Menu").put("ingredientsList", "Ingredients");
+
+
+        entireColumnNames.put("Inventory",new HashMap<>());
+        entireColumnNames.get("Inventory").put("itemId", "Item ID");
+        entireColumnNames.get("Inventory").put("itemName", "Item Name");
+        entireColumnNames.get("Inventory").put("unit", "Unit");
+        entireColumnNames.get("Inventory").put("category", "Category");
+        entireColumnNames.get("Inventory").put("quantity", "Quantity");
+        entireColumnNames.get("Inventory").put("pricePerUnit", "Price per Unit");
+        entireColumnNames.get("Inventory").put("supplier", "Supplier");
+
     }
 
     public static void setStoreCollectionName(String value){storeCollectionName = value;}
@@ -70,6 +82,9 @@ public class TableViewUtils {
             case "Menu":
                 SceneNavigator.loadView("New Menu Item");
                 break;
+            case "Inventory":
+                SceneNavigator.loadView("Add Inventory Item");
+                break;
             default:
                 System.out.println("Collection doesnt exist for ADD NEW operations");
         }
@@ -86,6 +101,8 @@ public class TableViewUtils {
                     retrieveId = ((User) obj).getUsername();
                 } else if(obj instanceof MenuItem) {
                     retrieveId = ((MenuItem) obj).getId();
+                } else if(obj instanceof InventoryItem) {
+                        retrieveId = ((InventoryItem) obj).getItemId();
                 }else{
                     System.out.println("Unknown object type: " + obj.getClass().getName());
                     continue;
@@ -123,6 +140,12 @@ public class TableViewUtils {
             for (QueryDocumentSnapshot document : documents) {
                 MenuItem formatMenuData = FirestoreUtils.createMenuItemFromDocument(document);
                 tableData.add(clazz.cast(formatMenuData));
+            }
+        }
+        if (collectionName.equals("Inventory") && clazz == InventoryItem.class) {
+            for (QueryDocumentSnapshot document : documents) {
+                InventoryItem formatUserData = FirestoreUtils.createInvItemFromDocument(document);
+                tableData.add(clazz.cast(formatUserData));
             }
         }
 
