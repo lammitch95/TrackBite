@@ -6,6 +6,7 @@ import chooser.model.NavOptions;
 import chooser.model.SessionManager;
 import chooser.model.User;
 import chooser.utils.SceneNavigator;
+import chooser.utils.SystemMessageUtils;
 import chooser.viewmodel.HomepageViewModel;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import javafx.beans.property.SimpleStringProperty;
@@ -94,40 +95,10 @@ public class HomepageController {
     private HBox signOutBtn;
 
     @FXML
-    private Button EnterNewItemButton;
+    private VBox systemMessageBox;
 
     @FXML
-    private Button EnterDeliveryButton;
-
-    @FXML
-    private TableColumn<InventoryItem, String> itemIdCol;
-
-    @FXML
-    private TableColumn<InventoryItem, String> itemNameCol;
-
-    @FXML
-    private TableColumn<InventoryItem, String> unitCol;
-
-    @FXML
-    private TableColumn<InventoryItem, String> categoryCol;
-
-    @FXML
-    private TableColumn<InventoryItem, String> quantityCol;
-
-    @FXML
-    private TableColumn<InventoryItem, String> stockCol;
-
-    @FXML
-    private TableColumn<InventoryItem, String> actionCol;
-
-    @FXML
-    private TableColumn<InventoryItem, String> supplierCol;
-
-    @FXML
-    private TableView itemTable;
-
-
-
+    private Label systemMessageLbl;
 
     private HomepageViewModel homepageViewModel;
     private HBox[] pageOptionBtnList;
@@ -135,7 +106,10 @@ public class HomepageController {
     @FXML
     private void initialize() {
 
-        pageOptionBtnList = new HBox[]{pageOptionOneBtn, pageOptionTwoBtn};
+        SystemMessageUtils.setSystemMessageBox(systemMessageBox);
+        SystemMessageUtils.setSysteMessageLabel(systemMessageLbl);
+
+        pageOptionBtnList = new HBox[]{pageOptionOneBtn,pageOptionTwoBtn};
 
         homepageViewModel = new HomepageViewModel();
 
@@ -151,14 +125,20 @@ public class HomepageController {
 
 
         User currLoggedUser = SessionManager.getLoggedInUser();
-        if (currLoggedUser != null) {
-            currUserNameLabel.setText(currLoggedUser.getFirstName() != null ? currLoggedUser.getFirstName() : currLoggedUser.getUsername());
+        if(currLoggedUser != null){
+
+            String displayName = currLoggedUser.getFirstName() != null ? currLoggedUser.getFirstName() : currLoggedUser.getUsername();
+            currUserNameLabel.setText(displayName);
             currUserTitleLabel.setText(currLoggedUser.getRole() != null ? currLoggedUser.getRole() : "Role Not Available");
 
-            if (currLoggedUser.getRole().equals("Admin")) {
+            SystemMessageUtils.setCurrSystemText("Welcome to TrackBite "+displayName+"!");
+            SystemMessageUtils.setCurrPropertyColor("SUCCESS");
+            SystemMessageUtils.messageAnimation();
+
+            if(currLoggedUser.getRole().equals("Admin")){
                 accountsBtn.setDisable(false);
                 accountsBtn.setVisible(true);
-            } else {
+            }else{
                 accountsBtn.setDisable(true);
                 accountsBtn.setVisible(false);
             }
@@ -172,7 +152,7 @@ public class HomepageController {
         homepageViewModel.setCurrentPage("Inventory");
         changeUIPageOptions("Inventory");
 
-        homepageViewModel.currentViewProperty().addListener((obs, oldView, newView) -> {
+        SceneNavigator.currentViewProperty().addListener((obs, oldView, newView) -> {
             if (oldView != null) {
                 mainContentPane.getChildren().remove(oldView);
             }
@@ -190,7 +170,7 @@ public class HomepageController {
             pageOption.setOnMouseClicked(event -> {
                 if (label != null) {
                     String buttonText = label.getText();
-                    homepageViewModel.loadView(buttonText);
+                    SceneNavigator.loadView(buttonText);
                 }
             });
         }
@@ -306,8 +286,8 @@ public class HomepageController {
         pageMenuHeader.setVisible(true);
         pageMenuHeader.setDisable(false);
 
-        homepageViewModel.removePreviousView();
-        System.out.println("Page Options Current: " + pageOptionBtnList.length);
+        SceneNavigator.removePreviousView();
+        System.out.println("Page Options Current: "+pageOptionBtnList.length);
 
         for (int i = 0; i < pageOptionBtnList.length; i++) {
             HBox pageOption = pageOptionBtnList[i];

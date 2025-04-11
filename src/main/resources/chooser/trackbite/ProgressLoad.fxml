@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.ProgressIndicator?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="progressMain" alignment="CENTER" prefHeight="338.0" prefWidth="569.0" spacing="10.0" style="-fx-background-color: rgba(0, 0, 0, 0.50);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.ProgressLoadController">
+   <children>
+      <ProgressIndicator fx:id="progressCircle" radius="30.0" style="-fx-background-color: transparent;" />
+      <Label fx:id="progressLbl" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="66.0" prefWidth="326.0" style="-fx-text-fill: #2fb3ff;" text="Page is loading. . ." textAlignment="CENTER" textFill="#2fb3ff" wrapText="true">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+   </children>
+</VBox>

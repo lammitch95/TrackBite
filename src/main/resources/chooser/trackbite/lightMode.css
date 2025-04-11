@@ -1,4 +1,43 @@
-/**button or hbox hover effects***/
+/********Menu Item form CSS******************/
+#IngredientAddBtn{
+    -fx-background-color: #008ae8;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+#ingredientClearBtn{
+    -fx-background-color: #e00404;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+
+
+
+/*******hbox/button hover for tablview buttons*****/
+.tableview-hover-effect:hover{
+    -fx-background-color: #d9d9d9;
+}
+
+.tableview-hover-effect{
+    -fx-background-color: transparent;
+}
+
+/****other tableview css adjustments*******/
+.table-view{
+    -fx-selection-bar: #d7e7f5;
+}
+
+.table-view .scroll-bar {
+    visibility: hidden;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+}
+
+
+
+
+/**button or hbox hover effects homepage***/
 .hover-effect:hover{
     -fx-background-color: #008ae8;
 }
@@ -7,15 +46,14 @@
     -fx-background-color: #0279cb;
 }
 
-/**textfields valid or invalid effect**/
-.text-field {
+/**textfields/combox valid or invalid effect**/
+.text-field, .combo-box {
     -fx-border-color: transparent;
     -fx-border-width: 1px;
     -fx-text-fill: black;
 }
 
-
-.text-field.valid {
+.text-field.valid, .combo-box.valid {
     -fx-border-color: #07d600;
     -fx-text-fill: #07d600;
 }
