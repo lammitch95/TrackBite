@@ -121,6 +121,9 @@ public class HomepageController {
     private TableColumn<InventoryItem, String> actionCol;
 
     @FXML
+    private TableColumn<InventoryItem, String> supplierCol;
+
+    @FXML
     private TableView itemTable;
 
 
@@ -201,8 +204,10 @@ public class HomepageController {
         quantityCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().quantityProperty()));
 
         stockCol.setCellValueFactory(data -> {
-            return new SimpleStringProperty(data.getValue().getStockStatus()); // get the stock status
+                    return new SimpleStringProperty(data.getValue().getStockStatus());// get the stock status
+
         });
+        supplierCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSupplier()));
 
 
         actionCol.setCellFactory(column -> new TableCell<InventoryItem, String>() {

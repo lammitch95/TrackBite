@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -26,7 +27,7 @@ public class addDeliveryController {
     private Button backToMainSelected;
 
     @FXML
-    private TextField itemID;
+    private ComboBox<String>  itemID;
 
     @FXML
     private TextField itemName;
@@ -43,10 +44,14 @@ public class addDeliveryController {
     @FXML
     private DatePicker expirationDate;
 
+    @FXML
+    private TextField deliverySupplier;
+
     private InventoryItem selectedItem;
 
+    private Map<String, InventoryItem> itemMap = new HashMap<>();
 
-    @FXML
+   /* @FXML
     void itemIdEntered() {
         String itemId = itemID.getText().trim();
         System.out.println("itemId: " + itemId);
@@ -62,7 +67,7 @@ public class addDeliveryController {
                 showAlert("Item Not Found", "No item found with this ID.");
             }
         }
-    }
+    }*/
 
 
     @FXML
@@ -105,11 +110,11 @@ public class addDeliveryController {
 
     @FXML
     void addDeliverySelected(ActionEvent event) {
-        itemIdEntered();
+        //itemIdEntered();
         System.out.println("Add Delivery button clicked");
         if (selectedItem != null) {
             try {
-                String itemId = itemID.getText().trim();
+                String itemId = itemID.getValue();
                 String itemNameValue = itemName.getText().trim();
                 float quantityValue = Float.parseFloat(quantity.getText().trim());
                 LocalDate deliveryDateValue = deliveryDate.getValue();
@@ -123,7 +128,13 @@ public class addDeliveryController {
                 FirestoreUtils.writeDoc("inventoryDeliveries", itemId, newDeliveryToMap(newDelivery));
                 System.out.println("Write operation completed");
 
-                updateInventoryQuantity(selectedItem.getItemId(), quantityValue);
+                updateInventoryQuantityAndSupplier(itemId, quantityValue, deliverySupplier.getText());
+                Map<String, Object> itemData = FirestoreUtils.readDoc("Inventory", selectedItem.getItemId());
+                if (itemData != null) {
+                    itemData.put("supplier", deliverySupplier.getText());  // set the new supplier value
+                    FirestoreUtils.writeDoc("Inventory", selectedItem.getItemId(), itemData);
+                    System.out.println("Supplier updated in Inventory: " + deliverySupplier.getText());
+                }
 
 
                 showAlert("Delivery Added", "The delivery has been successfully added.");
@@ -155,20 +166,34 @@ public class addDeliveryController {
         }
     }
 
+    @FXML
+    private void onItemIdSelected() {
+        String selectedId = itemID.getValue();
+        selectedItem = itemMap.get(selectedId);
+
+        if (selectedItem != null) {
+            itemName.setText(selectedItem.getItemName());
+            pricePerUnit.setText(String.valueOf(selectedItem.getPricePerUnit()));
+            deliverySupplier.setText(selectedItem.getSupplier());
+        } else {
+            showAlert("Error", "Item not found.");
+        }
+    }
 
 
 
-    private void updateInventoryQuantity(String itemId, float quantityAdded) {
+
+    private void updateInventoryQuantityAndSupplier(String itemId, float quantityAdded, String newSupplier) {
         Map<String, Object> itemData = FirestoreUtils.readDoc("Inventory", itemId);
         if (itemData != null) {
-            float currentQuantity = getFloatForValue((itemData.get("quantity")));
-
-            float newQuantity = (currentQuantity + quantityAdded);
+            float currentQuantity = getFloatForValue(itemData.get("quantity"));
+            float newQuantity = currentQuantity + quantityAdded;
 
             itemData.put("quantity", newQuantity);
+            itemData.put("supplier", newSupplier);  // ✅ new line
 
             FirestoreUtils.writeDoc("Inventory", itemId, itemData);
-            System.out.println("Current qty: " + currentQuantity + ", Adding: " + quantityAdded + ", New total: " + newQuantity);
+            System.out.println("Updated quantity to " + newQuantity + " and supplier to " + newSupplier);
         }
     }
 
@@ -179,7 +204,8 @@ public class addDeliveryController {
                 "quantity", Float.parseFloat(String.valueOf(delivery.getQuantity())),
                 "deliveryDate", delivery.getDeliveryDate().toString(),
                 "expirationDate", delivery.getExpDate().toString(),
-                "pricePerUnit", Float.parseFloat(String.valueOf(delivery.getPricePerUnit()))
+                "pricePerUnit", Float.parseFloat(String.valueOf(delivery.getPricePerUnit())),
+                "supplier", deliverySupplier.getText()
         );
     }
 
@@ -199,8 +225,9 @@ public class addDeliveryController {
         String category = (String) itemData.get("category");
         String quantity = getStringForValue(itemData.get("quantity"));
         float pricePerUnit = getFloatForValue(itemData.get("pricePerUnit"));
+        String supplier = (String) itemData.get("supplier");
 
-        return new InventoryItem(itemId, itemName, unit, category, quantity, pricePerUnit);
+        return new InventoryItem(itemId, itemName, unit, category, quantity, pricePerUnit, supplier);
     }
 //Im changing this
 private String getStringForValue(Object value) {
@@ -218,6 +245,17 @@ private String getStringForValue(Object value) {
         if (value instanceof String) return Float.parseFloat((String) value);
 
         return Float.parseFloat(String.valueOf(value)); // fallback for safety
+    }
+
+
+    @FXML
+    private void initialize() {
+        List<InventoryItem> items = FirestoreUtils.readCollection("Inventory");
+
+        for (InventoryItem item : items) {
+            itemID.getItems().add(item.getItemId());
+            itemMap.put(item.getItemId(), item);
+        }
     }
 
 

@@ -199,6 +199,7 @@
                               <TableColumn fx:id="quantityCol" prefWidth="113.0" text="Total Quantity" />
                               <TableColumn fx:id="stockCol" prefWidth="91.0" text="Stock Status" />
                               <TableColumn fx:id="actionCol" prefWidth="79.0" text="Action" />
+                              <TableColumn fx:id="supplierCol" prefWidth="79.0" text="Supplier" />
                           </columns>
                         </TableView>
                          </children>

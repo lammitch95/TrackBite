@@ -70,7 +70,7 @@ public class FirestoreUtils {
                 long testElse = (long)0;
                 String testOptionalFix = Optional.ofNullable(String.valueOf(test1DocValue )).orElse("0");
                 float testFinal = Float.parseFloat(testOptionalFix);
-                inventoryItems.add(new InventoryItem((String) document.getData().get("InventoryItemID"), document.getString("itemName"), document.getString("unit"), document.getString("category"), (String.valueOf(document.getData().get("quantity"))), testFinal));
+                inventoryItems.add(new InventoryItem((String) document.getData().get("InventoryItemID"), document.getString("itemName"), document.getString("unit"), document.getString("category"), (String.valueOf(document.getData().get("quantity"))), testFinal,document.getString("supplier")));
                 System.out.println(document.getString("InventoryItemID"));
                 System.out.println(document.getData());
                 System.out.println(document.getData().get("InventoryItemID"));
@@ -143,8 +143,9 @@ public class FirestoreUtils {
         String category = document.getString("firstName");
         String quantity = document.getString("lastName");
         float pricePerUnit = Float.parseFloat((String) document.getData().get("pricePerUnit"));;
+        String supplier = document.getString("supplier");
 
-        return new InventoryItem(itemId, itemName, unit, category, quantity, pricePerUnit);
+        return new InventoryItem(itemId, itemName, unit, category, quantity, pricePerUnit, supplier);
     }
 }
 

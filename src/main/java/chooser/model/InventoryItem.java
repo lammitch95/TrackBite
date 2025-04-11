@@ -7,9 +7,10 @@ public class InventoryItem {
     private final String category;
     private final String quantity;
     private final float pricePerUnit;
+    private final String supplier;
 
     //constructor for invItem class
-    public InventoryItem(String itemId, String ItemName, String unit, String category, String quantity, float pricePerUnit) {
+    public InventoryItem(String itemId, String ItemName, String unit, String category, String quantity, float pricePerUnit, String supplier) {
 
         this.itemId = itemId;  // itemId = String, letters and 3 random digits
         this.itemName = ItemName;
@@ -18,6 +19,7 @@ public class InventoryItem {
         this.quantity = quantity;
         // initialize quantity to 0
         this.pricePerUnit = pricePerUnit;
+        this.supplier = supplier;
     }
 
     // getter methods
@@ -41,6 +43,12 @@ public class InventoryItem {
         return quantity;
     }
 
+    public String supplierProperty() { return supplier; }
+
+
+    public String getSupplier() {
+        return supplier;
+    }
 
     public String getItemName() {
         return itemName;

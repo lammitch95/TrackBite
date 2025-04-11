@@ -31,6 +31,9 @@ public class editItemFormController {
     @FXML
     private TextField Quantity;
 
+    @FXML
+    private TextField editSupplier;
+
     private InventoryItem itemToEdit;
 
     public void setItemToEdit(InventoryItem item) {
@@ -61,6 +64,7 @@ public class editItemFormController {
                 CategoryDropDown.setValue(itemToEdit.getCategory());
                 PricePerUnit.setText(String.valueOf(itemToEdit.getPricePerUnit()));
                 Quantity.setText(itemToEdit.getQuantity());
+                editSupplier.setText(itemToEdit.getSupplier());
             } else {
                 showAlert("Error", "Item not found in inventory.");
             }
@@ -78,7 +82,8 @@ public class editItemFormController {
                     UnitDropDown.getValue(),
                     CategoryDropDown.getValue(),
                     Quantity.getText(),
-                    Float.parseFloat(PricePerUnit.getText())
+                    Float.parseFloat(PricePerUnit.getText()),
+                    editSupplier.getText()
             );
 
             Map<String, Object> itemData = new HashMap<>();
@@ -88,6 +93,7 @@ public class editItemFormController {
             itemData.put("category", itemToEdit.getCategory());
             itemData.put("quantity", Float.parseFloat(itemToEdit.getQuantity()));
             itemData.put("pricePerUnit", itemToEdit.getPricePerUnit());
+            itemData.put("supplier", itemToEdit.getSupplier());
 
             System.out.println("Updating Firestore with data: " + itemData);
             FirestoreUtils.writeDoc("Inventory", existingItemId, itemData);
@@ -123,7 +129,8 @@ public class editItemFormController {
                 (String) itemData.get("unit"),
                 (String) itemData.get("category"),
                 getStringForValue(itemData.get("quantity")),
-                getFloatForValue(itemData.get("pricePerUnit"))
+                getFloatForValue(itemData.get("pricePerUnit")),
+                (String) itemData.get("supplier")
         );
     }
 
