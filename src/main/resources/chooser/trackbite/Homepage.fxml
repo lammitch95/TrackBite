@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.layout.Region?>
 <AnchorPane fx:id="rootPane" prefHeight="632.0" prefWidth="1114.0" stylesheets="@lightMode.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.HomepageController">
   <children>
     <BorderPane fx:id="mainLayout" prefHeight="706.0" prefWidth="929.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -143,8 +144,10 @@
                                                          <Font size="24.0" />
                                                      </font>
                                                  </Label>
-                                          <Button fx:id="EnterDeliveryButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#EnterDeliveryPressed" text="Enter a Delivery" />
-                                          <Button fx:id="EnterNewItemButton" mnemonicParsing="false" onAction="#EnterNewItemPressed" text="Enter New Item" />
+                                           <HBox alignment="CENTER_RIGHT" spacing="10" AnchorPane.topAnchor="10.0" AnchorPane.rightAnchor="40.0">
+                                               <Button fx:id="EnterNewItemButton" mnemonicParsing="false" text="Enter New Item" onAction="#EnterNewItemPressed"/>
+                                               <Button fx:id="EnterDeliveryButton" mnemonicParsing="false" text="Enter a Delivery" onAction="#EnterDeliveryPressed"/>
+                                           </HBox>
                                        </children>
                                     </HBox>
                                            <Pane prefHeight="2.0" style="-fx-background-color: gray;" />
@@ -198,7 +201,7 @@
                               <TableColumn fx:id="categoryCol" prefWidth="75.0" text="Category" />
                               <TableColumn fx:id="quantityCol" prefWidth="113.0" text="Total Quantity" />
                               <TableColumn fx:id="stockCol" prefWidth="91.0" text="Stock Status" />
-                              <TableColumn fx:id="actionCol" prefWidth="79.0" text="Action" />
+                              <TableColumn fx:id="actionCol" prefWidth="160" text="Action"  />
                               <TableColumn fx:id="supplierCol" prefWidth="79.0" text="Supplier" />
                           </columns>
                         </TableView>

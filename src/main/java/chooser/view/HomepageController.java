@@ -209,10 +209,31 @@ public class HomepageController {
         });
         supplierCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSupplier()));
 
+        stockCol.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(String status, boolean empty) {
+                super.updateItem(status, empty);
+
+                if (empty || status == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(status);
+                    switch (status) {
+                        case "Out of Stock" -> setStyle("-fx-text-fill: red;");
+                        case "Low Stock" -> setStyle("-fx-text-fill: orange;");
+                        default -> setStyle("-fx-text-fill: black;");
+                    }
+                }
+            }
+        });
+
 
         actionCol.setCellFactory(column -> new TableCell<InventoryItem, String>() {
+
                     private final Button deleteButton = new Button("Delete");
                     private final Button editButton = new Button("Edit");
+
 
             {
 
