@@ -427,6 +427,11 @@ public class HomepageController {
 
     }
 
+    @FXML
+    private void viewPastDeliveriesPressed(ActionEvent event) {
+        SceneNavigator.switchScene("ViewDeliveriesPage", "TrackBite/ViewDeliveriesPage", -1, -1, true);
+    }
+
     private void refreshTable() {
         List<InventoryItem> updatedDocuments = FirestoreUtils.readCollection("Inventory");
         itemTable.setItems(FXCollections.observableList(updatedDocuments));

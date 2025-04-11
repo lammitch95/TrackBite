@@ -122,7 +122,7 @@ public class addDeliveryController {
                 float pricePerUnitValue = Float.parseFloat(pricePerUnit.getText().trim());
 
                 InventoryDelivery newDelivery = new InventoryDelivery(
-                        itemId, itemNameValue, quantityValue, deliveryDateValue, expirationDateValue, pricePerUnitValue
+                        itemId, itemNameValue, quantityValue, deliveryDateValue, expirationDateValue, pricePerUnitValue, deliverySupplier.getText()
                 );
                 System.out.println("Writing to Firestore: " + itemId);
                 FirestoreUtils.writeDoc("inventoryDeliveries", itemId, newDeliveryToMap(newDelivery));

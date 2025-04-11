@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.Button?>
+<AnchorPane fx:controller="chooser.view.ViewDeliveriesController"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            prefHeight="600" prefWidth="800">
+    <children>
+        <TableView fx:id="deliveriesTable" prefWidth="780" layoutX="10" layoutY="10">
+            <columns>
+                <TableColumn fx:id="supplierCol" text="Supplier" />
+                <TableColumn fx:id="deliveryDateCol" text="Delivery Date" />
+                <TableColumn fx:id="itemIdCol" text="Item ID" />
+                <TableColumn fx:id="itemNameCol" text="Item Name" />
+                <TableColumn fx:id="quantityCol" text="Quantity" />
+                <TableColumn fx:id="pricePerUnitCol" text="Price/Unit" />
+                <TableColumn fx:id="totalPriceCol" text="Total Price" />
+                <TableColumn fx:id="expirationDateCol" text="Expiration Date" />
+            </columns>
+        </TableView>
+        <Button fx:id="backButton"
+                text="Back to Main Menu"
+                onAction="#backToMainSelected"
+                layoutX="650.0"
+                layoutY="560.0"
+                prefWidth="140.0"/>
+    </children>
+</AnchorPane>

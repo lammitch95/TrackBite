@@ -1,5 +1,6 @@
 package chooser.database;
 
+import chooser.model.InventoryDelivery;
 import chooser.model.InventoryItem;
 import chooser.model.User;
 import com.google.cloud.firestore.DocumentReference;
@@ -8,6 +9,7 @@ import com.google.cloud.firestore.WriteResult;
 import com.google.api.core.ApiFuture;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -147,6 +149,31 @@ public class FirestoreUtils {
 
         return new InventoryItem(itemId, itemName, unit, category, quantity, pricePerUnit, supplier);
     }
+
+    public static List<InventoryDelivery> readDeliveriesCollection() {
+        List<InventoryDelivery> deliveries = new ArrayList<>();
+        try {
+            Firestore db = FirestoreContext.getFirestore();
+            List<QueryDocumentSnapshot> docs = db.collection("inventoryDeliveries").get().get().getDocuments();
+
+            for (QueryDocumentSnapshot doc : docs) {
+                InventoryDelivery d = new InventoryDelivery(
+                        doc.getString("itemId"),
+                        doc.getString("itemName"),
+                        Float.parseFloat(String.valueOf(doc.get("quantity"))),
+                        LocalDate.parse(doc.getString("deliveryDate")),
+                        LocalDate.parse(doc.getString("expirationDate")),
+                        Float.parseFloat(String.valueOf(doc.get("pricePerUnit"))),
+                        doc.getString("supplier")
+                );
+                deliveries.add(d);
+            }
+        } catch (Exception e) {
+            System.err.println("Error reading deliveries: " + e.getMessage());
+        }
+        return deliveries;
+    }
+
 }
 
 
