@@ -54,7 +54,7 @@ public class SupplierViewModel {
         try {
             FirestoreUtils.writeDoc("Suppliers", supplierId.get(), supplierData);
             System.out.println("Supplier data successfully written to Firestore");
-            clearInputs();
+            clearFields(); // Updated to call clearFields()
             return true;
         } catch (Exception e) {
             System.out.println("Error writing to Firestore: " + e.getMessage());
@@ -62,7 +62,7 @@ public class SupplierViewModel {
         }
     }
 
-    public void clearInputs() {
+    public void clearFields() { // Renamed from clearInputs()
         supplierName.set("");
         personFirstName.set("");
         personLastName.set("");
@@ -73,5 +73,18 @@ public class SupplierViewModel {
         warehouseAddress.set("");
         deliveryArea.set("");
         supplierId.set(generateSupplierId());
+    }
+
+    public boolean deleteSupplier() {
+        System.out.println("deleteSupplier called");
+        try {
+            FirestoreUtils.deleteDoc("Suppliers", supplierId.get());
+            System.out.println("Supplier successfully deleted from Firestore");
+            clearFields(); // Clear fields after deletion
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error deleting from Firestore: " + e.getMessage());
+            return false;
+        }
     }
 }
