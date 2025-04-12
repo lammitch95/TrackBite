@@ -18,16 +18,12 @@ import com.google.cloud.storage.Blob;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 public class FirestoreUtils {
@@ -210,7 +206,7 @@ public class FirestoreUtils {
         String unit = document.getString("unit");
         String category = document.getString("category");
         String quantity = document.getString("quantity");
-        float pricePerUnit = Float.parseFloat((String) document.getData().get("pricePerUnit"));;
+        float pricePerUnit = Float.parseFloat(Objects.requireNonNull(document.getString("pricePerUnit")));
         String supplier = document.getString("supplier");
 
 

@@ -326,8 +326,9 @@ public class TableViewViewModel {
 
                     rightArrowVisible.set(true);
                     rightArrowBtnDisable.set(false);
-
+                    System.out.println("Quick Checking Collection name: "+collectionName);
                     QuerySnapshot snapshot = FirestoreUtils.getAllDocuments(collectionName);
+                    System.out.println("Quick Checking snapshot: "+snapshot);
                     if (snapshot != null) {
 
                         switch (collectionName){
@@ -348,6 +349,9 @@ public class TableViewViewModel {
                             default:
                                 System.out.println("Collection Doesnt Exist. Table View Failed..");
                         }
+
+
+                        System.out.println("Checking collection Name: "+ collectionName + " Also Size of entire Data Collection: "+entireDataCollection.size());
 
                     }
                 }

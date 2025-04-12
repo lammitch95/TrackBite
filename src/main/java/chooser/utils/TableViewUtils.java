@@ -102,7 +102,7 @@ public class TableViewUtils {
                 } else if(obj instanceof MenuItem) {
                     retrieveId = ((MenuItem) obj).getId();
                 } else if(obj instanceof InventoryItem) {
-                        retrieveId = ((InventoryItem) obj).getItemId();
+                    retrieveId = ((InventoryItem) obj).getItemId();
                 }else{
                     System.out.println("Unknown object type: " + obj.getClass().getName());
                     continue;
@@ -113,6 +113,7 @@ public class TableViewUtils {
                 }
         }
         entireDatabaseCollection.put(collectionName, newMap);
+        System.out.println("Checking Size of entireDatabaseCollection in addCollectionToMap method: "+ entireDatabaseCollection.size());
     }
 
     public static Object retrieveDocumentData(String collectionName, String documentID){
@@ -126,6 +127,8 @@ public class TableViewUtils {
 
 
     public static <T> List<T> prepareTableViewData(Class<T> clazz, String collectionName, QuerySnapshot snapshot) {
+
+        System.out.println("prepareTableViewData is called ");
         List<QueryDocumentSnapshot> documents = snapshot.getDocuments();
         List<T> tableData = new ArrayList<>();
 
@@ -148,6 +151,8 @@ public class TableViewUtils {
                 tableData.add(clazz.cast(formatUserData));
             }
         }
+
+        System.out.println("TableData Size check: "+tableData.size());
 
         return tableData;
     }

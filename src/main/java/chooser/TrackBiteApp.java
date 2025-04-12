@@ -25,3 +25,4 @@ public class TrackBiteApp extends Application {
         launch();
     }
 }
+

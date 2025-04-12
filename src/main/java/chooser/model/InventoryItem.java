@@ -17,7 +17,6 @@ public class InventoryItem {
         this.unit = unit;
         this.category = category;
         this.quantity = quantity;
-        // initialize quantity to 0
         this.pricePerUnit = pricePerUnit;
         this.supplier = supplier;
     }
