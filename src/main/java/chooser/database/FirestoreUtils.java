@@ -31,8 +31,7 @@ public class FirestoreUtils {
     private static HashMap<String, HashMap<String, Map<String, Object>>> collectionMap = new HashMap<>();
 
 
-
-    public static void writeDoc(String collectionName, String documentId, Map<String, Object> data){
+    public static void writeDoc(String collectionName, String documentId, Map<String, Object> data) {
         try {
 
             Firestore db = FirestoreContext.getFirestore();
@@ -71,7 +70,7 @@ public class FirestoreUtils {
         }
     }
 
-    public static  List<InventoryItem>  readCollection(String collectionName) {
+    public static List<InventoryItem> readCollection(String collectionName) {
         try {
             Firestore db = FirestoreContext.getFirestore();
 
@@ -80,17 +79,16 @@ public class FirestoreUtils {
 
             List<InventoryItem> inventoryItems = new ArrayList<>();
 
-            for (QueryDocumentSnapshot document: documents) {
+            for (QueryDocumentSnapshot document : documents) {
                 System.out.println(document.getData());
                 Object test1DocValue = document.getData().get("quantity");
-                long testElse = (long)0;
-                String testOptionalFix = Optional.ofNullable(String.valueOf(test1DocValue )).orElse("0");
+                long testElse = (long) 0;
+                String testOptionalFix = Optional.ofNullable(String.valueOf(test1DocValue)).orElse("0");
                 float testFinal = Float.parseFloat(testOptionalFix);
-                inventoryItems.add(new InventoryItem((String) document.getData().get("InventoryItemID"), document.getString("itemName"), document.getString("unit"), document.getString("category"), (String.valueOf(document.getData().get("quantity"))), testFinal,document.getString("supplier")));
+                inventoryItems.add(new InventoryItem((String) document.getData().get("InventoryItemID"), document.getString("itemName"), document.getString("unit"), document.getString("category"), (String.valueOf(document.getData().get("quantity"))), testFinal, document.getString("supplier")));
                 System.out.println(document.getString("InventoryItemID"));
                 System.out.println(document.getData());
                 System.out.println(document.getData().get("InventoryItemID"));
-
 
 
             }
@@ -146,7 +144,7 @@ public class FirestoreUtils {
     }
 
 
-    public static User authenticateUser(String username, String password){
+    public static User authenticateUser(String username, String password) {
         try {
             Query query = FirestoreContext.getFirestore().collection("Employees")
                     .whereEqualTo("username", username)
@@ -197,18 +195,35 @@ public class FirestoreUtils {
             IngredientItem ingredientItem = new IngredientItem(ingredientName, ingredientQuantity, ingredientUOM, prepDetails);
             ingredientsList.add(ingredientItem);
         }
-        return new MenuItem(menuItemID, name, description, category, price, uom, itemImage,ingredientsList);
+        return new MenuItem(menuItemID, name, description, category, price, uom, itemImage, ingredientsList);
     }
 
     public static InventoryItem createInvItemFromDocument(DocumentSnapshot document) {
-        String itemId = document.getId();
+
+        String itemId = document.contains("InventoryItemID")
+                ? document.getString("InventoryItemID")
+                : document.getId();  // Use doc ID as fallback
+
         String itemName = document.getString("itemName");
         String unit = document.getString("unit");
         String category = document.getString("category");
-        String quantity = document.getString("quantity");
-        float pricePerUnit = Float.parseFloat(Objects.requireNonNull(document.getString("pricePerUnit")));
-        String supplier = document.getString("supplier");
+        String quantity = document.get("quantity") != null
+                ? String.valueOf(document.get("quantity"))
+                : "0";
 
+        float pricePerUnit;
+        try {
+            pricePerUnit = document.get("pricePerUnit") != null
+                    ? Float.parseFloat(String.valueOf(document.get("pricePerUnit")))
+                    : 0f;
+        } catch (Exception e) {
+            pricePerUnit = 0f;
+        }
+
+        // ✅ Supplier fallback for missing field
+        String supplier = document.contains("supplier") && document.getString("supplier") != null
+                ? document.getString("supplier")
+                : "N/A";
 
         return new InventoryItem(itemId, itemName, unit, category, quantity, pricePerUnit, supplier);
     }
@@ -236,8 +251,9 @@ public class FirestoreUtils {
         }
         return deliveries;
     }
-
 }
+
+
 
 
 

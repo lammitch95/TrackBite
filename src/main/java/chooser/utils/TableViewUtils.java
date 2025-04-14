@@ -59,6 +59,8 @@ public class TableViewUtils {
         entireColumnNames.get("Inventory").put("quantity", "Quantity");
         entireColumnNames.get("Inventory").put("pricePerUnit", "Price per Unit");
         entireColumnNames.get("Inventory").put("supplier", "Supplier");
+        entireColumnNames.get("Inventory").put("stockStatus", "Stock Status");
+
 
     }
 
@@ -167,6 +169,46 @@ public class TableViewUtils {
         }
 
         T firstItem = data.get(0);
+        if (columnNameMap.containsKey("stockStatus")) {
+            TableColumn<T, String> statusColumn = new TableColumn<>(columnNameMap.get("stockStatus"));
+            statusColumn.setCellValueFactory(cellData -> {
+                try {
+                    Method statusMethod = cellData.getValue().getClass().getMethod("getStockStatus");
+                    Object value = statusMethod.invoke(cellData.getValue());
+                    return new SimpleStringProperty(value.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return new SimpleStringProperty("--");
+                }
+            });
+
+            statusColumn.setCellFactory(column -> new TableCell<>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                        setStyle("");
+                    } else {
+                        setText(item);
+                        switch (item.toLowerCase()) {
+                            case "out of stock":
+                                setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+                                break;
+                            case "low stock":
+                                setStyle("-fx-text-fill: orange; -fx-font-weight: bold;");
+                                break;
+                            default:
+                                setStyle("-fx-text-fill: black;");
+                                break;
+                        }
+                    }
+                }
+            });
+
+            tableView.getColumns().add(statusColumn);
+        }
+
 
         for (var field : firstItem.getClass().getDeclaredFields()) {
             String fieldName = field.getName();
@@ -190,14 +232,23 @@ public class TableViewUtils {
                             Hyperlink hyperlink = new Hyperlink(fieldValue.toString());
                             hyperlink.setStyle("-fx-text-fill: blue; -fx-underline: true;");
                             hyperlink.setVisited(false);
+
                             hyperlink.setOnAction(event -> {
                                 String hyperlinkValue = hyperlink.getText();
                                 System.out.println("Clicked: " + hyperlink.getText());
                                 TableViewUtils.setSelectedRowID(hyperlinkValue);
-                                handleNewDocument();
+                                SceneNavigator.setSelectedItemId(hyperlinkValue);
+
+                                if ("Inventory".equals(storeCollectionName)) {
+                                    SceneNavigator.loadView("Edit Item");
+                                } else {
+                                    handleNewDocument();
+                                }
                                 hyperlink.setVisited(false);
+
                             });
                             return new SimpleObjectProperty<>(hyperlink);
+
                         }
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();

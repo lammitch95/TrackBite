@@ -18,7 +18,7 @@ public class InventoryItem {
         this.category = category;
         this.quantity = quantity;
         this.pricePerUnit = pricePerUnit;
-        this.supplier = supplier;
+        this.supplier = (supplier != null) ? supplier : "N/A";
     }
 
     // getter methods

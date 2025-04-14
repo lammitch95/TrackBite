@@ -268,5 +268,21 @@ public class HomepageController {
 
     }
 
+    @FXML
+    private void onReceiveDeliveryClick(MouseEvent event) {
+        SceneNavigator.loadView("Receive Product Delivery");
+    }
+
+    @FXML
+    private void onViewDeliveriesClick(MouseEvent event) {
+        SceneNavigator.switchScene(
+                "ViewDeliveriesPage",  // assuming your FXML is named ViewDeliveriesPage.fxml
+                "TrackBite/ViewDeliveriesPage",
+                -1,
+                -1,
+                true
+        );
+    }
+
 }
 

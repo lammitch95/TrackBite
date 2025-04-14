@@ -27,9 +27,8 @@ public class newInventoryItemViewModel {
     }
 
 
-    public void onSubmit(){
-
-        if (itemName.get().isEmpty() ||  unit.get().isEmpty() || category.get().isEmpty()) {
+    public void onSubmit() {
+        if (itemName.get().isEmpty() || unit.get().isEmpty() || category.get().isEmpty()) {
             System.out.println("Invalid Submission, Please fill out all the fields");
         } else if (!isValidItemName(itemName.get())) {
             System.out.println("Invalid item name");
@@ -39,22 +38,26 @@ public class newInventoryItemViewModel {
             System.out.println("Invalid category selection");
         } else {
             System.out.println("Submission Successful");
+
             String itemId = generateItemId(itemName.get());
 
-            Map<String, Object>  map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>();
             map.put("InventoryItemID", itemId);
+            map.put("itemName", itemName.get());
             map.put("unit", unit.get());
             map.put("category", category.get());
-            map.put("itemName", itemName.get());
             map.put("quantity", 0);
+            map.put("pricePerUnit", 0.0);
+            map.put("supplier", "N/A");
 
             FirestoreUtils.writeDoc("Inventory", itemId, map);
 
-            System.out.println("Successfully Storing Date for Inventory Item");
+            System.out.println("Successfully Storing Data for Inventory Item");
 
             clearFields();
         }
     }
+
 
     private boolean isValidItemName(String itemName) {
         return itemName != null && !itemName.isEmpty();

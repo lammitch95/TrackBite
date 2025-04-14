@@ -153,6 +153,13 @@ public class TableViewViewModel {
                 break;
             default:
                 System.out.println("This option doesnt exist in table view: "+optionName);
+                if (optionName.equals("ADD NEW")) {
+                    if ("Inventory".equals(CurrentPageOptions.getCurrPageOption())) {
+                        SceneNavigator.switchScene("AddNewItemPage", "TrackBite/AddNewItemPage", -1, -1, true);
+                    } else {
+                        System.out.println("ADD NEW is not supported for: " + CurrentPageOptions.getCurrPageOption());
+                    }
+                }
         }
     }
 

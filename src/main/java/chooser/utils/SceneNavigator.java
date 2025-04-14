@@ -39,8 +39,11 @@ public class SceneNavigator {
         pageMappings.put("New Menu Item","NewMenuItemForm.fxml");
         pageMappings.put("View Menu Items", "TableView.fxml");
 
-        pageMappings.put("Add Inventory Item","addItemForm.fxml");
+        pageMappings.put("Add Inventory Item","AddNewItemPage.fxml");
         pageMappings.put("View Inventory", "TableView.fxml");
+        pageMappings.put("Edit Item", "editItemForm.fxml");
+
+        pageMappings.put("Receive Product Delivery", "addDeliveryPage.fxml");
     }
 
     public static ObjectProperty<Parent> currentViewProperty() {
