@@ -1,22 +1,24 @@
 package chooser.viewmodel;
 
 import chooser.database.FirestoreUtils;
+import chooser.model.Suppliers;
+import chooser.utils.TableViewUtils;
 import javafx.beans.property.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SupplierViewModel {
 
-    private final StringProperty supplierId = new SimpleStringProperty("");
-    private final StringProperty supplierName = new SimpleStringProperty("");
+    private static final StringProperty supplierId = new SimpleStringProperty("");
+    private static final StringProperty supplierName = new SimpleStringProperty("");
     private final StringProperty personFirstName = new SimpleStringProperty("");
     private final StringProperty personLastName = new SimpleStringProperty("");
-    private final StringProperty phoneNumber = new SimpleStringProperty("");
-    private final StringProperty emailAddress = new SimpleStringProperty("");
-    private final StringProperty websiteLink = new SimpleStringProperty("");
-    private final StringProperty businessAddress = new SimpleStringProperty("");
-    private final StringProperty warehouseAddress = new SimpleStringProperty("");
-    private final StringProperty deliveryArea = new SimpleStringProperty("");
+    private static final StringProperty phoneNumber = new SimpleStringProperty("");
+    private static final StringProperty emailAddress = new SimpleStringProperty("");
+    private static final StringProperty websiteLink = new SimpleStringProperty("");
+    private static final StringProperty businessAddress = new SimpleStringProperty("");
+    private static final StringProperty warehouseAddress = new SimpleStringProperty("");
+    private static final StringProperty deliveryArea = new SimpleStringProperty("");
 
     public SupplierViewModel() {
         supplierId.set(generateSupplierId());
@@ -41,7 +43,7 @@ public class SupplierViewModel {
         System.out.println("onSubmit called");
 
         Map<String, Object> supplierData = new HashMap<>();
-        supplierData.put("supplierID", supplierId.get());
+        supplierData.put("supplierId", supplierId.get());
         supplierData.put("supplierName", supplierName.get());
         supplierData.put("contactPerson", personFirstName.get() + " " + personLastName.get());
         supplierData.put("phoneNumber", phoneNumber.get());
@@ -87,4 +89,6 @@ public class SupplierViewModel {
             return false;
         }
     }
+
+
 }

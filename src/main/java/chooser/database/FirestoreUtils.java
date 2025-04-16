@@ -2,23 +2,15 @@ package chooser.database;
 
 import chooser.model.IngredientItem;
 import chooser.model.MenuItem;
+import chooser.model.Suppliers;
 import chooser.model.User;
-import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.*;
 import com.google.cloud.firestore.WriteResult;
 import com.google.api.core.ApiFuture;
 import com.google.firebase.cloud.FirestoreClient;
 
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
-import com.google.cloud.storage.Bucket;
-import com.google.cloud.storage.Blob;
-
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -176,6 +168,22 @@ public class FirestoreUtils {
             return results;
         }
     }
+
+    public static Suppliers createSupplierFromDocument(DocumentSnapshot document) {
+        String supplierId = document.getString("supplierId");
+        String supplierName = document.getString("supplierName");
+        String contactPerson = document.getString("contactPerson");
+        String phoneNumber = document.getString("phoneNumber");
+        String emailAddress = document.getString("emailAddress");
+        String websiteLink = document.getString("websiteLink");
+        String businessAddress = document.getString("businessAddress");
+        String warehouseAddress = document.getString("warehouseAddress");
+        String deliveryArea = document.getString("deliveryArea");
+
+        return new Suppliers(supplierId, supplierName, contactPerson, phoneNumber, emailAddress,
+                websiteLink, businessAddress, warehouseAddress, deliveryArea);
+    }
+
 
     public static MenuItem createMenuItemFromDocument(DocumentSnapshot document) {
         String menuItemID = document.getString("id");

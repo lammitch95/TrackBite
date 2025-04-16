@@ -28,10 +28,10 @@ public class SceneNavigator {
         pageMappings.put("View Accounts", "TableView.fxml");
 
         pageMappings.put("New Menu Item","NewMenuItemForm.fxml");
-        pageMappings.put("View Menu Items", "TableView.fxml");
+        pageMappings.put("View Menu Items", "SupplierTableView.fxml");
 
         pageMappings.put("Suppliers", "Supplier.fxml");
-        pageMappings.put("Supplier View", "SupplierTableView.fxml");
+        pageMappings.put("Supplier View", "TableView.fxml");
     }
 
     public static ObjectProperty<Parent> currentViewProperty() {

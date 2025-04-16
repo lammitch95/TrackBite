@@ -1,6 +1,8 @@
 package chooser.view;
 
+import chooser.utils.TableViewUtils;
 import chooser.viewmodel.SupplierTableViewModel;
+import chooser.viewmodel.SupplierViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -55,6 +57,7 @@ public class SupplierTableController {
 
         // Fetch supplier data on initialization
         fetchSupplierData();
+
     }
 
     private void fetchSupplierData() {

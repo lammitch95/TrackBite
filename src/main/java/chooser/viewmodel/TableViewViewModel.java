@@ -3,6 +3,7 @@ package chooser.viewmodel;
 import chooser.database.FirestoreUtils;
 import chooser.model.CurrentPageOptions;
 import chooser.model.MenuItem;
+import chooser.model.Suppliers;
 import chooser.model.User;
 import chooser.utils.ProgressLoadUtils;
 import chooser.utils.SceneNavigator;
@@ -61,6 +62,7 @@ public class TableViewViewModel {
 
         titleMapping.put("View Accounts","Accounts");
         titleMapping.put("View Menu Items","Menu");
+        titleMapping.put("Supplier View","Suppliers");
 
     }
 
@@ -172,6 +174,16 @@ public class TableViewViewModel {
                     if (value instanceof MenuItem selectedMenuItem) {
                         String menuItemID = selectedMenuItem.getId();
                         System.out.println("Selected Menu Item ID on selected Row: " + menuItemID);
+                        selectedRowID = menuItemID;
+                    } else {
+                        System.out.println("The selected value is not a Menu Item object.");
+                    }
+                    break;
+
+                case "Suppliers":
+                    if (value instanceof Suppliers selectedMenuItem) {
+                        String menuItemID = selectedMenuItem.getSupplierId();
+                        System.out.println("Selected Supplier ID on selected Row: " + menuItemID);
                         selectedRowID = menuItemID;
                     } else {
                         System.out.println("The selected value is not a Menu Item object.");
@@ -294,6 +306,9 @@ public class TableViewViewModel {
                     case "View Menu Items":
                         collectionName = "Menu";
                         break;
+                    case "Supplier View":
+                        collectionName = "Suppliers";
+                        break;
 
                     default:
                         System.out.println("Collection Name doesnt exist for Table View");
@@ -326,6 +341,10 @@ public class TableViewViewModel {
                             case "Menu":
                                 entireDataCollection = TableViewUtils.prepareTableViewData(MenuItem.class, collectionName, snapshot);
                                 storedColumnClickableName = "id";
+                                break;
+                            case "Suppliers":
+                                entireDataCollection = TableViewUtils.prepareTableViewData(Suppliers.class, collectionName, snapshot);
+                                storedColumnClickableName = "supplierId";
                                 break;
                             default:
                                 System.out.println("Collection Doesnt Exist. Table View Failed..");
