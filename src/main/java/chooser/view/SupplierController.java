@@ -1,5 +1,6 @@
 package chooser.view;
 
+import chooser.utils.TableViewUtils;
 import chooser.viewmodel.SupplierViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -64,6 +65,13 @@ public class SupplierController {
         saveBtn.setOnMouseClicked(event -> handleSubmitButtonAction()); // Reuse submit logic
         addNewBtn.setOnMouseClicked(event -> handleAddNewAction());
         deleteBtn.setOnMouseClicked(event -> handleDeleteAction());
+
+        String selectedRowID = TableViewUtils.getSelectedRowID();
+        String collectionName = TableViewUtils.getStoredCollectionName();
+
+       if(selectedRowID!=null && collectionName.equals("Suppliers")) {
+           SupplierViewModel.populateTextFields();
+       }
     }
 
     @FXML

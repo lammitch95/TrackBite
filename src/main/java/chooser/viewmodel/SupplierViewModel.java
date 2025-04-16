@@ -2,6 +2,7 @@ package chooser.viewmodel;
 
 import chooser.database.FirestoreUtils;
 import chooser.model.Suppliers;
+import chooser.model.User;
 import chooser.utils.TableViewUtils;
 import javafx.beans.property.*;
 import java.util.HashMap;
@@ -11,8 +12,8 @@ public class SupplierViewModel {
 
     private static final StringProperty supplierId = new SimpleStringProperty("");
     private static final StringProperty supplierName = new SimpleStringProperty("");
-    private final StringProperty personFirstName = new SimpleStringProperty("");
-    private final StringProperty personLastName = new SimpleStringProperty("");
+    private static final StringProperty personFirstName = new SimpleStringProperty("");
+    private static final StringProperty personLastName = new SimpleStringProperty("");
     private static final StringProperty phoneNumber = new SimpleStringProperty("");
     private static final StringProperty emailAddress = new SimpleStringProperty("");
     private static final StringProperty websiteLink = new SimpleStringProperty("");
@@ -23,6 +24,8 @@ public class SupplierViewModel {
     public SupplierViewModel() {
         supplierId.set(generateSupplierId());
     }
+
+
 
     public StringProperty supplierIdProperty() { return supplierId; }
     public StringProperty supplierNameProperty() { return supplierName; }
@@ -87,6 +90,28 @@ public class SupplierViewModel {
         } catch (Exception e) {
             System.out.println("Error deleting from Firestore: " + e.getMessage());
             return false;
+        }
+    }
+
+   public static void populateTextFields(){
+
+        Object selectedData = TableViewUtils.retrieveDocumentData(TableViewUtils.getStoredCollectionName(),
+                TableViewUtils.getSelectedRowID());
+        if(selectedData instanceof Suppliers obj){
+
+            supplierId.set(obj.getSupplierId());
+            supplierName.set(obj.getSupplierName());
+            personFirstName.set(obj.getContactPerson());
+            personLastName.set(obj.getContactPerson());
+            phoneNumber.set(obj.getPhoneNumber());
+            emailAddress.set(obj.getEmailAddress());
+            websiteLink.set(obj.getWebsiteLink());
+            businessAddress.set(obj.getBusinessAddress());
+            warehouseAddress.set(obj.getWarehouseAddress());
+            deliveryArea.set(obj.getDeliveryArea());
+
+            TableViewUtils.setStoreCollectionName("");
+            TableViewUtils.setSelectedRowID(null);
         }
     }
 
