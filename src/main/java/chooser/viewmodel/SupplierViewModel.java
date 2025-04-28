@@ -1,15 +1,15 @@
-package chooser.viewmodel;
-
+ package chooser.viewmodel;
 import chooser.database.FirestoreUtils;
 import chooser.model.Suppliers;
-import chooser.model.User;
 import chooser.utils.TableViewUtils;
-import javafx.beans.property.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SupplierViewModel {
 
+    // Instance-level properties (removed static)
     private static final StringProperty supplierId = new SimpleStringProperty("");
     private static final StringProperty supplierName = new SimpleStringProperty("");
     private static final StringProperty personFirstName = new SimpleStringProperty("");
@@ -25,8 +25,7 @@ public class SupplierViewModel {
         supplierId.set(generateSupplierId());
     }
 
-
-
+    // Property getters
     public StringProperty supplierIdProperty() { return supplierId; }
     public StringProperty supplierNameProperty() { return supplierName; }
     public StringProperty personFirstNameProperty() { return personFirstName; }
@@ -59,7 +58,7 @@ public class SupplierViewModel {
         try {
             FirestoreUtils.writeDoc("Suppliers", supplierId.get(), supplierData);
             System.out.println("Supplier data successfully written to Firestore");
-            clearFields(); // Updated to call clearFields()
+            clearFields();
             return true;
         } catch (Exception e) {
             System.out.println("Error writing to Firestore: " + e.getMessage());
@@ -67,7 +66,7 @@ public class SupplierViewModel {
         }
     }
 
-    public void clearFields() { // Renamed from clearInputs()
+    public void clearFields() {
         supplierName.set("");
         personFirstName.set("");
         personLastName.set("");
@@ -85,7 +84,7 @@ public class SupplierViewModel {
         try {
             FirestoreUtils.deleteDoc("Suppliers", supplierId.get());
             System.out.println("Supplier successfully deleted from Firestore");
-            clearFields(); // Clear fields after deletion
+            clearFields();
             return true;
         } catch (Exception e) {
             System.out.println("Error deleting from Firestore: " + e.getMessage());
@@ -93,27 +92,34 @@ public class SupplierViewModel {
         }
     }
 
-   public static void populateTextFields(){
+    public static void populateTextFields() {
+        Object selectedData = TableViewUtils.retrieveDocumentData(
+                TableViewUtils.getStoredCollectionName(),
+                TableViewUtils.getSelectedRowID()
+        );
 
-        Object selectedData = TableViewUtils.retrieveDocumentData(TableViewUtils.getStoredCollectionName(),
-                TableViewUtils.getSelectedRowID());
-        if(selectedData instanceof Suppliers obj){
+        if (selectedData instanceof Suppliers obj) {
+            supplierId.set(obj.getSupplierId() != null ? obj.getSupplierId() : "");
+            supplierName.set(obj.getSupplierName() != null ? obj.getSupplierName() : "");
 
-            supplierId.set(obj.getSupplierId());
-            supplierName.set(obj.getSupplierName());
-            personFirstName.set(obj.getContactPerson());
-            personLastName.set(obj.getContactPerson());
-            phoneNumber.set(obj.getPhoneNumber());
-            emailAddress.set(obj.getEmailAddress());
-            websiteLink.set(obj.getWebsiteLink());
-            businessAddress.set(obj.getBusinessAddress());
-            warehouseAddress.set(obj.getWarehouseAddress());
-            deliveryArea.set(obj.getDeliveryArea());
+            // Split contactPerson into first and last names
+            String contactPerson = obj.getContactPerson() != null ? obj.getContactPerson() : "";
+            String[] names = contactPerson.trim().split("\\s+", 2);
+            personFirstName.set(names.length > 0 ? names[0] : "");
+            personLastName.set(names.length > 1 ? names[1] : "");
 
+            phoneNumber.set(obj.getPhoneNumber() != null ? obj.getPhoneNumber() : "");
+            emailAddress.set(obj.getEmailAddress() != null ? obj.getEmailAddress() : "");
+            websiteLink.set(obj.getWebsiteLink() != null ? obj.getWebsiteLink() : "");
+            businessAddress.set(obj.getBusinessAddress() != null ? obj.getBusinessAddress() : "");
+            warehouseAddress.set(obj.getWarehouseAddress() != null ? obj.getWarehouseAddress() : "");
+            deliveryArea.set(obj.getDeliveryArea() != null ? obj.getDeliveryArea() : "");
+
+            // Clear TableViewUtils state
             TableViewUtils.setStoreCollectionName("");
             TableViewUtils.setSelectedRowID(null);
+        } else {
+            System.out.println("No valid supplier data found to populate fields");
         }
     }
-
-
 }
