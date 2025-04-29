@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="DeliveryFormPane" focusTraversable="true" minWidth="-Infinity" prefHeight="629.0" prefWidth="1079.0" stylesheets="@lightMode.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.NewDeliveryFormController">
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+    <top>
+        <VBox prefHeight="25.0" prefWidth="582.0" BorderPane.alignment="TOP_LEFT">
+            <children>
+                <Label fx:id="DeliveryInfoLabel" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="7.0" prefWidth="292.0" text="Delivery Information">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                </Label>
+            <HBox alignment="BOTTOM_LEFT" prefHeight="27.0" prefWidth="661.0" spacing="5.0">
+               <children>
+                  <HBox fx:id="saveBtn1" alignment="CENTER" prefHeight="18.0" prefWidth="24.0">
+                     <children>
+                        <ImageView fx:id="saveBtnImageView1" fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@graySaveIcon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="addNewBtn1" alignment="CENTER" layoutX="11.0" layoutY="10.0" prefHeight="19.0" prefWidth="22.0">
+                     <children>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@grayAddNew.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="deleteBtn1" alignment="CENTER" disable="true" prefHeight="17.0" prefWidth="27.0" visible="false">
+                     <children>
+                        <ImageView disable="true" fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@grayTrashIcon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            </children>
+        </VBox>
+    </top>
+   <center>
+        <VBox focusTraversable="true" prefHeight="542.0" prefWidth="1034.0" spacing="5.0" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
+            <children>
+                <HBox prefHeight="303.0" prefWidth="1171.0">
+                    <children>
+                        <VBox fx:id="DeliveryDetailsVbox" prefHeight="283.0" prefWidth="521.0" spacing="5.0">
+                            <children>
+                                <Label alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="8.0" prefWidth="292.0" text="Delivery Details" textFill="#1e90f5">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </Label>
+                                <HBox prefHeight="1.0" prefWidth="582.0" spacing="10.0">
+                                    <children>
+                                        <Pane prefHeight="14.0" prefWidth="420.0" style="-fx-background-color: #1e90f5;" />
+                                    </children>
+                                </HBox>
+                                <HBox prefHeight="24.0" prefWidth="582.0" spacing="30.0">
+                                    <children>
+                                        <HBox fx:id="DeliveryIDHbox" alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="110.0" spacing="3.0">
+                                            <children>
+                                                <Label prefHeight="25.0" prefWidth="68.0" text="Delivery ID:">
+                                                    <font>
+                                                        <Font size="13.0" />
+                                                    </font>
+                                                </Label>
+                                    <ImageView fitHeight="19.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@valid.png" />
+                                       </image>
+                                    </ImageView>
+                                            </children>
+                                        </HBox>
+                                        <HBox prefHeight="10.0" prefWidth="292.0" spacing="10.0">
+                                            <children>
+                                                <TextField fx:id="DeliveryID" editable="false" prefHeight="25.0" prefWidth="250.0" promptText="Auto-generated" />
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </HBox>
+                                <HBox prefHeight="5.0" prefWidth="582.0" spacing="13.0">
+                                    <children>
+                                        <HBox fx:id="OrderNumHbox" alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="128.0" spacing="3.0">
+                                            <children>
+                                                <Label prefHeight="19.0" prefWidth="51.0" text="Order #:">
+                                                    <font>
+                                                        <Font size="13.0" />
+                                                    </font>
+                                                </Label>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@valid.png" />
+                                       </image>
+                                    </ImageView>
+                                            </children>
+                                        </HBox>
+                                        <HBox prefHeight="27.0" prefWidth="256.0" spacing="10.0">
+                                            <children>
+                                                <TextField fx:id="OrderNumber" prefHeight="27.0" prefWidth="247.0" promptText="Auto-generated" />
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </HBox>
+                        <HBox layoutX="10.0" layoutY="71.0" prefHeight="5.0" prefWidth="582.0" spacing="10.0">
+                           <children>
+                              <HBox fx:id="DeliveryDateHbox" alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="122.0" spacing="3.0">
+                                 <children>
+                                    <Label prefHeight="20.0" prefWidth="95.0" text="Date of Delivery:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@valid.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="9.0" spacing="10.0" />
+                              <DatePicker fx:id="DeliveryDate" prefHeight="25.0" prefWidth="120.0" promptText="MM/DD/YYYY" />
+                           </children>
+                        </HBox>
+                                <HBox prefHeight="5.0" prefWidth="582.0" spacing="10.0">
+                                    <children>
+                                        <HBox fx:id="DeliveryTimeHbox" alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="123.0" spacing="3.0">
+                                            <children>
+                                                <Label prefHeight="20.0" prefWidth="98.0" text="Time of Delivery:">
+                                                    <font>
+                                                        <Font size="13.0" />
+                                                    </font>
+                                                </Label>
+                                    <ImageView fitHeight="15.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@valid.png" />
+                                       </image>
+                                    </ImageView>
+                                            </children>
+                                        </HBox>
+                                        <HBox prefHeight="9.0" spacing="10.0" />
+                              <TextField fx:id="DeliveryTime" prefHeight="27.0" prefWidth="96.0" promptText="00:00" />
+                              <ComboBox fx:id="DeliveryTimeUnit" prefHeight="27.0" prefWidth="65.0" />
+                                    </children>
+                                </HBox>
+                        <HBox prefHeight="25.0" prefWidth="590.0" spacing="5.0">
+                           <children>
+                              <HBox fx:id="DeliveryAddressHbox" alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="139.0" spacing="3.0">
+                                 <children>
+                                    <Label prefHeight="19.0" prefWidth="101.0" text="Delivery Address:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@valid.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="9.0" prefWidth="292.0" spacing="10.0">
+                                 <children>
+                                    <TextField fx:id="DeliveryAddress" prefHeight="25.0" prefWidth="250.0" promptText="Enter Delivery Address" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                            </children>
+                        </VBox>
+                        <VBox fx:id="DeliveryListVbox" layoutX="10.0" layoutY="10.0" prefHeight="283.0" prefWidth="473.0" spacing="5.0">
+                            <children>
+                                <Label alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="8.0" prefWidth="292.0" text="Delivery List" textFill="#1e90f5">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </Label>
+                                <HBox prefHeight="1.0" prefWidth="582.0" spacing="10.0">
+                                    <children>
+                                        <Pane prefHeight="14.0" prefWidth="420.0" style="-fx-background-color: #1e90f5;" />
+                                    </children>
+                                </HBox>
+                        <HBox prefHeight="5.0" prefWidth="582.0" spacing="13.0">
+                           <children>
+                              <HBox fx:id="ItemNameHbox" alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="110.0" spacing="3.0">
+                                 <children>
+                                    <Label prefHeight="19.0" prefWidth="91.0" text="Item Name:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@valid.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="9.0" prefWidth="292.0" spacing="10.0">
+                                 <children>
+                                    <TextField fx:id="ItemName" prefHeight="25.0" prefWidth="253.0" promptText="Enter the Name of the Item" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                        <HBox layoutX="10.0" layoutY="169.0" prefHeight="25.0" prefWidth="581.0" spacing="13.0">
+                           <children>
+                              <HBox fx:id="ItemQualityHbox" alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="110.0" spacing="3.0">
+                                 <children>
+                                    <Label prefHeight="19.0" prefWidth="86.0" text="Item Quantity:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@valid.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="27.0" prefWidth="134.0" spacing="10.0">
+                                 <children>
+                                    <TextField fx:id="ItemQuantity" prefHeight="27.0" prefWidth="128.0" promptText="Enter Number here" />
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="27.0" prefWidth="81.0" spacing="10.0">
+                                 <children>
+                                    <ComboBox fx:id="Unit" prefHeight="27.0" prefWidth="78.0" promptText="UOM" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                        <HBox layoutX="10.0" layoutY="229.0" prefHeight="5.0" prefWidth="582.0" spacing="13.0">
+                           <children>
+                              <HBox fx:id="CategoryHbox" alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="110.0" spacing="3.0">
+                                 <children>
+                                    <Label prefHeight="19.0" prefWidth="60.0" text="Category:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@valid.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="9.0" prefWidth="292.0" spacing="10.0">
+                                 <children>
+                                    <ComboBox fx:id="Category" prefHeight="25.0" prefWidth="150.0" promptText="Select Category" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="5.0" prefWidth="582.0" spacing="13.0">
+                           <children>
+                              <HBox fx:id="PriorityHbox" alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="110.0" spacing="3.0">
+                                 <children>
+                                    <Label prefHeight="19.0" prefWidth="49.0" text="Priority:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@valid.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="9.0" prefWidth="292.0" spacing="10.0">
+                                 <children>
+                                    <ComboBox fx:id="Priority" prefWidth="150.0" promptText="Priority" visibleRowCount="3" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="5.0" prefWidth="582.0" spacing="13.0">
+                           <children>
+                              <HBox fx:id="NotesHbox" alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="110.0" spacing="3.0">
+                                 <children>
+                                    <Label prefHeight="19.0" prefWidth="41.0" text="Notes:">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@valid.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="9.0" prefWidth="292.0" spacing="10.0">
+                                 <children>
+                                    <TextArea fx:id="Notes" prefHeight="37.0" prefWidth="254.0" promptText="Enter Notes here" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                                <HBox alignment="CENTER" prefHeight="28.0" prefWidth="245.0" spacing="10.0">
+                                    <children>
+                                        <Button fx:id="submitButton" onAction="#handleSubmitButtonAction" style="-fx-background-color: #0073e6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8px 16px;" text="Submit" />
+                                        <Label fx:id="feedbackLabel" style="-fx-text-fill: green;" text="" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            <HBox prefHeight="292.0" prefWidth="1172.0">
+               <children>
+                  <HBox prefHeight="264.0" prefWidth="512.0">
+                     <children>
+                        <VBox fx:id="SupplierDetailsVbox" prefHeight="272.0" prefWidth="520.0" spacing="5.0">
+                           <children>
+                              <Label alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="8.0" prefWidth="292.0" text="Supplier Details" textFill="#1e90f5">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <HBox prefHeight="1.0" prefWidth="582.0" spacing="10.0">
+                                 <children>
+                                    <Pane prefHeight="0.0" prefWidth="420.0" style="-fx-background-color: #1e90f5;" />
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="24.0" prefWidth="582.0" spacing="30.0">
+                                 <children>
+                                    <HBox fx:id="SupplierHBox" alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="116.0" spacing="3.0">
+                                       <children>
+                                          <Label prefHeight="25.0" prefWidth="68.0" text="Supplier:">
+                                             <font>
+                                                <Font size="13.0" />
+                                             </font>
+                                          </Label>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@valid.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="27.0" prefWidth="268.0" spacing="10.0">
+                                       <children>
+                                          <TextField fx:id="supplierSearch" editable="false" prefHeight="27.0" prefWidth="270.0" promptText="Search by name or ID" />
+                                       </children>
+                                    </HBox>
+                                    <Button fx:id="SupplierSearchButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Search" />
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="5.0" prefWidth="582.0" spacing="10.0">
+                                 <children>
+                                    <HBox fx:id="SiupplierNameHBox" alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="136.0" spacing="3.0">
+                                       <children>
+                                          <Label prefHeight="20.0" prefWidth="94.0" text="Contacts Name:">
+                                             <font>
+                                                <Font size="13.0" />
+                                             </font>
+                                          </Label>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@valid.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="9.0" spacing="10.0">
+                                       <children>
+                                          <TextField fx:id="supplierFirstName" prefHeight="27.0" prefWidth="127.0" promptText="First Name" />
+                                       </children>
+                                    </HBox>
+                                    <TextField fx:id="SupplierLastName" prefHeight="27.0" prefWidth="128.0" promptText="Last Name" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutX="10.0" layoutY="73.0" prefHeight="5.0" prefWidth="582.0" spacing="10.0">
+                                 <children>
+                                    <HBox fx:id="SupplierNumberHBox" alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="136.0" spacing="3.0">
+                                       <children>
+                                          <Label prefHeight="20.0" prefWidth="108.0" text="Contact Number:">
+                                             <font>
+                                                <Font size="13.0" />
+                                             </font>
+                                          </Label>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@valid.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="9.0" spacing="10.0">
+                                       <children>
+                                          <TextField fx:id="supplierContactNum" prefHeight="25.0" prefWidth="267.0" promptText="xxx-xxx-xxxx" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox layoutX="10.0" layoutY="105.0" prefHeight="5.0" prefWidth="582.0" spacing="10.0">
+                                 <children>
+                                    <HBox fx:id="SupplierAddressHBox" alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="136.0" spacing="3.0">
+                                       <children>
+                                          <Label prefHeight="20.0" prefWidth="108.0" text="Supplier Address:">
+                                             <font>
+                                                <Font size="13.0" />
+                                             </font>
+                                          </Label>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@valid.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="9.0" spacing="10.0">
+                                       <children>
+                                          <TextField fx:id="supplierAddress" prefHeight="25.0" prefWidth="267.0" promptText="Supplier Address" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            </children>
+            <padding>
+                <Insets bottom="10.0" top="10.0" />
+            </padding>
+        </VBox>
+   </center>
+</BorderPane>
