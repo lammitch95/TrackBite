@@ -20,14 +20,24 @@ public class SceneNavigator {
     private static double currWidth;
     private static double currHeight;
 
+
     private static ObjectProperty<Parent> currentView = new SimpleObjectProperty<>(null);
     private static final Map<String, String> pageMappings = new HashMap<>();
 
     static{
         pageMappings.put("New User", "NewUserForm.fxml");
         pageMappings.put("View Accounts", "TableView.fxml");
+
         pageMappings.put("New Menu Item","NewMenuItemForm.fxml");
         pageMappings.put("View Menu Items", "TableView.fxml");
+        pageMappings.put("Order Menu", "OrderMenuView.fxml");
+
+        pageMappings.put("New Inventory","NewInventoryItemForm.fxml");
+        pageMappings.put("View Inventory", "TableView.fxml");
+
+        pageMappings.put("Log Order","LogOrderForm.fxml");
+        pageMappings.put("View Order History","TableView.fxml");
+
     }
 
     public static ObjectProperty<Parent> currentViewProperty() {

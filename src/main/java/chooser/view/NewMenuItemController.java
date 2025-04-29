@@ -1,6 +1,7 @@
 package chooser.view;
 
 import chooser.model.IngredientItem;
+import chooser.utils.NewInventoryItemUtils;
 import chooser.utils.NewMenuItemUtils;
 import chooser.utils.TableViewUtils;
 import chooser.viewmodel.NewMenuItemViewModel;
@@ -12,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
@@ -97,6 +99,15 @@ public class NewMenuItemController {
     private ImageView leftArrowImage;
 
     @FXML
+    private Button linkInventoryBtn;
+
+    @FXML
+    private HBox linkInventoryHbox;
+    @FXML
+
+    private AnchorPane menuFormRootPane;
+
+    @FXML
     private HBox nameHbox;
 
     @FXML
@@ -160,9 +171,11 @@ public class NewMenuItemController {
             IngredientAddBtn.setDisable(!newValue);
         });
 
-        IngredientTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                newMenuItemVM.setCurrentSelectedIngredient(newSelection);
+        IngredientTableView.getSelectionModel().selectedIndexProperty().addListener((obs, oldIndex, newIndex) -> {
+            if (newIndex != null && newIndex.intValue() >= 0) {
+                IngredientItem selected = IngredientTableView.getItems().get(newIndex.intValue());
+                newMenuItemVM.setCurrentSelectedIngredient(selected);
+                newMenuItemVM.populateIngredientsInputs();
             }
         });
 
@@ -205,6 +218,12 @@ public class NewMenuItemController {
             }
         });
 
+        newMenuItemVM.ingredientUOMProperty().addListener((obs, oldVal, newVal) -> {
+            if (ingredUOMCombobox.getItems().contains(newVal)) {
+                ingredUOMCombobox.getSelectionModel().select(newVal);
+            }
+        });
+
         newMenuItemVM.imageFileNameProperty().addListener((obs, oldVal, newVal) -> {
                 try {
                     String imagePath = new File("menuItemImages/" + newVal).toURI().toString();
@@ -237,6 +256,8 @@ public class NewMenuItemController {
             newMenuItemVM.priceUOMProperty().set(selectedItem);
         });
 
+
+
         uploadImageBtn.setOnAction(e ->{
             newMenuItemVM.uploadItemImage(ItemImageDisplay, "ADD");
         });
@@ -252,6 +273,7 @@ public class NewMenuItemController {
         addValidationStyle(IngredientNameText, newMenuItemVM.ingredientNameValidProperty());
         addValidationStyle(ingredQuantityText, newMenuItemVM.ingredientQuantityValidProperty());
         addValidationStyle(ingredUOMCombobox,newMenuItemVM.ingredientUOMValidProperty());
+        addValidationStyle(linkInventoryBtn,NewMenuItemUtils.linkInventoryIdValidProp());
 
         newMenuItemVM.nameValidProperty().addListener((obs, oldVal, newVal) -> {
             newMenuItemVM.updateValidImageViews(nameHbox, newMenuItemVM.nameValidProperty());
@@ -286,9 +308,19 @@ public class NewMenuItemController {
             newMenuItemVM.updateValidImageViews(ingredientUOMHbox, newMenuItemVM.ingredientUOMValidProperty());
         });
 
+        NewMenuItemUtils.linkInventoryIdValidProp().addListener((obs, oldVal, newVal) -> {
+            newMenuItemVM.updateValidImageViews(linkInventoryHbox, NewMenuItemUtils.linkInventoryIdValidProp());
+        });
+
         IngredientNameText.textProperty().bindBidirectional(newMenuItemVM.ingredientNameProperty());
         ingredQuantityText.textProperty().bindBidirectional(newMenuItemVM.ingredientQuantityProperty());
         ingredPrepText.textProperty().bindBidirectional(newMenuItemVM.ingredientPrepDetails());
+        linkInventoryBtn.textProperty().bind(NewMenuItemUtils.linkInventoryId());
+
+        linkInventoryBtn.setOnAction(event ->{
+            newMenuItemVM.onSelectInventoryItem("SHOW",menuFormRootPane);
+        });
+
 
         ingredUOMCombobox.setOnAction(e -> {
             String selectedItem = ingredUOMCombobox.getValue();

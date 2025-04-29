@@ -6,12 +6,20 @@ public class IngredientItem {
     private String quantity;
     private String uom;
     private String prepDetails;
+    private String linkInventoryId;
+    private String remainingUses;
 
-    public IngredientItem(String name, String quantity, String uom, String prepDetails){
+
+    public IngredientItem(){
+        linkInventoryId = "Select Inventory";
+    }
+    public IngredientItem(String name, String quantity, String uom, String prepDetails, String linkInventoryId, String remainingUses){
         this.name = name;
         this.quantity = quantity;
         this.uom = uom;
         this.prepDetails = prepDetails;
+        this.linkInventoryId = linkInventoryId;
+        this.remainingUses = remainingUses;
 
     }
 
@@ -51,4 +59,21 @@ public class IngredientItem {
     public String toString() {
         return name + ' ' + quantity + ' ' + uom + '[' +prepDetails + ']';
     }
+
+    public String getLinkInventoryId() {
+        return linkInventoryId;
+    }
+
+    public void setLinkInventoryId(String linkInventoryId) {
+        this.linkInventoryId = linkInventoryId;
+    }
+
+    public String getRemainingUses() {
+        return remainingUses;
+    }
+
+    public void setRemainingUses(String remainingUses) {
+        this.remainingUses = remainingUses;
+    }
+
 }

@@ -6,111 +6,129 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="484.0" prefWidth="681.0" stylesheets="@lightMode.css" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.TableViewController">
-   <top>
-      <VBox alignment="CENTER_LEFT" prefHeight="81.0" prefWidth="661.0" spacing="15.0" BorderPane.alignment="BOTTOM_CENTER">
-         <children>
-            <Label fx:id="viewTitleLbl" alignment="BOTTOM_LEFT" prefHeight="10.0" prefWidth="603.0" text="Employees" translateX="10.0">
-               <font>
-                  <Font size="22.0" />
-               </font>
-            </Label>
-            <HBox alignment="BOTTOM_LEFT" prefHeight="27.0" prefWidth="661.0" spacing="5.0">
+
+<AnchorPane fx:id="rootPane"
+            VBox.vgrow="ALWAYS"
+            HBox.hgrow="ALWAYS"
+            maxWidth="Infinity"
+            maxHeight="Infinity"
+            minHeight="0.0"
+            minWidth="0.0"
+            prefHeight="499.0"
+            prefWidth="719.0"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="chooser.view.TableViewController">
+   <children>
+      <BorderPane layoutX="10.0" layoutY="10.0" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="484.0" prefWidth="681.0" stylesheets="@lightMode.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <VBox alignment="CENTER_LEFT" prefHeight="81.0" prefWidth="661.0" spacing="15.0" BorderPane.alignment="BOTTOM_CENTER">
                <children>
-                  <HBox fx:id="refreshBtn" alignment="CENTER" prefHeight="17.0" prefWidth="27.0">
-                     <children>
-                        <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@grayRefreshArrow.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
-                  <HBox fx:id="addNewBtn" alignment="CENTER" layoutX="11.0" layoutY="10.0" prefHeight="17.0" prefWidth="27.0">
-                     <children>
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@grayAddNew.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
-                  <HBox fx:id="deleteBtn" alignment="CENTER" prefHeight="17.0" prefWidth="27.0">
-                     <children>
-                        <ImageView disable="true" fitHeight="23.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@grayTrashIcon.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
-                  <HBox fx:id="exportExcelBtn" alignment="CENTER" layoutX="44.0" layoutY="10.0" prefHeight="17.0" prefWidth="27.0">
-                     <children>
-                        <ImageView fitHeight="23.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@grayExcelIcon.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
-               </children>
-               <padding>
-                  <Insets left="1.0" />
-               </padding></HBox>
-         </children>
-      </VBox>
-   </top>
-   <center>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
-         <children>
-            <TableView fx:id="tableViewMain" prefWidth="661.0" />
-            <HBox alignment="CENTER" prefHeight="26.0" prefWidth="661.0">
-               <children>
-                  <Label fx:id="recordsCountLbl" prefHeight="16.0" text="0-0 of 0 records">
+                  <Label fx:id="viewTitleLbl" alignment="BOTTOM_LEFT" prefHeight="10.0" prefWidth="603.0" text="Employees" translateX="10.0">
                      <font>
-                        <Font size="13.0" />
+                        <Font size="22.0" />
                      </font>
                   </Label>
-                  <Pane prefHeight="39.0" prefWidth="12.0" HBox.hgrow="ALWAYS" />
-                  <HBox alignment="CENTER" prefHeight="39.0" prefWidth="205.0" spacing="10.0">
+                  <HBox alignment="BOTTOM_LEFT" prefHeight="27.0" prefWidth="661.0" spacing="5.0">
                      <children>
-                        <HBox fx:id="leftArrowBtn" alignment="CENTER" prefHeight="11.0" prefWidth="25.0">
+                        <HBox fx:id="refreshBtn" alignment="CENTER" prefHeight="17.0" prefWidth="27.0">
                            <children>
-                              <ImageView fx:id="leftArrowImage" fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="17.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@grayLArrow.png" />
+                                    <Image url="@grayRefreshArrow.png" />
                                  </image>
                               </ImageView>
                            </children>
                         </HBox>
-                        <TextField fx:id="currentPageText" alignment="CENTER_RIGHT" prefHeight="13.0" prefWidth="63.0" text="1" />
-                        <Label fx:id="pageCountLbl" prefHeight="25.0" text="of 1 pages" />
-                        <HBox fx:id="rightArrowBtn" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="6.0" prefWidth="25.0">
+                        <HBox fx:id="addNewBtn" alignment="CENTER" layoutX="11.0" layoutY="10.0" prefHeight="17.0" prefWidth="27.0">
                            <children>
-                              <ImageView fx:id="rightArrowImage" fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@grayRArrow.png" />
+                                    <Image url="@grayAddNew.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                        <HBox fx:id="deleteBtn" alignment="CENTER" prefHeight="17.0" prefWidth="27.0">
+                           <children>
+                              <ImageView disable="true" fitHeight="23.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@grayTrashIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                        <HBox fx:id="exportExcelBtn" alignment="CENTER" layoutX="44.0" layoutY="10.0" prefHeight="17.0" prefWidth="27.0">
+                           <children>
+                              <ImageView fitHeight="23.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@grayExcelIcon.png" />
                                  </image>
                               </ImageView>
                            </children>
                         </HBox>
                      </children>
+                     <padding>
+                        <Insets left="1.0" />
+                     </padding>
                   </HBox>
                </children>
-               <padding>
-                  <Insets bottom="7.0" left="10.0" right="10.0" top="7.0" />
-               </padding>
-            </HBox>
-         </children>
-      </VBox>
-   </center>
-   <padding>
-      <Insets left="10.0" right="10.0" />
-   </padding>
-</BorderPane>
+            </VBox>
+         </top>
+         <center>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TableView fx:id="tableViewMain" prefWidth="661.0" />
+                  <HBox alignment="CENTER" prefHeight="26.0" prefWidth="661.0">
+                     <children>
+                        <Label fx:id="recordsCountLbl" prefHeight="16.0" text="0-0 of 0 records">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Pane prefHeight="39.0" prefWidth="12.0" HBox.hgrow="ALWAYS" />
+                        <HBox alignment="CENTER" prefHeight="39.0" prefWidth="205.0" spacing="10.0">
+                           <children>
+                              <HBox fx:id="leftArrowBtn" alignment="CENTER" prefHeight="11.0" prefWidth="25.0">
+                                 <children>
+                                    <ImageView fx:id="leftArrowImage" fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@grayLArrow.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                              <TextField fx:id="currentPageText" alignment="CENTER_RIGHT" prefHeight="13.0" prefWidth="63.0" text="1" />
+                              <Label fx:id="pageCountLbl" prefHeight="25.0" text="of 1 pages" />
+                              <HBox fx:id="rightArrowBtn" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="6.0" prefWidth="25.0">
+                                 <children>
+                                    <ImageView fx:id="rightArrowImage" fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@grayRArrow.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="7.0" left="10.0" right="10.0" top="7.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </VBox>
+         </center>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </BorderPane>
+   </children>
+</AnchorPane>

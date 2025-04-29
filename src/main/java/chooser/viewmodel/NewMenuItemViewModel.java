@@ -3,6 +3,7 @@ package chooser.viewmodel;
 import chooser.database.FirestoreUtils;
 import chooser.model.IngredientItem;
 import chooser.model.MenuItem;
+import chooser.utils.NewInventoryItemUtils;
 import chooser.utils.NewMenuItemUtils;
 import chooser.utils.SystemMessageUtils;
 import chooser.utils.TableViewUtils;
@@ -18,6 +19,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 
@@ -40,7 +42,10 @@ public class NewMenuItemViewModel {
     private final StringProperty ingredientQuantity = new SimpleStringProperty("");
     private final StringProperty ingredientUOM = new SimpleStringProperty("");
     private final StringProperty prepDetails = new SimpleStringProperty("");
+
+    private final StringProperty remainingUses = new SimpleStringProperty("");
     private final StringProperty tbvPageNumDisplay = new SimpleStringProperty("");
+    private final BooleanProperty isLoadedIngredient = new SimpleBooleanProperty(false);
 
 
     //Validity String Properties
@@ -113,6 +118,7 @@ public class NewMenuItemViewModel {
     public StringProperty ingredientPrepDetails(){return prepDetails;}
 
 
+
     public BooleanProperty menuItemIDValidProperty(){return isValidMenuItemID;}
     public BooleanProperty nameValidProperty(){return isValidName;}
     public BooleanProperty descriptionValidProperty(){return isValidDescription;}
@@ -140,6 +146,7 @@ public class NewMenuItemViewModel {
 
 
     public NewMenuItemViewModel(){
+        isLoadedIngredient.set(false);
         isNewImage.set(false);
         itemImage.set("DEFAULT");
         imageFileName.set("DEFAULT");
@@ -156,17 +163,21 @@ public class NewMenuItemViewModel {
         priceUOM.set("Select Currency");
         isValidPriceUOM.set(false);
 
+
+
         ingredientValidInputList = List.of(
                 isValidIngredientName,
                 isValidIngredientQuantity,
-                isValidIngredientUOM
+                isValidIngredientUOM,
+                NewMenuItemUtils.linkInventoryIdValidProp()
         );
 
         ingredientInputList = List.of(
                 ingredientName,
                 ingredientQuantity,
                 ingredientUOM,
-                prepDetails
+                prepDetails,
+                NewMenuItemUtils.linkInventoryId()
         );
 
         validInputList = List.of(
@@ -261,9 +272,32 @@ public class NewMenuItemViewModel {
         ingredientFormValid.bind(ingredientNameValidProperty()
                 .and(ingredientQuantityValidProperty())
                 .and(ingredientUOMValidProperty())
+                .and(NewMenuItemUtils.linkInventoryIdValidProp())
         );
 
 
+    }
+
+    public void populateIngredientsInputs(){
+
+        System.out.println("populateIngredientsInputs Called: ");
+        System.out.println("currentSelectedIngredient Called: "+currentSelectedIngredient);
+        isLoadedIngredient.set(true);
+
+        ingredientName.set(currentSelectedIngredient.getName());
+        ingredientQuantity.set(currentSelectedIngredient.getQuantity());
+        ingredientUOM.set(currentSelectedIngredient.getUom());
+        prepDetails.set(currentSelectedIngredient.getPrepDetails());
+
+        String displayText = (currentSelectedIngredient.getLinkInventoryId() == null || currentSelectedIngredient.getLinkInventoryId().isEmpty())
+                ? "Select Inventory"
+                : currentSelectedIngredient.getLinkInventoryId();
+        NewMenuItemUtils.linkInventoryId().set(displayText);
+
+    }
+
+    public void onSelectInventoryItem(String status,AnchorPane menuFormRootPane){
+        NewInventoryItemUtils.selectInventoryItem(status, menuFormRootPane);
     }
 
     public String generateMenuItemID() {
@@ -346,10 +380,14 @@ public class NewMenuItemViewModel {
         List<Map<String, Object>> ingredientsForFirestore = new ArrayList<>();
         for (IngredientItem ingredient : entireIngredientsList) {
             Map<String, Object> ingredientMap = new HashMap<>();
+
             ingredientMap.put("name", ingredient.getName());
             ingredientMap.put("quantity", ingredient.getQuantity());
             ingredientMap.put("uom", ingredient.getUom());
             ingredientMap.put("prepDetails", ingredient.getPrepDetails());
+            ingredientMap.put("linkInventoryId", ingredient.getLinkInventoryId());
+            ingredientMap.put("remainingUses", ingredient.getRemainingUses());
+
             ingredientsForFirestore.add(ingredientMap);
         }
 
@@ -366,16 +404,14 @@ public class NewMenuItemViewModel {
             userInput.set("");
         }
 
-        for(StringProperty userInput: ingredientInputList){
-            userInput.set("");
-        }
-
         priceUOM.set("Select Currency");
         category.set("Select Category");
-        ingredientUOM.set(("Select UOM"));
+        NewMenuItemUtils.linkInventoryId().set("Select Inventory");
         itemImage.set("DEFAULT");
         imageFileName.set("DEFAULT");
         isNewImage.set(false);
+
+        clearIngredientInputs();
     }
 
 
@@ -385,6 +421,8 @@ public class NewMenuItemViewModel {
         }
 
         ingredientUOM.set(("Select UOM"));
+        isLoadedIngredient.set(false);
+        NewMenuItemUtils.linkInventoryId().set("Select Inventory");
     }
 
     public void updateValidImageViews(HBox hBox, BooleanProperty... properties) {
@@ -423,8 +461,6 @@ public class NewMenuItemViewModel {
             System.out.println("ImageView not found inside the HBox.");
         }
     }
-
-
     public void populateTextFields(TableView<IngredientItem> ingredientTV){
 
         Object selectedData = TableViewUtils.retrieveDocumentData(TableViewUtils.getStoredCollectionName(),TableViewUtils.getSelectedRowID());
@@ -497,72 +533,86 @@ public class NewMenuItemViewModel {
         setTBVPageDisplay(IngredientTableView);
     }
 
-
-
     public void onAddIngredient(TableView<IngredientItem> ingredientTV){
-        for(BooleanProperty validInput: ingredientValidInputList){
-            if(!validInput.get()){
-                return;
+            if(isLoadedIngredient.get()){
+                onDeleteIngredient(ingredientTV);
             }
-        }
 
-        if(prepDetails.get().isEmpty()){
-            prepDetails.set("--");
-        }
-
-        IngredientItem newIngredient = new IngredientItem(
-                ingredientName.get(),
-                ingredientQuantity.get(),
-                ingredientUOM.get(),
-                prepDetails.get()
-        );
-
-
-        List<IngredientItem> latestIngredientList = ingredientListMap.get(maxPages);
-        if(latestIngredientList == null){
-            ingredientListMap.put(maxPages, new ArrayList<>());
-        }
-
-        latestIngredientList = ingredientListMap.get(maxPages);
-        if(latestIngredientList.size() == 7){
-            maxPages++;
-            ingredientListMap.put(maxPages, new ArrayList<>());
-        }
-        ingredientListMap.get(maxPages).add(newIngredient);
-
-        setTBVPageDisplay(ingredientTV);
-        clearIngredientInputs();
-    }
-
-
-
-    public void onDeleteIngredient(TableView<IngredientItem> ingredientTV){
-        System.out.println("onDeleteIngredient Called");
-        if(currentSelectedIngredient!=null){
-            boolean hasFoundElement = false;
-            for (Map.Entry<Integer, List<IngredientItem>> entry : ingredientListMap.entrySet()) {
-                List<IngredientItem> entireIngredientsList = entry.getValue();
-                for (IngredientItem ingredient : entireIngredientsList) {
-
-                    boolean nameCheck = currentSelectedIngredient.getName().equals(ingredient.getName());
-                    boolean quantityCheck = currentSelectedIngredient.getQuantity().equals(ingredient.getQuantity());
-                    boolean uomCheck = currentSelectedIngredient.getUom().equals(ingredient.getUom());
-                    boolean prepDetailsCheck = currentSelectedIngredient.getPrepDetails().equals(ingredient.getPrepDetails());
-                    if(nameCheck && quantityCheck && uomCheck && prepDetailsCheck){
-                        System.out.println("Ingredient Item has been removed: "+ingredient.getName());
-                        entry.getValue().remove(ingredient);
-                        hasFoundElement = true;
-                        break;
-                    }
-
-                    if(hasFoundElement){break;}
-
+            for (BooleanProperty validInput : ingredientValidInputList) {
+                if (!validInput.get()) {
+                    return;
                 }
             }
-            if(hasFoundElement){setTBVPageDisplay(ingredientTV);}
 
+            if (prepDetails.get().isEmpty()) {
+                prepDetails.set("--");
+            }
+
+            IngredientItem newIngredient = new IngredientItem(
+                    ingredientName.get(),
+                    ingredientQuantity.get(),
+                    ingredientUOM.get(),
+                    prepDetails.get(),
+                    NewMenuItemUtils.linkInventoryId().get(),
+                    remainingUses.get()
+            );
+
+
+            List<IngredientItem> latestIngredientList = ingredientListMap.get(maxPages);
+            if (latestIngredientList == null) {
+                ingredientListMap.put(maxPages, new ArrayList<>());
+            }
+
+            latestIngredientList = ingredientListMap.get(maxPages);
+            if (latestIngredientList.size() == 7) {
+                maxPages++;
+                ingredientListMap.put(maxPages, new ArrayList<>());
+            }
+            ingredientListMap.get(maxPages).add(newIngredient);
+
+            setTBVPageDisplay(ingredientTV);
+            clearIngredientInputs();
+    }
+
+    public void onDeleteIngredient(TableView<IngredientItem> ingredientTV) {
+        System.out.println("onDeleteIngredient Called");
+
+        if (currentSelectedIngredient != null) {
+
+            List<IngredientItem> allIngredients = new ArrayList<>();
+            for (List<IngredientItem> pageItems : ingredientListMap.values()) {
+                allIngredients.addAll(pageItems);
+            }
+
+
+            boolean removed = allIngredients.removeIf(ingredient ->
+                    ingredient.getName().equals(currentSelectedIngredient.getName()) &&
+                            ingredient.getQuantity().equals(currentSelectedIngredient.getQuantity()) &&
+                            ingredient.getUom().equals(currentSelectedIngredient.getUom()) &&
+                            ingredient.getPrepDetails().equals(currentSelectedIngredient.getPrepDetails())
+            );
+
+            if (removed) {
+                System.out.println("Ingredient Item has been removed: " + currentSelectedIngredient.getName());
+
+
+                ingredientListMap.clear();
+                int maxPages = 1;
+                ingredientListMap.put(maxPages, new ArrayList<>());
+
+                for (int i = 0; i < allIngredients.size(); ++i) {
+                    List<IngredientItem> currentPage = ingredientListMap.get(maxPages);
+                    if (currentPage.size() == 7) {
+                        maxPages++;
+                        ingredientListMap.put(maxPages, new ArrayList<>());
+                    }
+                    ingredientListMap.get(maxPages).add(allIngredients.get(i));
+                }
+
+
+                setTBVPageDisplay(ingredientTV);
+            }
         }
-
     }
 
     public void handleIngredientsTableView(String status, TableView<IngredientItem> ingredientTV){
@@ -587,10 +637,14 @@ public class NewMenuItemViewModel {
                 TableColumn<IngredientItem, String> columnFour= new TableColumn<IngredientItem,String>("Prep Details");
                 columnFour.setCellValueFactory(new PropertyValueFactory<IngredientItem,String>("prepDetails"));
 
+                TableColumn<IngredientItem, String> columnFive = new TableColumn<IngredientItem,String>("Link Item Id");
+                columnFive.setCellValueFactory(new PropertyValueFactory<IngredientItem,String>("linkInventoryId"));
+
                 ingredientTV.getColumns().add(columnOne);
                 ingredientTV.getColumns().add(columnTwo);
                 ingredientTV.getColumns().add(columnThree);
                 ingredientTV.getColumns().add(columnFour);
+                ingredientTV.getColumns().add(columnFive);
 
                 ingredientTV.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
                 break;
@@ -602,6 +656,7 @@ public class NewMenuItemViewModel {
             case "DELETE":
                 onDeleteIngredient(ingredientTV);
                 hasChanged.set(true);
+                clearIngredientInputs();
                 break;
 
         }

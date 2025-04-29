@@ -73,6 +73,9 @@ public class HomepageController {
     private HBox pageOptionTwoBtn;
 
     @FXML
+    private HBox pageOptionThreeBtn;
+
+    @FXML
     private AnchorPane rootPane;
 
     @FXML
@@ -104,7 +107,7 @@ public class HomepageController {
         SystemMessageUtils.setSystemMessageBox(systemMessageBox);
         SystemMessageUtils.setSysteMessageLabel(systemMessageLbl);
 
-        pageOptionBtnList = new HBox[]{pageOptionOneBtn,pageOptionTwoBtn};
+        pageOptionBtnList = new HBox[]{pageOptionOneBtn,pageOptionTwoBtn,pageOptionThreeBtn};
 
         homepageViewModel = new HomepageViewModel();
 
@@ -139,7 +142,19 @@ public class HomepageController {
             }
         }
 
-        HBox[] hboxList = new HBox[]{inventoryBtn, menuBtn, accountsBtn, settingBtn, pageOptionOneBtn, pageOptionTwoBtn, darkLightBtn, signOutBtn, changeLanguageBtn};
+        HBox[] hboxList = new HBox[]{
+                inventoryBtn,
+                menuBtn,
+                accountsBtn,
+                settingBtn,
+                pageOptionOneBtn,
+                pageOptionTwoBtn,
+                pageOptionThreeBtn,
+                darkLightBtn,
+                signOutBtn,
+                changeLanguageBtn
+        };
+
         for (HBox hbox : hboxList) {
             hbox.getStyleClass().add("hover-effect");
         }
