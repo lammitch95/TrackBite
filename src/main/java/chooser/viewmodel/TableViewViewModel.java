@@ -63,6 +63,8 @@ public class TableViewViewModel {
         titleMapping.put("View Accounts","Accounts");
         titleMapping.put("View Menu Items","Menu");
         titleMapping.put("View Inventory", "Inventory");
+        titleMapping.put("Inventory Delivery Report", "Deliveries");
+
 
     }
 
@@ -313,13 +315,14 @@ public class TableViewViewModel {
                     case "View Menu Items":
                         collectionName = "Menu";
                         break;
-
                     case "View Inventory":
                         collectionName = "Inventory";
                         break;
-
+                    case "Inventory Delivery Report":
+                        collectionName = "inventoryDeliveries";
+                        break;
                     default:
-                        System.out.println("Collection Name doesnt exist for Table View");
+                        System.out.println("Collection Name doesn't exist for Table View");
                 }
 
                 TableViewUtils.setStoreCollectionName(collectionName);

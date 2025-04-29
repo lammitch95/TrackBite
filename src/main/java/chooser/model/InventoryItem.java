@@ -1,5 +1,7 @@
 package chooser.model;
 
+import java.time.LocalDate;
+
 public class InventoryItem {
     private final String itemId;
     private final String itemName;
@@ -86,6 +88,8 @@ public class InventoryItem {
             return "In Stock";
         }
     }
+
+
 
 
 }

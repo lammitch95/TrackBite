@@ -235,15 +235,7 @@ public class FirestoreUtils {
             List<QueryDocumentSnapshot> docs = db.collection("inventoryDeliveries").get().get().getDocuments();
 
             for (QueryDocumentSnapshot doc : docs) {
-                InventoryDelivery d = new InventoryDelivery(
-                        doc.getString("itemId"),
-                        doc.getString("itemName"),
-                        Float.parseFloat(String.valueOf(doc.get("quantity"))),
-                        LocalDate.parse(doc.getString("deliveryDate")),
-                        LocalDate.parse(doc.getString("expirationDate")),
-                        Float.parseFloat(String.valueOf(doc.get("pricePerUnit"))),
-                        doc.getString("supplier")
-                );
+                InventoryDelivery d = createDeliveryFromDocument(doc); // <<< use your new helper
                 deliveries.add(d);
             }
         } catch (Exception e) {
@@ -251,6 +243,19 @@ public class FirestoreUtils {
         }
         return deliveries;
     }
+
+    public static InventoryDelivery createDeliveryFromDocument(QueryDocumentSnapshot doc) {
+        return new InventoryDelivery(
+                doc.getString("itemId"),
+                doc.getString("itemName"),
+                Float.parseFloat(String.valueOf(doc.get("quantity"))),
+                LocalDate.parse(doc.getString("deliveryDate")),
+                LocalDate.parse(doc.getString("expirationDate")),
+                Float.parseFloat(String.valueOf(doc.get("pricePerUnit"))),
+                doc.getString("supplier")
+        );
+    }
+
 }
 
 
