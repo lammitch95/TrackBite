@@ -29,6 +29,7 @@ public class TableViewUtils {
     private static String selectedRowID;
 
     private static String storeCollectionName;
+    private static Consumer<Object> onClickAction;
 
     static{
         selectedRowID = null;
@@ -159,6 +160,7 @@ public class TableViewUtils {
 //    }
 
     public static <T> void populateTableView(String status,TableView<T> tableView, List<T> data, Map<String, String> columnNameMap, String clickableField, Consumer<T> onClickAction ) {
+        TableViewUtils.onClickAction = (Consumer<Object>) onClickAction;
 
         tableView.getColumns().clear();
         tableView.getItems().clear();
