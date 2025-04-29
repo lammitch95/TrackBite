@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="600" prefWidth="600" stylesheets="@../../MenuForum.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.MenuForumController">
+    <!-- Main Content (Center) -->
+    <center>
+        <ScrollPane fitToWidth="true" prefHeight="600" prefWidth="400">
+            <padding>
+                <Insets left="20.0" />
+            </padding>
+            <content>
+                <VBox alignment="CENTER" prefHeight="700" prefWidth="400" spacing="15">
+                    <children>
+                        <Label styleClass="title-label" text="Add New Menu Item" />
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label styleClass="field-label" text="Menu ID:" />
+                            <Label fx:id="menuIdLabel" prefWidth="200" styleClass="text-field" text="MENU-0000" />
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label styleClass="field-label" text="Item Name:" />
+                            <TextField fx:id="menuItemNameField" prefWidth="200" promptText="Enter Item Name" styleClass="text-field" />
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label styleClass="field-label" text="Description:" />
+                            <TextArea fx:id="descriptionField" prefHeight="80" prefWidth="200" promptText="Enter Description" styleClass="text-area" wrapText="true" />
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label styleClass="field-label" text="Price:" />
+                            <TextField fx:id="priceField" prefWidth="150" promptText="e.g., 12.99" styleClass="text-field" />
+                            <ComboBox fx:id="currencyComboBox" prefWidth="50" styleClass="combo-box">
+                                <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                        <String fx:value="£" /> <!-- Pounds -->
+                                        <String fx:value="€" /> <!-- Euros -->
+                                        <String fx:value="$" /> <!-- Dollars -->
+                                    </FXCollections>
+                                </items>
+                            </ComboBox>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label styleClass="field-label" text="Category:" />
+                            <ComboBox fx:id="categoryComboBox" prefHeight="37.0" prefWidth="139.0" styleClass="combo-box">
+                                <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                        <String fx:value="Appetizers" />
+                                        <String fx:value="Lunch" />
+                                        <String fx:value="Dinner" />
+                                        <String fx:value="Specials" />
+                                        <String fx:value="Drinks" />
+                                        <String fx:value="Desserts" />
+                                    </FXCollections>
+                                </items>
+                            </ComboBox>
+                        </HBox>
+                        <!-- Ingredients Section -->
+                        <VBox spacing="5">
+                            <Label styleClass="section-label" text="Ingredients:" />
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Spinner fx:id="ingredientAmountSpinner" prefWidth="60" styleClass="spinner">
+                                    <valueFactory>
+                                        <SpinnerValueFactory.IntegerSpinnerValueFactory initialValue="1" max="100" min="1" />
+                                    </valueFactory>
+                                </Spinner>
+                                <TextField fx:id="ingredientInputField" prefWidth="140" promptText="e.g., buns, liters of oil" styleClass="text-field" />
+                                <ComboBox fx:id="unitSuggestionComboBox" prefWidth="90" styleClass="combo-box">
+                                    <items>
+                                        <FXCollections fx:factory="observableArrayList">
+                                            <String fx:value="Liters" />
+                                            <String fx:value="Grams" />
+                                            <String fx:value="Pieces" />
+                                            <String fx:value="Cases" />
+                                            <String fx:value="Pounds" />
+                                            <String fx:value="Ounces" />
+                                        </FXCollections>
+                                    </items>
+                                </ComboBox>
+                            </HBox>
+                            <Button fx:id="addIngredientButton" onAction="#handleAddIngredient" styleClass="action-button" text="Add Ingredient" />
+                            <ListView fx:id="ingredientListView" prefHeight="150" prefWidth="300" styleClass="list-view" />
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="5">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="10">
+                                    <Label styleClass="field-label" text="Item Image:" />
+                                    <Button fx:id="uploadImageButton" onAction="#handleImageUpload" styleClass="action-button" text="Upload Image" />
+                                </HBox>
+                                <ImageView fx:id="menuItemImageView" fitHeight="150" fitWidth="150" preserveRatio="true" styleClass="image-view" />
+                                <HBox alignment="CENTER" spacing="20" styleClass="button-container">
+                                    <Button fx:id="submitButton" onAction="#handleSubmit" styleClass="submit-button" text="Submit" />
+                                    <Button fx:id="cancelButton" onAction="#handleCancel" styleClass="cancel-button" text="Cancel" />
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

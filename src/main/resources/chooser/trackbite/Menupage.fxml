@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.MenuPageController">
+    <VBox prefHeight="800" prefWidth="1000" spacing="10" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label text="Menu"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold;"
+                   alignment="CENTER_LEFT"
+                   textAlignment="LEFT"
+                   HBox.hgrow="NEVER"/>
+        </HBox>
+
+        <!-- Category Selection Bar aligned to the left -->
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <Button onAction="#showAppetizers" text="Appetizers" />
+            <Button onAction="#showLunch" text="Lunch" />
+            <Button onAction="#showDinner" text="Dinner" />
+            <Button onAction="#showDesserts" text="Desserts" />
+            <Button onAction="#showSpecials" text="Specials" />
+            <Button onAction="#showDrinks" text="Drinks" />
+        </HBox>
+
+        <!-- Add Item Button -->
+        <HBox alignment="TOP_RIGHT" spacing="10">
+            <Button fx:id="addItemButton" onAction="#openAddItemForm" text="Add Item" />
+            <Button fx:id="editItemButton" onAction="#openEditItemForm" text="Edit Item" disable="true"/>
+            <Button fx:id="deleteItemButton" onAction="#handleDeleteItem" text="Delete Item" disable="true"/>
+            <HBox.margin>
+                <Insets right="20.0" />
+            </HBox.margin>
+        </HBox>
+
+        <!-- Item Display Area -->
+        <VBox fx:id="itemContainer" alignment="TOP_CENTER" spacing="10" VBox.vgrow="ALWAYS">
+            <!-- Items will be dynamically added here -->
+        </VBox>
+    </VBox>
+</AnchorPane>
