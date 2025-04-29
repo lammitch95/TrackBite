@@ -19,15 +19,6 @@ public class SceneNavigator {
     private static Stage mainStage;
     private static double currWidth;
     private static double currHeight;
-    private static String selectedItemId; // Stores the selected item ID
-
-    public static void setSelectedItemId(String itemId) {
-        selectedItemId = itemId;
-    }
-
-    public static String getSelectedItemId() {
-        return selectedItemId;
-    }
 
     private static ObjectProperty<Parent> currentView = new SimpleObjectProperty<>(null);
     private static final Map<String, String> pageMappings = new HashMap<>();
@@ -39,11 +30,12 @@ public class SceneNavigator {
         pageMappings.put("New Menu Item","NewMenuItemForm.fxml");
         pageMappings.put("View Menu Items", "TableView.fxml");
 
-        pageMappings.put("Add Inventory Item","AddNewItemPage.fxml");
-        pageMappings.put("View Inventory", "TableView.fxml");
-        pageMappings.put("Edit Item", "editItemForm.fxml");
+        pageMappings.put("New Supplier", "Supplier.fxml");
+        pageMappings.put("View Suppliers", "SupplierTableView.fxml");
 
-        pageMappings.put("Receive Product Delivery", "addDeliveryPage.fxml");
+        pageMappings.put("New Delivery", "Delivery.fxml");
+        pageMappings.put("View Deliveries", "TableView.fxml");
+
     }
 
     public static ObjectProperty<Parent> currentViewProperty() {
@@ -87,16 +79,10 @@ public class SceneNavigator {
 
             boolean wasFullscreen = mainStage.isFullScreen();
 
-            // Removed debugging
-            String resourcePath = "/chooser/trackbite/" + fxmlFile + ".fxml";
-            FXMLLoader loader = new FXMLLoader(SceneNavigator.class.getResource(resourcePath));
-
-            if (SceneNavigator.class.getResource(resourcePath) == null) {
-                throw new IOException("FXML file not found at: " + resourcePath);
-            }
+            FXMLLoader loader = new FXMLLoader(SceneNavigator.class.getResource("/chooser/trackbite/"+fxmlFile+".fxml"));
             Parent root = loader.load();
 
-            if (width > 0.0 && height > 0.0) {
+            if(width > 0.0 && height > 0.0){
                 currWidth = width;
                 currHeight = height;
             }
@@ -116,7 +102,6 @@ public class SceneNavigator {
             }
             mainStage.show();
         } catch (IOException e) {
-            // Removed debugging
             e.printStackTrace();
         }
     }

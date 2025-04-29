@@ -2,9 +2,9 @@ package chooser.viewmodel;
 
 import chooser.database.FirestoreUtils;
 import chooser.model.CurrentPageOptions;
-import chooser.model.InventoryItem;
 import chooser.model.MenuItem;
 import chooser.model.User;
+import chooser.model.ViewDelivery;
 import chooser.utils.ProgressLoadUtils;
 import chooser.utils.SceneNavigator;
 import chooser.utils.SystemMessageUtils;
@@ -62,7 +62,8 @@ public class TableViewViewModel {
 
         titleMapping.put("View Accounts","Accounts");
         titleMapping.put("View Menu Items","Menu");
-        titleMapping.put("View Inventory", "Inventory");
+
+        titleMapping.put("View Deliveries", "Deliveries");
 
     }
 
@@ -153,13 +154,6 @@ public class TableViewViewModel {
                 break;
             default:
                 System.out.println("This option doesnt exist in table view: "+optionName);
-                if (optionName.equals("ADD NEW")) {
-                    if ("Inventory".equals(CurrentPageOptions.getCurrPageOption())) {
-                        SceneNavigator.switchScene("AddNewItemPage", "TrackBite/AddNewItemPage", -1, -1, true);
-                    } else {
-                        System.out.println("ADD NEW is not supported for: " + CurrentPageOptions.getCurrPageOption());
-                    }
-                }
         }
     }
 
@@ -186,17 +180,13 @@ public class TableViewViewModel {
                         System.out.println("The selected value is not a Menu Item object.");
                     }
                     break;
-
-                case "Inventory":
-                    if (value instanceof InventoryItem selectedUser) {
-                        String retrieveEmployeeID = selectedUser.getItemId();
-                        System.out.println("Selected Inventory Item ID on selected Row: " + retrieveEmployeeID);
-                        selectedRowID = retrieveEmployeeID;
+                case "Deliveries":
+                    if(value instanceof ViewDelivery d){
+                        selectedRowID = d.getDeliveryID();
                     } else {
-                        System.out.println("The selected value is not a Inv object.");
+                        System.out.println("Not a Delivery row: " + value);
                     }
                     break;
-
 
                 default:
                     System.out.println("Collection doesnt exist to store row ID");
@@ -313,9 +303,8 @@ public class TableViewViewModel {
                     case "View Menu Items":
                         collectionName = "Menu";
                         break;
-
-                    case "View Inventory":
-                        collectionName = "Inventory";
+                    case "View Deliveries":
+                        collectionName = "Deliveries";
                         break;
 
                     default:
@@ -333,9 +322,8 @@ public class TableViewViewModel {
 
                     rightArrowVisible.set(true);
                     rightArrowBtnDisable.set(false);
-                    System.out.println("Quick Checking Collection name: "+collectionName);
+
                     QuerySnapshot snapshot = FirestoreUtils.getAllDocuments(collectionName);
-                    System.out.println("Quick Checking snapshot: "+snapshot);
                     if (snapshot != null) {
 
                         switch (collectionName){
@@ -345,20 +333,21 @@ public class TableViewViewModel {
                                 break;
 
                             case "Inventory":
-                                entireDataCollection = TableViewUtils.prepareTableViewData(InventoryItem.class, collectionName, snapshot);
-                                storedColumnClickableName = "itemId";
                                 break;
 
                             case "Menu":
                                 entireDataCollection = TableViewUtils.prepareTableViewData(MenuItem.class, collectionName, snapshot);
                                 storedColumnClickableName = "id";
                                 break;
+
+                            case "Deliveries":
+                                entireDataCollection = TableViewUtils.prepareTableViewData(ViewDelivery.class, collectionName, snapshot);
+                                storedColumnClickableName = "deliveryID";
+                                break;
+
                             default:
                                 System.out.println("Collection Doesnt Exist. Table View Failed..");
                         }
-
-
-                        System.out.println("Checking collection Name: "+ collectionName + " Also Size of entire Data Collection: "+entireDataCollection.size());
 
                     }
                 }

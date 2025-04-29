@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.layout.ColumnConstraints?>
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.NewDeliveryFormController">
+    <center>
+        <VBox spacing="15" alignment="TOP_CENTER" padding="20">
+            <!-- Header -->
+            <Label text="New Delivery Form" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+            <!-- Form Fields -->
+            <GridPane hgap="10" vgap="10">
+                <columnConstraints>
+                    <!-- Label column -->
+                    <ColumnConstraints halignment="RIGHT" minWidth="150"/>
+                    <!-- Field column -->
+                    <ColumnConstraints minWidth="300"/>
+                </columnConstraints>
+                <children>
+                    <!-- Delivery ID (read-only, auto-generated) -->
+                    <Label text="Delivery ID:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="deliveryIDField" GridPane.rowIndex="0" GridPane.columnIndex="1"
+                               editable="false" promptText="Auto-generated"/>
+
+                    <!-- Date of Delivery -->
+                    <Label text="Date of Delivery (MM/DD/YYYY):" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="deliveryDateField" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                               promptText="MM/DD/YYYY"/>
+
+                    <!-- Supplier Name/ID (searchable) -->
+                    <Label text="Supplier Name/ID:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="supplierComboBox" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                              promptText="Search Supplier..." editable="true"/>
+
+                    <!-- Supplier Address -->
+                    <Label text="Supplier Address:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <TextField fx:id="supplierAddressField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                    <!-- Delivery Address -->
+                    <Label text="Delivery Address:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <TextField fx:id="deliveryAddressField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                </children>
+            </GridPane>
+
+            <!-- Delivery Items Table -->
+            <Label text="List of Items Needed for Delivery:" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+            <TableView fx:id="deliveryItemsTable" prefHeight="200">
+                <columns>
+                    <TableColumn fx:id="itemNameColumn" text="Item Name" prefWidth="250"/>
+                    <TableColumn fx:id="itemQuantityColumn" text="Item Quantity" prefWidth="150"/>
+                </columns>
+            </TableView>
+
+            <!-- Controls to Add/Clear Items -->
+            <HBox spacing="10">
+                <TextField fx:id="itemNameField" promptText="Item Name"/>
+                <TextField fx:id="itemQuantityField" promptText="Item Quantity"/>
+                <Button text="Add Item" onAction="#onAddItem"/>
+                <Button text="Clear Items" onAction="#onClearItems"/>
+            </HBox>
+
+            <!-- Submission Buttons -->
+            <HBox spacing="20" alignment="CENTER">
+                <Button text="Submit Delivery" onAction="#onSubmitDelivery"/>
+                <Button text="Reset Form" onAction="#onResetForm"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

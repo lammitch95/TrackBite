@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.DeliveryTableViewController">
+    <top>
+        <HBox spacing="10" padding="10">
+            <Label text="Delivery Records" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+            <!-- Additional controls can be added here -->
+        </HBox>
+    </top>
+    <center>
+        <TableView fx:id="deliveryTable" prefHeight="400">
+            <columns>
+                <TableColumn fx:id="deliveryIDColumn" text="Delivery ID" prefWidth="100"/>
+                <TableColumn fx:id="deliveryDateColumn" text="Date of Delivery" prefWidth="150"/>
+                <TableColumn fx:id="supplierColumn" text="Supplier" prefWidth="150"/>
+                <TableColumn fx:id="deliveryAddressColumn" text="Delivery Address" prefWidth="200"/>
+            </columns>
+        </TableView>
+    </center>
+    <bottom>
+        <HBox spacing="10" padding="10" alignment="CENTER_RIGHT">
+            <Button text="Export to Excel" onAction="#onExportExcel"/>
+            <Button text="Refresh" onAction="#onRefresh"/>
+        </HBox>
+    </bottom>
+</BorderPane>

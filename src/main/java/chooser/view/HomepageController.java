@@ -6,13 +6,14 @@ import chooser.model.User;
 import chooser.utils.SceneNavigator;
 import chooser.utils.SystemMessageUtils;
 import chooser.viewmodel.HomepageViewModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -24,6 +25,7 @@ import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.List;
+import java.io.IOException;
 
 public class HomepageController {
 
@@ -44,6 +46,12 @@ public class HomepageController {
 
     @FXML
     private HBox inventoryBtn;
+
+    @FXML
+    private HBox supplierBtn;
+
+    @FXML
+    private HBox deliveryBtn;
 
     @FXML
     private ImageView lightDarkIcon;
@@ -139,7 +147,7 @@ public class HomepageController {
             }
         }
 
-        HBox[] hboxList = new HBox[]{inventoryBtn, menuBtn, accountsBtn, settingBtn, pageOptionOneBtn, pageOptionTwoBtn, darkLightBtn, signOutBtn, changeLanguageBtn};
+        HBox[] hboxList = new HBox[]{inventoryBtn, menuBtn, supplierBtn, deliveryBtn, accountsBtn, settingBtn, pageOptionOneBtn, pageOptionTwoBtn, darkLightBtn, signOutBtn, changeLanguageBtn};
         for (HBox hbox : hboxList) {
             hbox.getStyleClass().add("hover-effect");
         }
@@ -220,6 +228,8 @@ public class HomepageController {
         }
 
     }
+
+
     @FXML
     void onAccountsClick(MouseEvent event) {
         homepageViewModel.setCurrentPage("Accounts");
@@ -233,10 +243,40 @@ public class HomepageController {
     }
 
     @FXML
+    void onSupplierClick(MouseEvent event) {
+        homepageViewModel.setCurrentPage("Supplier");
+        changeUIPageOptions("Supplier");
+    }
+
+    @FXML
+    void onDeliveryClick(MouseEvent event) {
+        homepageViewModel.setCurrentPage("Delivery");
+        changeUIPageOptions("Delivery");
+    }
+
+    @FXML
     void onMenuClick(MouseEvent event) {
         homepageViewModel.setCurrentPage("Menu");
         changeUIPageOptions("Menu");
+        loadMenuPage();
     }
+
+    private void loadMenuPage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/chooser/trackbite/Menupage.fxml"));
+            Parent menuPage = loader.load();
+
+            // Clear the current content and load Menupage
+            mainContentPane.getChildren().clear();
+            mainContentPane.getChildren().add(menuPage);
+
+            System.out.println("Menupage loaded successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error loading Menupage.fxml");
+        }
+    }
+
 
     @FXML
     void onChangeLanguageClick(ActionEvent event) {
@@ -268,21 +308,4 @@ public class HomepageController {
 
     }
 
-    @FXML
-    private void onReceiveDeliveryClick(MouseEvent event) {
-        SceneNavigator.loadView("Receive Product Delivery");
-    }
-
-    @FXML
-    private void onViewDeliveriesClick(MouseEvent event) {
-        SceneNavigator.switchScene(
-                "ViewDeliveriesPage",  // assuming your FXML is named ViewDeliveriesPage.fxml
-                "TrackBite/ViewDeliveriesPage",
-                -1,
-                -1,
-                true
-        );
-    }
-
 }
-

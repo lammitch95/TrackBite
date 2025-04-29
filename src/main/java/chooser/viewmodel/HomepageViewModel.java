@@ -22,27 +22,28 @@ public class HomepageViewModel {
     private Parent previousView;
 
 
-
     public HomepageViewModel(){
-        navMap.put("Accounts", List.of(
-                new NavOptions("New User", "newUserBtn", "newUser.png"),
-                new NavOptions("View Accounts", "viewAccountsBtn", "viewAccounts.png")
-
-        ));
         navMap.put("Menu", List.of(
                 new NavOptions("New Menu Item", "newMenuItemBtn", "newMenuItem.png"),
                 new NavOptions("View Menu Items", "viewMenuBtn", "viewMenuItemsIcon.png")
         ));
 
-        navMap.put("Inventory", List.of(
-                new NavOptions("Add Inventory Item", "addInventory", "newMenuItem.png"),
-                new NavOptions("View Inventory", "viewInv", "viewMenuItemsIcon.png")
-                //new NavOptions("Receive Inventory", "receiveInv", "viewMenuItemsIcon.png"),
-                //new NavOptions("View Past Deliveries", "viewDeliveries", "viewMenuItemsIcon.png"),
-                //new NavOptions("Place Supply Order", "placeSupplyOrder", "viewMenuItemsIcon.png")
+        navMap.put("Supplier", List.of(
+                new NavOptions("New Supplier", "newSupplierBtn", "newSupplier.png"),
+                new NavOptions("View Suppliers", "viewSupplierBtn", "viewSupplier.png")
+
+//                new NavOptions("New Delivery", "newDeliveryBtn", "newDelivery.png"),
+//                new NavOptions("View Deliveries", "viewDeliveryBtn", "viewDelivery.png")
         ));
 
-
+        navMap.put("Delivery", List.of(
+                new NavOptions("New Delivery", "newDeliveryBtn", "newDelivery.png"),
+                new NavOptions("View Deliveries", "viewDeliveryBtn", "viewDelivery.png")
+        ));
+        navMap.put("Accounts", List.of(
+                new NavOptions("New User", "newUserBtn", "newUser.png"),
+                new NavOptions("View Accounts", "viewAccountsBtn", "viewAccounts.png")
+        ));
     }
 
 

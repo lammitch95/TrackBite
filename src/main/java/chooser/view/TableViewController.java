@@ -70,7 +70,6 @@ public class TableViewController {
 
         String currPageOption = CurrentPageOptions.getCurrPageOption();
         if(currPageOption != null && !currPageOption.equals("")){
-            System.out.println("Current Page Options in tableview controller intialize: "+currPageOption);
             viewTitleLbl.setText(tableViewVM.getTitleMapping().get(currPageOption));
             tableViewVM.setUp();
         }

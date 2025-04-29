@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Pos?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="chooser.view.SupplierTableController">
+    <children>
+        <VBox alignment="CENTER" spacing="20" layoutX="20" layoutY="20" prefWidth="800">
+            <Label text="Supplier List" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+
+            <TableView fx:id="supplierTable" prefHeight="400" prefWidth="780">
+                <columns>
+                    <TableColumn fx:id="supplierIdColumn" text="Supplier ID" prefWidth="100" />
+                    <TableColumn fx:id="supplierNameColumn" text="Supplier Name" prefWidth="150" />
+                    <TableColumn fx:id="contactPersonColumn" text="Contact Person" prefWidth="150" />
+                    <TableColumn fx:id="phoneNumberColumn" text="Phone Number" prefWidth="120" />
+                    <TableColumn fx:id="emailAddressColumn" text="Email Address" prefWidth="150" />
+                    <TableColumn fx:id="websiteLinkColumn" text="Website" prefWidth="150" />
+                    <TableColumn fx:id="businessAddressColumn" text="Business Address" prefWidth="200" />
+                    <TableColumn fx:id="warehouseAddressColumn" text="Warehouse Address" prefWidth="200" />
+                    <TableColumn fx:id="deliveryAreaColumn" text="Delivery Area" prefWidth="150" />
+                </columns>
+            </TableView>
+
+            <Label fx:id="statusLabel" text="" style="-fx-text-fill: green;" />
+        </VBox>
+    </children>
+</AnchorPane>

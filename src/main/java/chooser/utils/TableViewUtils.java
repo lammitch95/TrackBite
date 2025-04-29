@@ -1,9 +1,9 @@
 package chooser.utils;
 
 import chooser.database.FirestoreUtils;
-import chooser.model.InventoryItem;
 import chooser.model.MenuItem;
 import chooser.model.User;
+import chooser.model.ViewDelivery;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import javafx.beans.property.SimpleObjectProperty;
@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+
+import static chooser.database.FirestoreUtils.createDeliveryFromDocument;
 
 public class TableViewUtils {
 
@@ -50,18 +52,14 @@ public class TableViewUtils {
         entireColumnNames.get("Menu").put("itemImage", "Item Image");
         entireColumnNames.get("Menu").put("ingredientsList", "Ingredients");
 
-
-        entireColumnNames.put("Inventory",new HashMap<>());
-        entireColumnNames.get("Inventory").put("itemId", "Item ID");
-        entireColumnNames.get("Inventory").put("itemName", "Item Name");
-        entireColumnNames.get("Inventory").put("unit", "Unit");
-        entireColumnNames.get("Inventory").put("category", "Category");
-        entireColumnNames.get("Inventory").put("quantity", "Quantity");
-        entireColumnNames.get("Inventory").put("pricePerUnit", "Price per Unit");
-        entireColumnNames.get("Inventory").put("supplier", "Supplier");
-        entireColumnNames.get("Inventory").put("stockStatus", "Stock Status");
-
-
+        entireColumnNames.put("Deliveries", new HashMap<>());
+        entireColumnNames.get("Deliveries").put("deliveryID",      "Delivery ID");
+        entireColumnNames.get("Deliveries").put("orderNumber",     "Order #");
+        entireColumnNames.get("Deliveries").put("deliveryDate",    "Date");
+        entireColumnNames.get("Deliveries").put("deliveryTime",    "Time");
+        entireColumnNames.get("Deliveries").put("deliveryAddress", "Address");
+        entireColumnNames.get("Deliveries").put("supplier",        "Supplier");
+        entireColumnNames.get("Deliveries").put("supplierAddress", "Supplier Addr");
     }
 
     public static void setStoreCollectionName(String value){storeCollectionName = value;}
@@ -84,8 +82,8 @@ public class TableViewUtils {
             case "Menu":
                 SceneNavigator.loadView("New Menu Item");
                 break;
-            case "Inventory":
-                SceneNavigator.loadView("Add Inventory Item");
+            case "Deliveries":
+                SceneNavigator.loadView("New Delivery");
                 break;
             default:
                 System.out.println("Collection doesnt exist for ADD NEW operations");
@@ -103,8 +101,9 @@ public class TableViewUtils {
                     retrieveId = ((User) obj).getUsername();
                 } else if(obj instanceof MenuItem) {
                     retrieveId = ((MenuItem) obj).getId();
-                } else if(obj instanceof InventoryItem) {
-                    retrieveId = ((InventoryItem) obj).getItemId();
+                } else if (obj instanceof ViewDelivery) {
+                    retrieveId = ((ViewDelivery) obj).getDeliveryID();} else if (obj instanceof ViewDelivery) {
+                    retrieveId = ((ViewDelivery) obj).getDeliveryID();
                 }else{
                     System.out.println("Unknown object type: " + obj.getClass().getName());
                     continue;
@@ -115,7 +114,6 @@ public class TableViewUtils {
                 }
         }
         entireDatabaseCollection.put(collectionName, newMap);
-        System.out.println("Checking Size of entireDatabaseCollection in addCollectionToMap method: "+ entireDatabaseCollection.size());
     }
 
     public static Object retrieveDocumentData(String collectionName, String documentID){
@@ -129,8 +127,6 @@ public class TableViewUtils {
 
 
     public static <T> List<T> prepareTableViewData(Class<T> clazz, String collectionName, QuerySnapshot snapshot) {
-
-        System.out.println("prepareTableViewData is called ");
         List<QueryDocumentSnapshot> documents = snapshot.getDocuments();
         List<T> tableData = new ArrayList<>();
 
@@ -147,17 +143,20 @@ public class TableViewUtils {
                 tableData.add(clazz.cast(formatMenuData));
             }
         }
-        if (collectionName.equals("Inventory") && clazz == InventoryItem.class) {
+
+        if (collectionName.equals("Deliveries") && clazz == ViewDelivery.class) {
             for (QueryDocumentSnapshot document : documents) {
-                InventoryItem formatUserData = FirestoreUtils.createInvItemFromDocument(document);
-                tableData.add(clazz.cast(formatUserData));
+                ViewDelivery d = createDeliveryFromDocument(document);
+                tableData.add(clazz.cast(d));
             }
         }
 
-        System.out.println("TableData Size check: "+tableData.size());
-
         return tableData;
     }
+
+//    private static ViewDelivery createDeliveryFromDocument(QueryDocumentSnapshot document) {
+//        return FirestoreUtils.createDeliveryFromDocument(document);
+//    }
 
     public static <T> void populateTableView(String status,TableView<T> tableView, List<T> data, Map<String, String> columnNameMap, String clickableField, Consumer<T> onClickAction ) {
 
@@ -169,46 +168,6 @@ public class TableViewUtils {
         }
 
         T firstItem = data.get(0);
-        if (columnNameMap.containsKey("stockStatus")) {
-            TableColumn<T, String> statusColumn = new TableColumn<>(columnNameMap.get("stockStatus"));
-            statusColumn.setCellValueFactory(cellData -> {
-                try {
-                    Method statusMethod = cellData.getValue().getClass().getMethod("getStockStatus");
-                    Object value = statusMethod.invoke(cellData.getValue());
-                    return new SimpleStringProperty(value.toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return new SimpleStringProperty("--");
-                }
-            });
-
-            statusColumn.setCellFactory(column -> new TableCell<>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setText(null);
-                        setStyle("");
-                    } else {
-                        setText(item);
-                        switch (item.toLowerCase()) {
-                            case "out of stock":
-                                setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
-                                break;
-                            case "low stock":
-                                setStyle("-fx-text-fill: orange; -fx-font-weight: bold;");
-                                break;
-                            default:
-                                setStyle("-fx-text-fill: black;");
-                                break;
-                        }
-                    }
-                }
-            });
-
-            tableView.getColumns().add(statusColumn);
-        }
-
 
         for (var field : firstItem.getClass().getDeclaredFields()) {
             String fieldName = field.getName();
@@ -232,23 +191,14 @@ public class TableViewUtils {
                             Hyperlink hyperlink = new Hyperlink(fieldValue.toString());
                             hyperlink.setStyle("-fx-text-fill: blue; -fx-underline: true;");
                             hyperlink.setVisited(false);
-
                             hyperlink.setOnAction(event -> {
                                 String hyperlinkValue = hyperlink.getText();
                                 System.out.println("Clicked: " + hyperlink.getText());
                                 TableViewUtils.setSelectedRowID(hyperlinkValue);
-                                SceneNavigator.setSelectedItemId(hyperlinkValue);
-
-                                if ("Inventory".equals(storeCollectionName)) {
-                                    SceneNavigator.loadView("Edit Item");
-                                } else {
-                                    handleNewDocument();
-                                }
+                                handleNewDocument();
                                 hyperlink.setVisited(false);
-
                             });
                             return new SimpleObjectProperty<>(hyperlink);
-
                         }
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();

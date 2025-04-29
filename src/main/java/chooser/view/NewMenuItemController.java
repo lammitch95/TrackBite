@@ -52,7 +52,7 @@ public class NewMenuItemController {
     private HBox deleteIngredientBtn;
 
     @FXML
-    private Label deliveryFormLabel;
+    public Label deliveryFormLabel;
 
     @FXML
     private HBox descriptionHbox;
@@ -118,7 +118,7 @@ public class NewMenuItemController {
     private HBox rightArrowBtn;
 
     @FXML
-    private ImageView rightArrowImage;
+    public ImageView rightArrowImage;
 
     @FXML
     private HBox saveBtn;

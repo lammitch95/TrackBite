@@ -1,11 +1,11 @@
 package chooser.database;
 
-import chooser.model.InventoryDelivery;
-import chooser.model.InventoryItem;
 import chooser.model.IngredientItem;
 import chooser.model.MenuItem;
 import chooser.model.User;
+import chooser.model.ViewDelivery;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.*;
 import com.google.cloud.firestore.WriteResult;
@@ -15,15 +15,18 @@ import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Blob;
+import com.google.firebase.cloud.FirestoreClient;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class FirestoreUtils {
@@ -31,7 +34,8 @@ public class FirestoreUtils {
     private static HashMap<String, HashMap<String, Map<String, Object>>> collectionMap = new HashMap<>();
 
 
-    public static void writeDoc(String collectionName, String documentId, Map<String, Object> data) {
+
+    public static void writeDoc(String collectionName, String documentId, Map<String, Object> data){
         try {
 
             Firestore db = FirestoreContext.getFirestore();
@@ -49,7 +53,6 @@ public class FirestoreUtils {
 
     public static Map<String, Object> readDoc(String collectionName, String documentId) {
         try {
-            System.out.println(documentId);
             Firestore db = FirestoreContext.getFirestore();
 
             DocumentReference docRef = db.collection(collectionName).document(documentId);
@@ -62,38 +65,6 @@ public class FirestoreUtils {
                 System.out.println("No such document!");
                 return null;
             }
-
-
-        } catch (InterruptedException | ExecutionException | IOException e) {
-            System.err.println("Error reading data: " + e.getMessage());
-            return null;
-        }
-    }
-
-    public static List<InventoryItem> readCollection(String collectionName) {
-        try {
-            Firestore db = FirestoreContext.getFirestore();
-
-            ApiFuture<QuerySnapshot> snapshot = db.collection(collectionName).get();
-            List<QueryDocumentSnapshot> documents = snapshot.get().getDocuments();
-
-            List<InventoryItem> inventoryItems = new ArrayList<>();
-
-            for (QueryDocumentSnapshot document : documents) {
-                System.out.println(document.getData());
-                Object test1DocValue = document.getData().get("quantity");
-                long testElse = (long) 0;
-                String testOptionalFix = Optional.ofNullable(String.valueOf(test1DocValue)).orElse("0");
-                float testFinal = Float.parseFloat(testOptionalFix);
-                inventoryItems.add(new InventoryItem((String) document.getData().get("InventoryItemID"), document.getString("itemName"), document.getString("unit"), document.getString("category"), (String.valueOf(document.getData().get("quantity"))), testFinal, document.getString("supplier")));
-                System.out.println(document.getString("InventoryItemID"));
-                System.out.println(document.getData());
-                System.out.println(document.getData().get("InventoryItemID"));
-
-
-            }
-
-            return inventoryItems;
         } catch (InterruptedException | ExecutionException | IOException e) {
             System.err.println("Error reading data: " + e.getMessage());
             return null;
@@ -144,7 +115,7 @@ public class FirestoreUtils {
     }
 
 
-    public static User authenticateUser(String username, String password) {
+    public static User authenticateUser(String username, String password){
         try {
             Query query = FirestoreContext.getFirestore().collection("Employees")
                     .whereEqualTo("username", username)
@@ -195,65 +166,58 @@ public class FirestoreUtils {
             IngredientItem ingredientItem = new IngredientItem(ingredientName, ingredientQuantity, ingredientUOM, prepDetails);
             ingredientsList.add(ingredientItem);
         }
-        return new MenuItem(menuItemID, name, description, category, price, uom, itemImage, ingredientsList);
+        return new MenuItem(menuItemID, name, description, category, price, uom, itemImage,ingredientsList);
     }
 
-    public static InventoryItem createInvItemFromDocument(DocumentSnapshot document) {
-
-        String itemId = document.contains("InventoryItemID")
-                ? document.getString("InventoryItemID")
-                : document.getId();  // Use doc ID as fallback
-
-        String itemName = document.getString("itemName");
-        String unit = document.getString("unit");
-        String category = document.getString("category");
-        String quantity = document.get("quantity") != null
-                ? String.valueOf(document.get("quantity"))
-                : "0";
-
-        float pricePerUnit;
-        try {
-            pricePerUnit = document.get("pricePerUnit") != null
-                    ? Float.parseFloat(String.valueOf(document.get("pricePerUnit")))
-                    : 0f;
-        } catch (Exception e) {
-            pricePerUnit = 0f;
-        }
-
-        // ✅ Supplier fallback for missing field
-        String supplier = document.contains("supplier") && document.getString("supplier") != null
-                ? document.getString("supplier")
-                : "N/A";
-
-        return new InventoryItem(itemId, itemName, unit, category, quantity, pricePerUnit, supplier);
+    public static ViewDelivery createDeliveryFromDocument(DocumentSnapshot doc) {
+        String DeliveryID      = doc.getString("deliveryID");
+        String OrderNumber   = doc.getString("orderNumber");
+        Timestamp ts   = doc.getTimestamp("deliveryDate");
+        LocalDate DeliveryDate = ts != null
+                ? ts.toDate().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate()
+                : null;
+        String DeliveryTime    = doc.getString("deliveryTime");
+        String DeliveryAddress    = doc.getString("deliveryAddress");
+        String Supplier     = doc.getString("supplier");
+        String SupplierAddress = doc.getString("supplierAddress");
+        return new ViewDelivery(DeliveryID, OrderNumber, DeliveryDate, DeliveryTime, DeliveryAddress, Supplier, SupplierAddress);
     }
 
-    public static List<InventoryDelivery> readDeliveriesCollection() {
-        List<InventoryDelivery> deliveries = new ArrayList<>();
-        try {
-            Firestore db = FirestoreContext.getFirestore();
-            List<QueryDocumentSnapshot> docs = db.collection("inventoryDeliveries").get().get().getDocuments();
+    public static List<Map<String, Object>> readCollection(String suppliers) {
+        List<Map<String, Object>> results = new ArrayList<>();
 
-            for (QueryDocumentSnapshot doc : docs) {
-                InventoryDelivery d = new InventoryDelivery(
-                        doc.getString("itemId"),
-                        doc.getString("itemName"),
-                        Float.parseFloat(String.valueOf(doc.get("quantity"))),
-                        LocalDate.parse(doc.getString("deliveryDate")),
-                        LocalDate.parse(doc.getString("expirationDate")),
-                        Float.parseFloat(String.valueOf(doc.get("pricePerUnit"))),
-                        doc.getString("supplier")
-                );
-                deliveries.add(d);
+        try {
+            // Get Firestore instance
+            Firestore db = FirestoreClient.getFirestore();
+
+            // Create a reference to the "Suppliers" collection specifically
+            ApiFuture<QuerySnapshot> query = db.collection("Suppliers").get();
+
+            // Get all documents from the Suppliers collection
+            QuerySnapshot querySnapshot = query.get();
+            List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+
+            // Convert each document to a Map
+            for (QueryDocumentSnapshot document : documents) {
+                Map<String, Object> data = document.getData();
+                results.add(data);
             }
+
+            return results;
+
+        } catch (InterruptedException e) {
+            System.err.println("Thread interrupted while fetching suppliers: " + e.getMessage());
+            Thread.currentThread().interrupt();
+            return results;
+        } catch (ExecutionException e) {
+            System.err.println("Error executing Firestore query for suppliers: " + e.getMessage());
+            return results;
         } catch (Exception e) {
-            System.err.println("Error reading deliveries: " + e.getMessage());
+            System.err.println("Unexpected error reading suppliers: " + e.getMessage());
+            return results;
         }
-        return deliveries;
     }
+
 }
-
-
-
-
-
