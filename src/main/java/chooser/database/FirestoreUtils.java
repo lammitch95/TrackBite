@@ -1,8 +1,6 @@
 package chooser.database;
 
-import chooser.model.IngredientItem;
-import chooser.model.MenuItem;
-import chooser.model.User;
+import chooser.model.*;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.*;
@@ -18,10 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 public class FirestoreUtils {
@@ -157,11 +152,129 @@ public class FirestoreUtils {
             String ingredientQuantity = (String) ingredientMap.get("quantity");
             String ingredientUOM = (String) ingredientMap.get("uom");
             String prepDetails = (String) ingredientMap.get("prepDetails");
+            String linkInventoryId = (String) ingredientMap.get("linkInventoryId");
+            String remainingUses = (String) ingredientMap.get("remainingUses");
 
-            IngredientItem ingredientItem = new IngredientItem(ingredientName, ingredientQuantity, ingredientUOM, prepDetails);
+            IngredientItem ingredientItem = new IngredientItem(
+                    ingredientName,
+                    ingredientQuantity,
+                    ingredientUOM,
+                    prepDetails,
+                    linkInventoryId,
+                    remainingUses
+            );
             ingredientsList.add(ingredientItem);
         }
         return new MenuItem(menuItemID, name, description, category, price, uom, itemImage,ingredientsList);
+    }
+
+    public static InventoryItem createInventoryItemFromDocument(DocumentSnapshot document) {
+
+        System.out.println("createInventoryItemFromDocument called");
+
+        try{
+
+            String inventoryID = document.getString("inventoryId");
+            String name = document.getString("inventoryName");
+            String category = document.getString("category");
+            String stockStatus = document.getString("stockStatus");
+
+            int totalQuantity = getIntField(document, "totalQuantity");
+
+            String quantityUOM = document.getString("quantityUOM");
+
+            int minStock = getIntField(document, "minStock");
+            int itemLimit = getIntField(document, "itemLimit");
+
+            String itemPrice = document.getString("itemPrice");
+            String priceUOM = document.getString("priceUOM");
+            int inventoryItemCount = getIntField(document, "inventoryItemCount");
+
+            List<Map<String, Object>> itemStockData = (List<Map<String, Object>>) document.get("itemStockList");
+
+            List<ItemStock> itemStockList = new ArrayList<>();
+            for (Map<String, Object> ingredientMap : itemStockData) {
+
+                String itemId = (String) ingredientMap.get("itemId");
+                String itemQuantity = (String) ingredientMap.get("quantity");
+                String itemExpireDate = (String) ingredientMap.get("expireDate");
+
+                ItemStock item = new ItemStock(itemId, Integer.parseInt(itemQuantity), itemExpireDate);
+                itemStockList.add(item);
+            }
+            return new InventoryItem(
+                    inventoryID,
+                    name,
+                    category,
+                    stockStatus,
+                    totalQuantity,
+                    quantityUOM,
+                    itemLimit,
+                    minStock,
+                    itemPrice,
+                    priceUOM,
+                    inventoryItemCount,
+                    itemStockList
+            );
+
+        }catch (Exception e) {
+            System.err.println("Error while creating InventoryItem: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+
+
+    }
+
+    public static LoggedOrder createLoggedOrderFromDocument(DocumentSnapshot document) {
+
+        String loggedOrderid = document.getString("id");
+        String loggedDate = document.getString("loggedDate");
+        String loggedTime = document.getString("loggedTime");
+        String signedBy = document.getString("signedBy");
+
+        List<Map<String, Object>> orderListData = (List<Map<String, Object>>) document.get("orderList");
+
+        List<CustomerOrder> customerOrderList = new ArrayList<>();
+        for (Map<String, Object> ingredientMap : orderListData) {
+
+            String menuItemId = (String) ingredientMap.get("menuItemId");
+            String menuItemName = (String) ingredientMap.get("menuItemName");
+            String tableNum = (String) ingredientMap.get("tableNum");
+            String quantity = (String) ingredientMap.get("quantity");
+            String name = (String) ingredientMap.get("name");
+            String notes = (String) ingredientMap.get("notes");
+
+            CustomerOrder tempOrderItem = new CustomerOrder(
+                    tableNum,
+                    menuItemId,
+                    menuItemName,
+                    quantity,
+                    name,
+                    notes,
+                    null
+            );
+
+            customerOrderList.add(tempOrderItem);
+        }
+        return new LoggedOrder(loggedOrderid, loggedDate, loggedTime, signedBy, customerOrderList);
+    }
+
+    public static int getIntField(DocumentSnapshot document, String fieldName) {
+        Object value = document.get(fieldName);
+        if (value instanceof String) {
+            try {
+                return Integer.parseInt((String) value);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Field " + fieldName + " is not a valid integer string: " + value);
+            }
+        } else if (value instanceof Long) {
+            return ((Long) value).intValue();
+        } else if (value == null) {
+            throw new IllegalArgumentException("Field " + fieldName + " is missing in the document.");
+        } else {
+            throw new IllegalArgumentException("Field " + fieldName + " has unexpected type: " + value.getClass().getSimpleName());
+        }
     }
 }
 

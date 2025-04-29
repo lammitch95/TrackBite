@@ -1,9 +1,7 @@
 package chooser.viewmodel;
 
 import chooser.database.FirestoreUtils;
-import chooser.model.CurrentPageOptions;
-import chooser.model.MenuItem;
-import chooser.model.User;
+import chooser.model.*;
 import chooser.utils.ProgressLoadUtils;
 import chooser.utils.SceneNavigator;
 import chooser.utils.SystemMessageUtils;
@@ -61,6 +59,8 @@ public class TableViewViewModel {
 
         titleMapping.put("View Accounts","Accounts");
         titleMapping.put("View Menu Items","Menu");
+        titleMapping.put("View Inventory", "Inventory");
+        titleMapping.put("View Order History", "Customer Order History");
 
     }
 
@@ -177,6 +177,24 @@ public class TableViewViewModel {
                         System.out.println("The selected value is not a Menu Item object.");
                     }
                     break;
+                case "InventoryV2":
+                    if (value instanceof InventoryItem selectedInventoryItem) {
+                        String inventoryItemID = selectedInventoryItem.getInventoryId();
+                        System.out.println("Selected Inventory Item ID on selected Row: " + inventoryItemID);
+                        selectedRowID = inventoryItemID;
+                    } else {
+                        System.out.println("The selected value is not a Inventory Item object.");
+                    }
+                    break;
+                case "CustomerOrderHistory":
+                    if (value instanceof LoggedOrder selectedLoggedOrderItem) {
+                        String itemID = selectedLoggedOrderItem.getId();
+                        System.out.println("Selected Logged Order ID on selected Row: " + itemID);
+                        selectedRowID = itemID;
+                    } else {
+                        System.out.println("The selected value is not a Inventory Item object.");
+                    }
+                    break;
 
 
                 default:
@@ -253,7 +271,9 @@ public class TableViewViewModel {
                     });
 
             int minRecordNumDisplayed = (currentTableViewPage.get()-1) * initialSetRowDisplay + 1;
-            int currentPageSize = splitPageRowData.get(currentTableViewPage.get()).size();
+            List<?> pageData = splitPageRowData.get(currentTableViewPage.get());
+            int currentPageSize = (pageData != null) ? pageData.size() : 1;
+            //int currentPageSize = splitPageRowData.get(currentTableViewPage.get()).size();
             int maxRecordNumDisplayed = Math.min(minRecordNumDisplayed + currentPageSize - 1, maxRecordCount);
 
             recordsAmountLbl.set(minRecordNumDisplayed+"-"+maxRecordNumDisplayed+" of "+maxRecordCount+" records");
@@ -294,6 +314,12 @@ public class TableViewViewModel {
                     case "View Menu Items":
                         collectionName = "Menu";
                         break;
+                    case "View Inventory":
+                        collectionName = "InventoryV2";
+                        break;
+                    case "View Order History":
+                        collectionName = "CustomerOrderHistory";
+                        break;
 
                     default:
                         System.out.println("Collection Name doesnt exist for Table View");
@@ -320,16 +346,26 @@ public class TableViewViewModel {
                                 storedColumnClickableName = "username";
                                 break;
 
-                            case "Inventory":
-                                break;
-
                             case "Menu":
                                 entireDataCollection = TableViewUtils.prepareTableViewData(MenuItem.class, collectionName, snapshot);
                                 storedColumnClickableName = "id";
                                 break;
+
+                            case "InventoryV2":
+                                entireDataCollection = TableViewUtils.prepareTableViewData(InventoryItem.class, collectionName, snapshot);
+                                storedColumnClickableName = "inventoryId";
+                                break;
+
+                            case "CustomerOrderHistory":
+                                entireDataCollection = TableViewUtils.prepareTableViewData(LoggedOrder.class, collectionName, snapshot);
+                                storedColumnClickableName = "id";
+                                break;
+
                             default:
                                 System.out.println("Collection Doesnt Exist. Table View Failed..");
                         }
+
+                        System.out.println("Checking entireDataCollection Size: "+entireDataCollection.size());
 
                     }
                 }

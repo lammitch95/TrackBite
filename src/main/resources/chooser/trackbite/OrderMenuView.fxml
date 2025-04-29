@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootPane" prefHeight="632.0" prefWidth="1114.0" stylesheets="@lightMode.css" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.OrderMenuViewController">
+   <children>
+      <BorderPane fx:id="mainLayout" prefHeight="706.0" prefWidth="929.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <VBox fx:id="mainContentPane" prefHeight="549.0" prefWidth="951.0" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox fx:id="pageMenuHeader" prefHeight="217.0" prefWidth="1114.0">
+                     <children>
+                        <VBox alignment="CENTER_LEFT" minHeight="0.0" prefHeight="58.0" prefWidth="1114.0" style="-fx-background-color: transparent;">
+                           <children>
+                              <Label fx:id="pageName" prefHeight="35.0" text="Order Menu">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Pane prefHeight="2.0" style="-fx-background-color: gray;" />
+                           </children>
+                           <padding>
+                              <Insets left="30.0" right="30.0" />
+                           </padding>
+                        </VBox>
+                        <HBox alignment="CENTER_LEFT" minHeight="0.0" prefHeight="84.0" prefWidth="1114.0" spacing="15.0">
+                           <children>
+                              <HBox fx:id="chooseCategoryBtn" alignment="CENTER" prefHeight="60.0" prefWidth="152.0" spacing="7.0">
+                                 <children>
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@chooseCategoryIcon.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label fx:id="chooseCategoryLabel" prefHeight="58.0" prefWidth="85.0" text="Choose Category" textFill="WHITE" wrapText="true">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox fx:id="logOrderBtn" alignment="CENTER" layoutX="40.0" layoutY="20.0" prefHeight="60.0" prefWidth="152.0" spacing="7.0">
+                                 <children>
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@newLogOrderIcon.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label prefHeight="58.0" prefWidth="85.0" text="Log Order" textFill="WHITE" wrapText="true">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox fx:id="viewOrderHistBtn" alignment="CENTER" layoutX="207.0" layoutY="20.0" prefHeight="60.0" prefWidth="152.0" spacing="7.0">
+                                 <children>
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@logOrderIcon.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label prefHeight="58.0" prefWidth="85.0" text="View Order History" textFill="WHITE" wrapText="true">
+                                       <font>
+                                          <Font name="System Bold" size="15.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
+                           </padding>
+                        </HBox>
+                        <VBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" minHeight="0.0" prefHeight="15.0" prefWidth="1094.0" style="-fx-background-color: transparent;">
+                           <children>
+                              <Pane prefHeight="2.0" style="-fx-background-color: gray;" />
+                           </children>
+                           <padding>
+                              <Insets left="30.0" right="30.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <ScrollPane fx:id="scrollGridPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="473.0" prefWidth="1125.0" style="-fx-background-color: transparent;">
+                     <VBox.margin>
+                        <Insets left="30.0" right="30.0" />
+                     </VBox.margin>
+                     <content>
+                        <VBox alignment="TOP_CENTER">
+                           <children>
+                              <Label fx:id="notItemsLabel" alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" prefHeight="26.0" prefWidth="1054.0" text="No Items to View." textAlignment="CENTER">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <VBox fx:id="ItemGridPane" alignment="TOP_CENTER" prefHeight="402.0" prefWidth="1054.0" />
+                           </children>
+                        </VBox>
+                     </content>
+                     <padding>
+                        <Insets bottom="10.0" top="5.0" />
+                     </padding>
+                  </ScrollPane>
+               </children>
+            </VBox>
+         </center>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </BorderPane>
+      <VBox fx:id="categoryMenu" alignment="CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" spacing="5.0" style="-fx-background-color: rgb(0,0,0,0.5);;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox prefWidth="854.0" spacing="15.0" style="-fx-background-color: transparent;">
+               <children>
+                  <HBox alignment="CENTER" prefWidth="834.0" spacing="15.0">
+                     <children>
+                        <Button fx:id="option1" mnemonicParsing="false" prefHeight="68.0" prefWidth="167.0" text="Select Category" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="option2" layoutX="259.0" layoutY="10.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="167.0" text="Entrees" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="option3" layoutX="327.0" layoutY="10.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="167.0" text="Entrees" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="option4" layoutX="395.0" layoutY="10.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="167.0" text="Entrees" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="option5" layoutX="463.0" layoutY="10.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="167.0" text="Entrees" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="20.0" layoutY="20.0" spacing="15.0">
+                     <children>
+                        <Button fx:id="option6" mnemonicParsing="false" prefHeight="68.0" prefWidth="167.0" text="Entrees" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="option7" layoutX="259.0" layoutY="10.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="167.0" text="Entrees" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="option8" layoutX="327.0" layoutY="10.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="167.0" text="Entrees" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="option9" layoutX="395.0" layoutY="10.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="167.0" text="Entrees" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="option10" layoutX="463.0" layoutY="10.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="167.0" text="Entrees" textFill="WHITE" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets left="100.0" right="100.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+            <Label fx:id="exitBtn" text="Exit Category Menu" textFill="WHITE" underline="true">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets left="30.0" right="30.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>

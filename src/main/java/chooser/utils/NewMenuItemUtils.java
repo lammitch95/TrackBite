@@ -1,5 +1,14 @@
 package chooser.utils;
 
+import chooser.model.MenuItem;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -16,7 +25,27 @@ public class NewMenuItemUtils {
 
     private static ArrayList<String> ingredientUOMList = new ArrayList<>();
 
+    private static StringProperty linkInventoryId = new SimpleStringProperty("");
+    private static BooleanProperty isValidLinkInventoryId = new SimpleBooleanProperty(false);
+
+    private static StringProperty selectedOrderMenuItem = new SimpleStringProperty("");
+    private static BooleanProperty checkDisplayMenuItem = new SimpleBooleanProperty(false);
+    private static VBox storeMenuItemSelectView;
+
+
+
     static{
+        storeMenuItemSelectView = null;
+        selectedOrderMenuItem.set(null);
+        linkInventoryId.set("Select Inventory");
+        isValidLinkInventoryId.set(false);
+
+        linkInventoryId.addListener((obs, oldVal, newVal) -> {
+            if(newVal!=null){
+                isValidLinkInventoryId.set(!newVal.equals("Select Inventory"));
+            }
+
+        });
 
         ingredientUOMList.add("Select UOM");
         ingredientUOMList.add("Teaspoon (tsp)");
@@ -32,11 +61,6 @@ public class NewMenuItemUtils {
         ingredientUOMList.add("Pound (lb)");
         ingredientUOMList.add("Gram (g)");
         ingredientUOMList.add("Kilogram (kg)");
-        ingredientUOMList.add("Whole");
-        ingredientUOMList.add("Slice");
-        ingredientUOMList.add("Clove");
-        ingredientUOMList.add("Stick");
-        ingredientUOMList.add("Dash, Pinch, Smidgen");
 
 
         itemsList.add("Select Category");
@@ -60,6 +84,11 @@ public class NewMenuItemUtils {
         currencyList.add("KRW – South Korean Won");
         currencyList.add("BRL – Brazilian Real");
     }
+    public static StringProperty selectedOrderMenuItemProp(){return selectedOrderMenuItem;}
+    public static BooleanProperty checkDisplayMenuItemProp(){return  checkDisplayMenuItem;}
+
+    public static StringProperty linkInventoryId(){return linkInventoryId;}
+    public static BooleanProperty linkInventoryIdValidProp(){return  isValidLinkInventoryId;}
 
     public static ArrayList<String> retrieveIngredientUOMListList(){return ingredientUOMList;}
     public static ArrayList<String> retrieveMenuCategoryList(){return itemsList;}
@@ -106,5 +135,46 @@ public class NewMenuItemUtils {
             return null;
         }
     }
+
+
+
+    public static void selectOrderMenuItemView(String status, AnchorPane menuFormRootPane){
+        System.out.println("selectOrderMenuItemView called");
+        switch(status){
+            case "SHOW":
+                try {
+
+                    String fxmlPathFull = "/chooser/trackbite/ViewMenuItem.fxml";
+                    FXMLLoader loader = new FXMLLoader(NewInventoryItemUtils.class.getResource(fxmlPathFull));
+                    VBox view = loader.load();
+                    storeMenuItemSelectView = view;
+                    menuFormRootPane.getChildren().add(view);
+
+                    AnchorPane.setTopAnchor(view, 0.0);
+                    AnchorPane.setRightAnchor(view, 0.0);
+                    AnchorPane.setBottomAnchor(view, 0.0);
+                    AnchorPane.setLeftAnchor(view, 0.0);
+
+                    view.setVisible(true);
+                    view.setDisable(false);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "HIDE":
+                if(storeMenuItemSelectView != null){
+                    checkDisplayMenuItem.set(false);
+                    storeMenuItemSelectView.setVisible(false);
+                    storeMenuItemSelectView.setDisable(true);
+                }
+                break;
+        }
+
+
+
+    }
+
+
 
 }

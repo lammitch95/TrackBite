@@ -8,12 +8,9 @@ public class MenuItem {
     private String name;
     private String description;
     private String category;
-
     private String price;
     private String uom;
-
     private String itemImage;
-
     private List<IngredientItem> ingredientsList;
 
     public MenuItem(String id, String name, String description, String category, String price, String uom, String itemImage, List<IngredientItem> ingredientsList){
