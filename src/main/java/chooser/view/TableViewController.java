@@ -58,65 +58,75 @@ public class TableViewController {
     private TableView<?> tableViewMain;
 
     @FXML
+    private TextField searchBarTextField;
+
+
+    @FXML
     private Label viewTitleLbl;
+
 
     private TableViewViewModel tableViewVM;
 
     @FXML
-    private void initialize(){
+    private void initialize() {
 
         tableViewVM = new TableViewViewModel();
         tableViewVM.setCurrTableView(tableViewMain);
 
         String currPageOption = CurrentPageOptions.getCurrPageOption();
-        if(currPageOption != null && !currPageOption.equals("")){
-            System.out.println("Current Page Options in tableview controller intialize: "+currPageOption);
+        if (currPageOption != null && !currPageOption.equals("")) {
+            System.out.println("Current Page Options in tableview controller intialize: " + currPageOption);
             viewTitleLbl.setText(tableViewVM.getTitleMapping().get(currPageOption));
             tableViewVM.setUp();
-        }
 
-        recordsCountLbl.textProperty().bind(tableViewVM.getRecordsAmountLbl());
-        //currentPageText.textProperty().bind(tableViewVM.getCurrentTableViewPage().asString());
-        pageCountLbl.textProperty().bind(tableViewVM.getMaxTableViewPageLbl());
+            if ("View Inventory".equals(currPageOption)) {
+                tableViewVM.attachSearchBar(searchBarTextField);
 
-        leftArrowBtn.disableProperty().bind(tableViewVM.getLeftArrowBtnDisable());
-        rightArrowBtn.disableProperty().bind(tableViewVM.getRightArrowBtnDisable());
+            }
 
-        leftArrowImage.visibleProperty().bind(tableViewVM.getLeftArrowVisible());
-        rightArrowImage.visibleProperty().bind(tableViewVM.getRightArrowVisible());
+            recordsCountLbl.textProperty().bind(tableViewVM.getRecordsAmountLbl());
+            //currentPageText.textProperty().bind(tableViewVM.getCurrentTableViewPage().asString());
+            pageCountLbl.textProperty().bind(tableViewVM.getMaxTableViewPageLbl());
 
-        leftArrowBtn.setOnMouseClicked(event -> {
-            tableViewVM.adjustPageDirection("left");
-            currentPageText.setText(String.valueOf(tableViewVM.getCurrentTableViewPage().get()));
-        });
-        rightArrowBtn.setOnMouseClicked(event -> {
-            tableViewVM.adjustPageDirection("right");
-            currentPageText.setText(String.valueOf(tableViewVM.getCurrentTableViewPage().get()));
-        });
+            leftArrowBtn.disableProperty().bind(tableViewVM.getLeftArrowBtnDisable());
+            rightArrowBtn.disableProperty().bind(tableViewVM.getRightArrowBtnDisable());
 
-        HBox[] hboxList = new HBox[]{leftArrowBtn,rightArrowBtn,refreshBtn,addNewBtn,deleteBtn,exportExcelBtn};
-        for (HBox hbox : hboxList) {
-            hbox.getStyleClass().add("tableview-hover-effect");
-        }
+            leftArrowImage.visibleProperty().bind(tableViewVM.getLeftArrowVisible());
+            rightArrowImage.visibleProperty().bind(tableViewVM.getRightArrowVisible());
 
-        refreshBtn.setOnMouseClicked(event -> tableViewVM.headerMultiOptions("REFRESH"));
-        addNewBtn.setOnMouseClicked(event -> tableViewVM.headerMultiOptions("ADD NEW"));
-        deleteBtn.setOnMouseClicked(event -> tableViewVM.headerMultiOptions("DELETE"));
-        exportExcelBtn.setOnMouseClicked(event -> tableViewVM.headerMultiOptions("EXPORT EXCEL"));
+            leftArrowBtn.setOnMouseClicked(event -> {
+                tableViewVM.adjustPageDirection("left");
+                currentPageText.setText(String.valueOf(tableViewVM.getCurrentTableViewPage().get()));
+            });
+            rightArrowBtn.setOnMouseClicked(event -> {
+                tableViewVM.adjustPageDirection("right");
+                currentPageText.setText(String.valueOf(tableViewVM.getCurrentTableViewPage().get()));
+            });
 
-        currentPageText.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.matches("\\d*")) {
+            HBox[] hboxList = new HBox[]{leftArrowBtn, rightArrowBtn, refreshBtn, addNewBtn, deleteBtn, exportExcelBtn};
+            for (HBox hbox : hboxList) {
+                hbox.getStyleClass().add("tableview-hover-effect");
+            }
+
+            refreshBtn.setOnMouseClicked(event -> tableViewVM.headerMultiOptions("REFRESH"));
+            addNewBtn.setOnMouseClicked(event -> tableViewVM.headerMultiOptions("ADD NEW"));
+            deleteBtn.setOnMouseClicked(event -> tableViewVM.headerMultiOptions("DELETE"));
+            exportExcelBtn.setOnMouseClicked(event -> tableViewVM.headerMultiOptions("EXPORT EXCEL"));
+
+            currentPageText.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue.matches("\\d*")) {
                     tableViewVM.userPageNum(Integer.parseInt(newValue));
-            } else {
-                System.out.println("Invalid input: Not a number");
-            }
-        });
+                } else {
+                    System.out.println("Invalid input: Not a number");
+                }
+            });
 
-        tableViewMain.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                tableViewVM.storeRowSelectedID(newSelection);
-            }
-        });
+            tableViewMain.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+                if (newSelection != null) {
+                    tableViewVM.storeRowSelectedID(newSelection);
+                }
+            });
 
+        }
     }
 }

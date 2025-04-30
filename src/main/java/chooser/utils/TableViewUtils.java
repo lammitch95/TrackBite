@@ -184,7 +184,26 @@ public class TableViewUtils {
                     return new SimpleStringProperty("--");
                 }
             });
+            expStatusCol.setCellFactory(column -> new TableCell<>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                        setStyle("");
+                    } else {
+                        setText(item);
+                        switch (item.toLowerCase()) {
+                            case "expired, discard" -> setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+                            case "expiration approaching, run special" -> setStyle("-fx-text-fill: orange; -fx-font-weight: bold;");
+                            default -> setStyle("-fx-text-fill: black;");
+                        }
+                    }
+                }
+            });
+
             tableView.getColumns().add(expStatusCol);
+
         }
 
         for (var field : firstItem.getClass().getDeclaredFields()) {

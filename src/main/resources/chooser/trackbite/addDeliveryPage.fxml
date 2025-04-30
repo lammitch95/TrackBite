@@ -8,27 +8,37 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.addDeliveryController">
+
+
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="chooser.view.addDeliveryController"
+            prefHeight="500.0" prefWidth="1000.0">
+
    <children>
-      <VBox prefHeight="400.0" prefWidth="602.0">
-         <children>
-            <Label text="Item ID" />
-            <ComboBox fx:id="itemID" onAction="#onItemIdSelected" prefWidth="150.0" />
-            <Label text="Item Name" />
-            <TextField fx:id="itemName" layoutX="10.0" layoutY="27.0" onAction="#itemNameEntered" />
-            <Label layoutX="10.0" layoutY="52.0" text="Quantity" />
-            <TextField fx:id="quantity" layoutX="10.0" layoutY="69.0" onAction="#quantityEntered" />
-            <Label layoutX="10.0" layoutY="94.0" text="Delivery Date" />
-            <DatePicker fx:id="deliveryDate" onAction="#deliveryDateSelected" />
-            <Label layoutX="10.0" layoutY="136.0" text="Expiration Date" />
-            <DatePicker fx:id="expirationDate" layoutX="10.0" layoutY="153.0" onAction="#expirationDateSelected" />
-            <Label layoutX="10.0" layoutY="178.0" text="Price Per Unit" />
-            <TextField fx:id="pricePerUnit" layoutX="10.0" layoutY="111.0" onAction="#pricePerUnitEntered" />
-            <Label layoutX="10.0" layoutY="52.0" text="Supplier" />
-            <TextField fx:id="deliverySupplier" layoutX="10.0" layoutY="69.0" />
-            <Button fx:id="addDeliveryButton" mnemonicParsing="false" onAction="#addDeliverySelected" text="Add Delivery" />
-            <Button fx:id="backToMain" mnemonicParsing="false" onAction="#backToMainSelected" text="Back to Main Menu" />
-         </children>
-      </VBox>
+
+      <!-- Container for dynamic delivery rows -->
+      <VBox fx:id="deliveryItemsContainer" layoutX="20" layoutY="20" spacing="10" prefWidth="960" prefHeight="400" />
+
+      <!-- Add Row Button -->
+      <Button text="Add Item"
+              layoutX="20" layoutY="430"
+              onAction="#handleAddItemRow"
+              prefWidth="100" />
+
+      <!-- Submit Button -->
+      <Button text="Submit Deliveries"
+              layoutX="140" layoutY="430"
+              onAction="#handleSubmitDeliveries"
+              prefWidth="150" />
+
+      <!-- Back Button -->
+      <Button fx:id="backToMain"
+              text="Back to Main Menu"
+              layoutX="310" layoutY="430"
+              onAction="#backToMainSelected"
+              prefWidth="150" />
+
    </children>
 </AnchorPane>
+

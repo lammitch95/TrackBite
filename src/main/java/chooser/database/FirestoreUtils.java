@@ -252,11 +252,12 @@ public class FirestoreUtils {
                 LocalDate.parse(doc.getString("deliveryDate")),
                 LocalDate.parse(doc.getString("expirationDate")),
                 Float.parseFloat(String.valueOf(doc.get("pricePerUnit"))),
-                doc.getString("supplier")
+                doc.getString("supplier"),
+                doc.contains("poNumber") ? doc.getString("poNumber") : "" // fallback if missing
         );
     }
-
 }
+
 
 
 
