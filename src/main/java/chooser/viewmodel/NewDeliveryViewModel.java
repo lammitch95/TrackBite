@@ -132,8 +132,8 @@ public class NewDeliveryViewModel {
 
         // Bind formValid & allowSave
         formValid.bind(
-                validOrderNumber
-                        .and(validDeliveryDate)
+                //validOrderNumber
+                        (validDeliveryDate)
                         .and(validDeliveryTime)
                         .and(validItemName)
                         .and(validItemQuantity)
@@ -181,8 +181,8 @@ public class NewDeliveryViewModel {
         Map<String, Object> data = new HashMap<>();
         data.put("deliveryID", deliveryId.get());
         data.put("orderNumber", orderNumber.get());
-        data.put("deliveryDate", deliveryDate.get());
-        data.put("deliveryTime", deliveryTime.get());
+        //data.put("deliveryDate", deliveryDate.get());
+        //data.put("deliveryTime", deliveryTime.get());
         data.put("deliveryAddress", deliveryAddress.get());
         // new supplier fields
         data.put("supplierSearch",       supplierSearch.get());
@@ -191,14 +191,28 @@ public class NewDeliveryViewModel {
         data.put("supplierContactNum",   supplierContactNum.get());
         data.put("supplierAddress",      supplierAddress.get());
 
+        System.out.println("Delivery ID: " + deliveryId.get());
+        System.out.println("Order Number: " + orderNumber.get());
+//        System.out.println("Delivery Date: " + deliveryDate.get());
+//        System.out.println("Delivery Time: " + deliveryTime.get());
+        System.out.println("Delivery Address: " + deliveryAddress.get());
+
+        System.out.println("Supplier Search: " + supplierSearch.get());
+        System.out.println("Supplier First Name: " + supplierFirstName.get());
+        System.out.println("Supplier Last Name: " + supplierLastName.get());
+        System.out.println("Supplier Contact Num: " + supplierContactNum.get());
+        System.out.println("Supplier Address: " + supplierAddress.get());
+        System.out.println("Supplier Address: " + supplierAddress.get());
+
+
         List<Map<String, Object>> itemsList = new java.util.ArrayList<>();
-        for (DeliveryItem item : deliveryItems) {
-            Map<String, Object> m = new HashMap<>();
-            m.put("itemName", item.itemNameProperty().get());
-            m.put("itemQuantity", item.itemQuantityProperty().get());
-            itemsList.add(m);
-        }
-        data.put("deliveryItems", itemsList);
+//        for (DeliveryItem item : deliveryItems) {
+//            Map<String, Object> m = new HashMap<>();
+//            m.put("itemName", item.itemNameProperty().get());
+//            m.put("itemQuantity", item.itemQuantityProperty().get());
+//            itemsList.add(m);
+//        }
+//        data.put("deliveryItems", itemsList);
 
         try {
             FirestoreUtils.writeDoc("Deliveries", deliveryId.get(), data);
@@ -214,7 +228,7 @@ public class NewDeliveryViewModel {
     // Resets all form fields and generates a new Delivery ID.
     public void resetForm(){
         deliveryId.set(generateDeliveryID());
-        orderNumber.set(generateOrderNumber());
+       // orderNumber.set(generateOrderNumber());
         deliveryDate.set(null);
         deliveryTime.set(null);
         deliveryAddress.set("");
