@@ -181,7 +181,7 @@ public class NewDeliveryViewModel {
         Map<String, Object> data = new HashMap<>();
         data.put("deliveryID", deliveryId.get());
         data.put("orderNumber", orderNumber.get());
-        data.put("deliveryDate", deliveryDate.get());
+        data.put("deliveryDate", deliveryDate.get() != null ? Timestamp.of(java.sql.Date.valueOf(deliveryDate.get())) : null);
         data.put("deliveryTime", deliveryTime.get());
         data.put("deliveryTimeUnit", deliveryTimeUnit.get());
         data.put("deliveryAddress", deliveryAddress.get());
