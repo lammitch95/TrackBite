@@ -1,6 +1,7 @@
 package chooser.viewmodel;
 
 import chooser.database.FirestoreUtils;
+import com.google.cloud.Timestamp;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +18,7 @@ public class NewDeliveryViewModel {
     private final StringProperty orderNumber = new SimpleStringProperty(this, "");
     private final ObjectProperty<LocalDate> deliveryDate = new SimpleObjectProperty<>(this, null);
     private final StringProperty deliveryTime = new SimpleStringProperty(this, "");
+    private final StringProperty deliveryTimeUnit = new SimpleStringProperty(this, "");
     private final StringProperty deliveryAddress = new SimpleStringProperty(this, "");
     // Delivery List
     private final StringProperty itemName = new SimpleStringProperty(this, "");
@@ -37,6 +39,7 @@ public class NewDeliveryViewModel {
     public StringProperty orderNumberProperty() { return orderNumber; }
     public ObjectProperty<LocalDate> deliveryDateProperty() { return deliveryDate; }
     public StringProperty deliveryTimeProperty() { return deliveryTime; }
+    public StringProperty deliveryTimeUnitProperty() { return deliveryTimeUnit; }
     public StringProperty deliveryAddressProperty() { return deliveryAddress; }
     public StringProperty itemNameProperty() { return itemName; }
     public IntegerProperty itemQuantityProperty() { return itemQuantity; }
@@ -154,7 +157,7 @@ public class NewDeliveryViewModel {
         return "ORD-" + num;
     }
 
-    // Adds a new itemhehehe to the list if both name and quantity are not empty.
+    // Adds a new item to the list if both name and quantity are not empty.
     public void addDeliveryItem(String name, String quantity) {
         if (name != null && !name.trim().isEmpty() && quantity != null && !quantity.trim().isEmpty()) {
             deliveryItems.add(new DeliveryItem(name, quantity));
@@ -169,32 +172,34 @@ public class NewDeliveryViewModel {
 
     // Submits the delivery form by validating basic fields and writing to Firestore.
     public boolean onSubmit() {
-        if (!formValid.get()) return false;
+        if (!formValid.get()) {
+            System.out.println("Form validation failed.");
+            return false;
+        }
+
         // Prepare data map
         Map<String, Object> data = new HashMap<>();
         data.put("deliveryID", deliveryId.get());
         data.put("orderNumber", orderNumber.get());
-        data.put("deliveryDate", deliveryDate.get() != null ? deliveryDate.get().toString() : null);
+        data.put("deliveryDate", deliveryDate.get() != null ? Timestamp.of(java.sql.Date.valueOf(deliveryDate.get())) : null);
         data.put("deliveryTime", deliveryTime.get());
+        data.put("deliveryTimeUnit", deliveryTimeUnit.get());
         data.put("deliveryAddress", deliveryAddress.get());
         // Supplier fields
-        data.put("supplierSearch", supplierSearch.get());
+        data.put("supplierName", supplierSearch.get());
         data.put("supplierFirstName", supplierFirstName.get());
         data.put("supplierLastName", supplierLastName.get());
         data.put("supplierContactNum", supplierContactNum.get());
         data.put("supplierAddress", supplierAddress.get());
+        // Delivery list fields
+        data.put("itemName", itemName.get());
+        data.put("itemQuantity", itemQuantity.get());
+        data.put("unit", unit.get());
+        data.put("category", category.get());
+        data.put("priority", priority.get());
+        data.put("notes", notes.get());
 
-        System.out.println("Delivery ID: " + deliveryId.get());
-        System.out.println("Order Number: " + orderNumber.get());
-        System.out.println("Delivery Date: " + deliveryDate.get());
-        System.out.println("Delivery Time: " + deliveryTime.get());
-        System.out.println("Delivery Address: " + deliveryAddress.get());
-        System.out.println("Supplier Search: " + supplierSearch.get());
-        System.out.println("Supplier First Name: " + supplierFirstName.get());
-        System.out.println("Supplier Last Name: " + supplierLastName.get());
-        System.out.println("Supplier Contact Num: " + supplierContactNum.get());
-        System.out.println("Supplier Address: " + supplierAddress.get());
-
+        // Combine delivery items
         List<Map<String, Object>> itemsList = new java.util.ArrayList<>();
         for (DeliveryItem item : deliveryItems) {
             Map<String, Object> m = new HashMap<>();
@@ -204,13 +209,35 @@ public class NewDeliveryViewModel {
         }
         data.put("deliveryItems", itemsList);
 
+        // Debug output
+        System.out.println("Writing to Firestore 'Deliveries' collection with data:");
+        System.out.println("Delivery ID: " + deliveryId.get());
+        System.out.println("Order Number: " + orderNumber.get());
+        System.out.println("Delivery Date: " + (deliveryDate.get() != null ? deliveryDate.get() : "null"));
+        System.out.println("Delivery Time: " + deliveryTime.get());
+        System.out.println("Delivery Time Unit: " + deliveryTimeUnit.get());
+        System.out.println("Delivery Address: " + deliveryAddress.get());
+        System.out.println("Supplier Name: " + supplierSearch.get());
+        System.out.println("Supplier First Name: " + supplierFirstName.get());
+        System.out.println("Supplier Last Name: " + supplierLastName.get());
+        System.out.println("Supplier Contact Num: " + supplierContactNum.get());
+        System.out.println("Supplier Address: " + supplierAddress.get());
+        System.out.println("Item Name: " + itemName.get());
+        System.out.println("Item Quantity: " + itemQuantity.get());
+        System.out.println("Unit: " + unit.get());
+        System.out.println("Category: " + category.get());
+        System.out.println("Priority: " + priority.get());
+        System.out.println("Notes: " + notes.get());
+        System.out.println("Delivery Items: " + itemsList);
+
         try {
             FirestoreUtils.writeDoc("Deliveries", deliveryId.get(), data);
-            System.out.println("Delivery data successfully written to Firestore");
+            System.out.println("Delivery data successfully written to Firestore 'Deliveries' collection.");
             resetForm();
             return true;
         } catch (Exception e) {
-            System.out.println("Error writing to Firestore: " + e.getMessage());
+            System.err.println("Error writing to Firestore 'Deliveries' collection: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
@@ -220,7 +247,8 @@ public class NewDeliveryViewModel {
         deliveryId.set(generateDeliveryID());
         orderNumber.set(generateOrderNumber());
         deliveryDate.set(null);
-        deliveryTime.set(null);
+        deliveryTime.set("");
+        deliveryTimeUnit.set("");
         deliveryAddress.set("");
         supplierSearch.set("");
         supplierFirstName.set("");

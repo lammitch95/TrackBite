@@ -214,10 +214,10 @@ public class NewDeliveryFormController {
     public void handleSubmitButtonAction() {
         boolean ok = viewModel.onSubmit();
         if (ok) {
-            feedbackLabel.setText("Delivery saved successfully!");
+            feedbackLabel.setText("Delivery saved successfully to Firestore!");
             feedbackLabel.setStyle("-fx-text-fill: green;");
         } else {
-            feedbackLabel.setText("Validation failed – please check your inputs.");
+            feedbackLabel.setText("Failed to save delivery to Firestore. Check inputs or connection.");
             feedbackLabel.setStyle("-fx-text-fill: red;");
         }
     }
