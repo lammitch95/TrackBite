@@ -189,7 +189,7 @@ public class NewDeliveryFormController {
                         viewModel.supplierFirstNameProperty().set(names[0]);
                         viewModel.supplierLastNameProperty().set(names.length > 1 ? names[1] : "");
                         viewModel.supplierContactNumProperty().set(doc.getString("phoneNumber"));
-                        viewModel.supplierAddressProperty().set(doc.getString("deliveryArea"));
+                        viewModel.supplierAddressProperty().set(doc.getString("warehouseAddress")); // Changed from deliveryArea
                     } else {
                         clearSupplierFields();
                     }
