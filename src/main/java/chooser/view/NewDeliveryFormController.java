@@ -1,24 +1,25 @@
 package chooser.view;
 
 import chooser.viewmodel.NewDeliveryViewModel;
-//import com.google.cloud.firestore.DocumentSnapshot;
-//import com.google.cloud.firestore.Firestore;
-//import com.google.cloud.firestore.QuerySnapshot;
-//import com.google.firebase.cloud.FirestoreClient;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.firebase.cloud.FirestoreClient;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.image.ImageView;
-import javafx.beans.binding.Bindings;
 import javafx.scene.layout.VBox;
+import javafx.beans.binding.Bindings;
 import javafx.util.converter.NumberStringConverter;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class NewDeliveryFormController {
 
-    //pane
+    // Pane
     @FXML
     public Label DeliveryInfoLabel;
     @FXML
@@ -30,7 +31,7 @@ public class NewDeliveryFormController {
     @FXML
     public VBox SupplierDetailsVbox;
 
-    //Buttons
+    // Buttons
     @FXML
     public HBox saveBtn1;
     @FXML
@@ -40,15 +41,13 @@ public class NewDeliveryFormController {
     @FXML
     public HBox deleteBtn1;
 
-    //Supplier
+    // Supplier
     @FXML
     public HBox SupplierHBox;
     @FXML
     public TextField supplierSearch;
     @FXML
-    public Button SupplierSearchButton;
-    @FXML
-    public HBox SiupplierNameHBox;
+    public HBox SupplierNameHBox;
     @FXML
     public TextField supplierFirstName;
     @FXML
@@ -62,8 +61,7 @@ public class NewDeliveryFormController {
     @FXML
     public TextField supplierAddress;
 
-
-    //Delivery text
+    // Delivery text
     @FXML
     private TextField DeliveryID;
     @FXML
@@ -82,8 +80,8 @@ public class NewDeliveryFormController {
     public ComboBox<String> DeliveryTimeUnit;
     @FXML
     private ComboBox<String> Unit;
-    @FXML
-    private ComboBox<String> Category;
+//    @FXML
+//    private ComboBox<String> Category;
     @FXML
     private ComboBox<String> Priority;
     @FXML
@@ -93,7 +91,7 @@ public class NewDeliveryFormController {
     @FXML
     private Label feedbackLabel;
 
-    //Delivery Box
+    // Delivery Box
     @FXML
     public HBox DeliveryIDHbox;
     @FXML
@@ -108,8 +106,8 @@ public class NewDeliveryFormController {
     public HBox ItemQualityHbox;
     @FXML
     public HBox ItemNameHbox;
-    @FXML
-    public HBox CategoryHbox;
+    //@FXML
+    //public HBox CategoryHbox;
     @FXML
     public HBox PriorityHbox;
     @FXML
@@ -117,27 +115,13 @@ public class NewDeliveryFormController {
 
     private final NewDeliveryViewModel viewModel = new NewDeliveryViewModel();
     private Firestore db;
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @FXML
     public void initialize() {
         db = FirestoreClient.getFirestore();
 
-
-// for later
-//        HBox[] hboxList = new HBox[]{leftArrowBtn,rightArrowBtn,addNewBtn1,deleteBtn1};
-//        for (HBox hbox : hboxList) {
-//            hbox.getStyleClass().add("tableview-hover-effect");
-//        }
-//
-//        categoryComboBox.getItems().clear();
-//        categoryComboBox.getSelectionModel().clearSelection();
-//        categoryComboBox.setValue(null);
-//
-//        currencyComboBox.getItems().clear();
-//        currencyComboBox.getSelectionModel().clearSelection();
-//        currencyComboBox.setValue(null);
-
-        // --- bind the form fields ---
+        // Bind the form fields
         DeliveryID.textProperty().bindBidirectional(viewModel.deliveryIdProperty());
         OrderNumber.textProperty().bindBidirectional(viewModel.orderNumberProperty());
         DeliveryDate.valueProperty().bindBidirectional(viewModel.deliveryDateProperty());
@@ -145,45 +129,100 @@ public class NewDeliveryFormController {
         DeliveryAddress.textProperty().bindBidirectional(viewModel.deliveryAddressProperty());
         ItemName.textProperty().bindBidirectional(viewModel.itemNameProperty());
 
-        // quantity needs conversion between String <-> Integer
+        // Quantity needs conversion between String <-> Integer
         Bindings.bindBidirectional(
                 ItemQuantity.textProperty(),
                 viewModel.itemQuantityProperty(),
                 new NumberStringConverter()
         );
         Unit.valueProperty().bindBidirectional(viewModel.unitProperty());
-        Category.valueProperty().bindBidirectional(viewModel.categoryProperty());
+        //Category.valueProperty().bindBidirectional(viewModel.categoryProperty());
         Priority.valueProperty().bindBidirectional(viewModel.priorityProperty());
         Notes.textProperty().bindBidirectional(viewModel.notesProperty());
 
-        // supplier fields
+        // Supplier fields
         supplierSearch.textProperty().bindBidirectional(viewModel.supplierSearchProperty());
         supplierFirstName.textProperty().bindBidirectional(viewModel.supplierFirstNameProperty());
         SupplierLastName.textProperty().bindBidirectional(viewModel.supplierLastNameProperty());
         supplierContactNum.textProperty().bindBidirectional(viewModel.supplierContactNumProperty());
         supplierAddress.textProperty().bindBidirectional(viewModel.supplierAddressProperty());
 
-//        // === Button State ===
-//        // Disable submit until form is valid and changed
-       submitButton.disableProperty().bind(viewModel.allowSaveProperty().not());
+        // Button state
+        submitButton.disableProperty().bind(viewModel.allowSaveProperty().not());
 
-        // Optionally, initialize any ComboBox items
-        Unit.getItems().addAll( "Teaspoon (tsp)", "Tablespoon (tbsp)","Fluid ounce (fl oz)", "Cup (c)", "Pint (pt)", "Quart (qt)", "Gallon (gal)", "Liter (L)",
-                                     "Milliliter (mL)", "Ounce (oz)", "Pound (lb)", "Gram (g)", "Kilogram (kg)", "Whole", "Slice", "Clove", "Stick", "Dash, Pinch, Smidgen");
-        Category.getItems().addAll("Appetizers", "Entrées", "Sides", "Beverages", "Desserts", "Kids Menu", "Specials");
+        // Initialize ComboBox items
+        Unit.getItems().addAll("Teaspoon (tsp)", "Tablespoon (tbsp)", "Fluid ounce (fl oz)", "Cup (c)", "Pint (pt)", "Quart (qt)", "Gallon (gal)", "Liter (L)",
+                "Milliliter (mL)", "Ounce (oz)", "Pound (lb)", "Gram (g)", "Kilogram (kg)", "Whole", "Slice", "Clove", "Stick", "Dash, Pinch, Smidgen");
+        //Category.getItems().addAll("Appetizers", "Entrées", "Sides", "Beverages", "Desserts", "Kids Menu", "Specials");
         Priority.getItems().addAll("Low", "Medium", "High");
         DeliveryTimeUnit.getItems().addAll("AM", "PM");
+
+        // Add listener for supplier search
+        supplierSearch.textProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue != null && !newValue.trim().isEmpty()) {
+                searchSupplier(newValue.trim());
+            } else {
+                clearSupplierFields();
+            }
+        });
+    }
+
+    private void searchSupplier(String supplierName) {
+        executor.submit(() -> {
+            try {
+                // Query Firestore for supplier by name
+                QueryDocumentSnapshot doc = db.collection("Suppliers")
+                        .whereEqualTo("supplierName", supplierName)
+                        .limit(1)
+                        .get()
+                        .get()
+                        .getDocuments()
+                        .stream()
+                        .findFirst()
+                        .orElse(null);
+
+                Platform.runLater(() -> {
+                    if (doc != null) {
+                        // Assuming Firestore document has these fields
+                        String contactPerson = doc.getString("contactPerson");
+                        String[] names = contactPerson != null ? contactPerson.split(" ", 2) : new String[]{"", ""};
+                        viewModel.supplierFirstNameProperty().set(names[0]);
+                        viewModel.supplierLastNameProperty().set(names.length > 1 ? names[1] : "");
+                        viewModel.supplierContactNumProperty().set(doc.getString("phoneNumber"));
+                        viewModel.supplierAddressProperty().set(doc.getString("warehouseAddress")); // Changed from deliveryArea
+                    } else {
+                        clearSupplierFields();
+                    }
+                });
+            } catch (Exception e) {
+                Platform.runLater(() -> {
+                    feedbackLabel.setText("Error searching supplier: " + e.getMessage());
+                    feedbackLabel.setStyle("-fx-text-fill: red;");
+                });
+            }
+        });
+    }
+
+    private void clearSupplierFields() {
+        viewModel.supplierFirstNameProperty().set("");
+        viewModel.supplierLastNameProperty().set("");
+        viewModel.supplierContactNumProperty().set("");
+        viewModel.supplierAddressProperty().set("");
     }
 
     @FXML
     public void handleSubmitButtonAction() {
         boolean ok = viewModel.onSubmit();
         if (ok) {
-            feedbackLabel.setText("Delivery saved successfully!");
+            feedbackLabel.setText("Delivery saved successfully to Firestore!");
             feedbackLabel.setStyle("-fx-text-fill: green;");
         } else {
-            feedbackLabel.setText("Validation failed – please check your inputs.");
+            feedbackLabel.setText("Failed to save delivery to Firestore. Check inputs or connection.");
             feedbackLabel.setStyle("-fx-text-fill: red;");
         }
+    }
+
+    public void shutdown() {
+        executor.shutdown();
     }
 }

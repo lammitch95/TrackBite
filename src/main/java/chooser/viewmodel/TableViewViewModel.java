@@ -342,6 +342,7 @@ public class TableViewViewModel {
 
                             case "Deliveries":
                                 entireDataCollection = TableViewUtils.prepareTableViewData(ViewDelivery.class, collectionName, snapshot);
+                                //storedColumnClickableName = "DeliveryID";
                                 storedColumnClickableName = "deliveryID";
                                 break;
 

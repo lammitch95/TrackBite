@@ -3,29 +3,30 @@ package chooser.model;
 import java.time.LocalDate;
 
 public class ViewDelivery {
-    private final String DeliveryID;
-    private final String OrderNumber;
-    private final LocalDate DeliveryDate;
-    private final String DeliveryTime;
-    private final String DeliveryAddress;
-    private final String Supplier;
-    private final String SupplierAddress;
+    private final String deliveryID;
+    private final String orderNumber;
+    private final LocalDate deliveryDate;
+    private final String deliveryTime;
+    private final String deliveryAddress;
+    private final String supplier;
+    private final String supplierAddress;
 
-    public ViewDelivery(String DeliveryID, String OrderNumber, LocalDate DeliveryDate, String DeliveryTime, String DeliveryAddress, String Supplier, String SupplierAddress) {
-        this.DeliveryID       = DeliveryID;
-        this.OrderNumber      = OrderNumber;
-        this.DeliveryDate     = DeliveryDate;
-        this.DeliveryTime     = DeliveryTime;
-        this.DeliveryAddress  = DeliveryAddress;
-        this.Supplier         = Supplier;
-        this.SupplierAddress  = SupplierAddress;
+    public ViewDelivery(String deliveryID, String orderNumber, LocalDate deliveryDate, String deliveryTime, String deliveryAddress, String supplier, String supplierAddress
+    ) {
+        this.deliveryID       = deliveryID;
+        this.orderNumber      = orderNumber;
+        this.deliveryDate     = deliveryDate;
+        this.deliveryTime     = deliveryTime;
+        this.deliveryAddress  = deliveryAddress;
+        this.supplier         = supplier;
+        this.supplierAddress  = supplierAddress;
     }
 
-    public String   getDeliveryID()      { return DeliveryID; }
-    public String   getOrderNumber()     { return OrderNumber; }
-    public LocalDate getDeliveryDate()   { return DeliveryDate; }
-    public String   getDeliveryTime()    { return DeliveryTime; }
-    public String   getDeliveryAddress() { return DeliveryAddress; }
-    public String   getSupplier()        { return Supplier; }
-    public String   getSupplierAddress() { return SupplierAddress; }
+    public String    getDeliveryID()      { return deliveryID; }
+    public String    getOrderNumber()     { return orderNumber; }
+    public LocalDate getDeliveryDate()    { return deliveryDate; }
+    public String    getDeliveryTime()    { return deliveryTime; }
+    public String    getDeliveryAddress() { return deliveryAddress; }
+    public String    getSupplier()        { return supplier; }
+    public String    getSupplierAddress(){ return supplierAddress; }
 }

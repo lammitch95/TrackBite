@@ -180,7 +180,7 @@ public class FirestoreUtils {
                 : null;
         String DeliveryTime    = doc.getString("deliveryTime");
         String DeliveryAddress    = doc.getString("deliveryAddress");
-        String Supplier     = doc.getString("supplier");
+        String Supplier     = doc.getString("supplierName");
         String SupplierAddress = doc.getString("supplierAddress");
         return new ViewDelivery(DeliveryID, OrderNumber, DeliveryDate, DeliveryTime, DeliveryAddress, Supplier, SupplierAddress);
     }
