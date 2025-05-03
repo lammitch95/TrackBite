@@ -119,7 +119,7 @@
                                         </HBox>
                                         <HBox prefHeight="27.0" prefWidth="256.0" spacing="10.0">
                                             <children>
-                                                <TextField fx:id="OrderNumber" prefHeight="27.0" prefWidth="247.0" promptText="Auto-generated" />
+                                                <TextField fx:id="OrderNumber" editable="false" prefHeight="27.0" prefWidth="247.0" promptText="Auto-generated" />
                                             </children>
                                         </HBox>
                                     </children>
@@ -366,7 +366,7 @@
                                                 </HBox>
                                                 <HBox prefHeight="27.0" prefWidth="267.0" spacing="10.0">
                                                     <children>
-                                                        <TextField fx:id="supplierSearch" editable="true" prefHeight="27.0" prefWidth="350.0" promptText="Search by name" />
+                                                        <ComboBox fx:id="supplierComboBox" editable="true" prefHeight="27.0" prefWidth="350.0" promptText="Type to search supplier" />
                                                     </children>
                                                 </HBox>
                                             </children>
@@ -422,7 +422,7 @@
                                             <children>
                                                 <HBox fx:id="SupplierAddressHBox" alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="136.0" spacing="3.0">
                                                     <children>
-                                                        <Label prefHeight="20.0" prefWidth="108.0" text="Supplier Address:">
+                                                        <Label prefHeight="20.0" prefWidth="108.0" text="Warehouse Address:">
                                                             <font>
                                                                 <Font size="13.0" />
                                                             </font>
@@ -436,7 +436,7 @@
                                                 </HBox>
                                                 <HBox prefHeight="9.0" spacing="10.0">
                                                     <children>
-                                                        <TextField fx:id="supplierAddress" prefHeight="25.0" prefWidth="267.0" promptText="Supplier Address" />
+                                                        <TextField fx:id="supplierAddress" prefHeight="25.0" prefWidth="267.0" promptText="Supplier Warehouse Address" />
                                                     </children>
                                                 </HBox>
                                             </children>
