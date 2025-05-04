@@ -1,21 +1,36 @@
 package chooser.view;
 
+import chooser.model.Suppliers;
 import chooser.viewmodel.NewDeliveryViewModel;
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
 import javafx.beans.binding.Bindings;
 import javafx.util.converter.NumberStringConverter;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 public class NewDeliveryFormController {
 
@@ -80,7 +95,7 @@ public class NewDeliveryFormController {
     public ComboBox<String> DeliveryTimeUnit;
     @FXML
     private ComboBox<String> Unit;
-//    @FXML
+    //    @FXML
 //    private ComboBox<String> Category;
     @FXML
     private ComboBox<String> Priority;
@@ -116,6 +131,10 @@ public class NewDeliveryFormController {
     private final NewDeliveryViewModel viewModel = new NewDeliveryViewModel();
     private Firestore db;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private boolean updatingSupplierFields = false;
+    private static int deliveryCounter = 1;
+    private static int orderCounter = 1;
+    private final Random random = new Random();
 
     @FXML
     public void initialize() {

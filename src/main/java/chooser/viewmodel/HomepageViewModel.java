@@ -22,6 +22,7 @@ public class HomepageViewModel {
     private Parent previousView;
 
 
+
     public HomepageViewModel(){
         navMap.put("Menu", List.of(
                 new NavOptions("New Menu Item", "newMenuItemBtn", "newMenuItem.png"),

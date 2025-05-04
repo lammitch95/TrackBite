@@ -2,6 +2,7 @@ package chooser.utils;
 
 import chooser.database.FirestoreUtils;
 import chooser.model.MenuItem;
+import chooser.model.Suppliers;
 import chooser.model.User;
 import chooser.model.ViewDelivery;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
@@ -61,6 +62,17 @@ public class TableViewUtils {
         entireColumnNames.get("Deliveries").put("deliveryAddress", "Address");
         entireColumnNames.get("Deliveries").put("supplier",        "Supplier");
         entireColumnNames.get("Deliveries").put("supplierAddress", "Supplier Addr");
+
+        entireColumnNames.put("Suppliers",new HashMap<>());
+        entireColumnNames.get("Suppliers").put("supplierId", "supplierId");
+        entireColumnNames.get("Suppliers").put("supplierName", "supplierName");
+        entireColumnNames.get("Suppliers").put("contactPerson", "contactPerson");
+        entireColumnNames.get("Suppliers").put("phoneNumber", "phoneNumber");
+        entireColumnNames.get("Suppliers").put("emailAddress", "emailAddress");
+        entireColumnNames.get("Suppliers").put("websiteLink", "websiteLink");
+        entireColumnNames.get("Suppliers").put("businessAddress", "businessAddress");
+        entireColumnNames.get("Suppliers").put("warehouseAddress", "warehouseAddress");
+        entireColumnNames.get("Suppliers").put("deliveryArea", "deliveryArea");
     }
 
     public static void setStoreCollectionName(String value){storeCollectionName = value;}
@@ -82,6 +94,9 @@ public class TableViewUtils {
                 break;
             case "Menu":
                 SceneNavigator.loadView("New Menu Item");
+                break;
+            case "Suppliers":
+                SceneNavigator.loadView("Suppliers");
                 break;
             case "Deliveries":
                 SceneNavigator.loadView("New Delivery");
@@ -105,6 +120,8 @@ public class TableViewUtils {
                 } else if (obj instanceof ViewDelivery) {
                     retrieveId = ((ViewDelivery) obj).getDeliveryID();} else if (obj instanceof ViewDelivery) {
                     retrieveId = ((ViewDelivery) obj).getDeliveryID();
+                } else if(obj instanceof Suppliers) {
+                        retrieveId = ((Suppliers) obj).getSupplierId();
                 }else{
                     System.out.println("Unknown object type: " + obj.getClass().getName());
                     continue;
@@ -144,6 +161,13 @@ public class TableViewUtils {
                 tableData.add(clazz.cast(formatMenuData));
             }
         }
+            //How to add it here
+       if (collectionName.equals("Suppliers") && clazz == Suppliers.class) {
+            for (QueryDocumentSnapshot document : documents) {
+                Suppliers formatMenuData = FirestoreUtils.createSupplierFromDocument(document);
+                tableData.add(clazz.cast(formatMenuData));
+            }
+       }
 
         if (collectionName.equals("Deliveries") && clazz == ViewDelivery.class) {
             for (QueryDocumentSnapshot document : documents) {
