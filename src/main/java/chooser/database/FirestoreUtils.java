@@ -2,7 +2,6 @@ package chooser.database;
 
 import chooser.model.IngredientItem;
 import chooser.model.MenuItem;
-import chooser.model.Suppliers;
 import chooser.model.User;
 import chooser.model.ViewDelivery;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -147,57 +146,6 @@ public class FirestoreUtils {
         return new User(userId, username, firstName, lastName, dob, phoneNum, role, password);
     }
 
-    public static List<Map<String, Object>> readCollection(String suppliers) {
-        List<Map<String, Object>> results = new ArrayList<>();
-
-        try {
-            // Get Firestore instance
-            Firestore db = FirestoreClient.getFirestore();
-
-            // Create a reference to the "Suppliers" collection specifically
-            ApiFuture<QuerySnapshot> query = db.collection("Suppliers").get();
-
-            // Get all documents from the Suppliers collection
-            QuerySnapshot querySnapshot = query.get();
-            List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
-
-            // Convert each document to a Map
-            for (QueryDocumentSnapshot document : documents) {
-                Map<String, Object> data = document.getData();
-                results.add(data);
-            }
-
-            return results;
-
-        } catch (InterruptedException e) {
-            System.err.println("Thread interrupted while fetching suppliers: " + e.getMessage());
-            Thread.currentThread().interrupt();
-            return results;
-        } catch (ExecutionException e) {
-            System.err.println("Error executing Firestore query for suppliers: " + e.getMessage());
-            return results;
-        } catch (Exception e) {
-            System.err.println("Unexpected error reading suppliers: " + e.getMessage());
-            return results;
-        }
-    }
-
-    public static Suppliers createSupplierFromDocument(DocumentSnapshot document) {
-        String supplierId = document.getString("supplierId");
-        String supplierName = document.getString("supplierName");
-        String contactPerson = document.getString("contactPerson");
-        String phoneNumber = document.getString("phoneNumber");
-        String emailAddress = document.getString("emailAddress");
-        String websiteLink = document.getString("websiteLink");
-        String businessAddress = document.getString("businessAddress");
-        String warehouseAddress = document.getString("warehouseAddress");
-        String deliveryArea = document.getString("deliveryArea");
-
-        return new Suppliers(supplierId, supplierName, contactPerson, phoneNumber, emailAddress,
-                websiteLink, businessAddress, warehouseAddress, deliveryArea);
-    }
-
-
     public static MenuItem createMenuItemFromDocument(DocumentSnapshot document) {
         String menuItemID = document.getString("id");
         String name = document.getString("name");
@@ -234,8 +182,45 @@ public class FirestoreUtils {
         String DeliveryAddress    = doc.getString("deliveryAddress");
         String Supplier     = doc.getString("supplierName");
         String SupplierAddress = doc.getString("supplierAddress");
-        return new ViewDelivery(DeliveryID, OrderNumber, DeliveryDate, DeliveryTime, DeliveryAddress, Supplier, SupplierAddress);
+        String SupplierFirstName    = doc.getString("supplierFirstName");
+        String SupplierLastName     = doc.getString("supplierLastName");
+        String SupplierContactNum   = doc.getString("supplierContactNum");
+        return new ViewDelivery(DeliveryID, OrderNumber, DeliveryDate, DeliveryTime, DeliveryAddress, Supplier, SupplierAddress, SupplierFirstName, SupplierLastName, SupplierContactNum);
     }
 
+    public static List<Map<String, Object>> readCollection(String suppliers) {
+        List<Map<String, Object>> results = new ArrayList<>();
 
+        try {
+            // Get Firestore instance
+            Firestore db = FirestoreClient.getFirestore();
 
+            // Create a reference to the "Suppliers" collection specifically
+            ApiFuture<QuerySnapshot> query = db.collection("Suppliers").get();
+
+            // Get all documents from the Suppliers collection
+            QuerySnapshot querySnapshot = query.get();
+            List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+
+            // Convert each document to a Map
+            for (QueryDocumentSnapshot document : documents) {
+                Map<String, Object> data = document.getData();
+                results.add(data);
+            }
+
+            return results;
+
+        } catch (InterruptedException e) {
+            System.err.println("Thread interrupted while fetching suppliers: " + e.getMessage());
+            Thread.currentThread().interrupt();
+            return results;
+        } catch (ExecutionException e) {
+            System.err.println("Error executing Firestore query for suppliers: " + e.getMessage());
+            return results;
+        } catch (Exception e) {
+            System.err.println("Unexpected error reading suppliers: " + e.getMessage());
+            return results;
+        }
+    }
+
+}

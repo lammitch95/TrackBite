@@ -1,7 +1,6 @@
 package chooser.view;
 
 import chooser.model.CurrentPageOptions;
-import chooser.model.Suppliers;
 import chooser.model.TableViewColumnData;
 import chooser.utils.TableViewUtils;
 import chooser.viewmodel.TableViewViewModel;
@@ -62,8 +61,6 @@ public class TableViewController {
     private Label viewTitleLbl;
 
     private TableViewViewModel tableViewVM;
-
-
 
     @FXML
     private void initialize(){

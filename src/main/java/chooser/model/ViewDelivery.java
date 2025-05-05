@@ -10,9 +10,12 @@ public class ViewDelivery {
     private final String deliveryAddress;
     private final String supplier;
     private final String supplierAddress;
+    private final String supplierFirstName;
+    private final String supplierLastName;
+    private final String supplierContactNum;
 
-    public ViewDelivery(String deliveryID, String orderNumber, LocalDate deliveryDate, String deliveryTime, String deliveryAddress, String supplier, String supplierAddress
-    ) {
+    public ViewDelivery(String deliveryID, String orderNumber, LocalDate deliveryDate, String deliveryTime, String deliveryAddress, String supplier, String supplierAddress,
+                        String supplierFirstName, String supplierLastName, String supplierContactNum) {
         this.deliveryID       = deliveryID;
         this.orderNumber      = orderNumber;
         this.deliveryDate     = deliveryDate;
@@ -20,6 +23,9 @@ public class ViewDelivery {
         this.deliveryAddress  = deliveryAddress;
         this.supplier         = supplier;
         this.supplierAddress  = supplierAddress;
+        this.supplierFirstName  = supplierFirstName;
+        this.supplierLastName   = supplierLastName;
+        this.supplierContactNum = supplierContactNum;
     }
 
     public String    getDeliveryID()      { return deliveryID; }
@@ -29,4 +35,7 @@ public class ViewDelivery {
     public String    getDeliveryAddress() { return deliveryAddress; }
     public String    getSupplier()        { return supplier; }
     public String    getSupplierAddress(){ return supplierAddress; }
+    public String   getSupplierFirstName()  { return supplierFirstName; }
+    public String   getSupplierLastName()   { return supplierLastName; }
+    public String   getSupplierContactNum() { return supplierContactNum; }
 }

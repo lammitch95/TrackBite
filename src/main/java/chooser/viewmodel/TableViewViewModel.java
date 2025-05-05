@@ -3,7 +3,6 @@ package chooser.viewmodel;
 import chooser.database.FirestoreUtils;
 import chooser.model.CurrentPageOptions;
 import chooser.model.MenuItem;
-import chooser.model.Suppliers;
 import chooser.model.User;
 import chooser.model.ViewDelivery;
 import chooser.utils.ProgressLoadUtils;
@@ -63,7 +62,7 @@ public class TableViewViewModel {
 
         titleMapping.put("View Accounts","Accounts");
         titleMapping.put("View Menu Items","Menu");
-        titleMapping.put("Supplier View","Suppliers");
+
         titleMapping.put("View Deliveries", "Deliveries");
 
     }
@@ -189,17 +188,6 @@ public class TableViewViewModel {
                     }
                     break;
 
-                case "Suppliers":
-                    if (value instanceof Suppliers selectedMenuItem) {
-                        String menuItemID = selectedMenuItem.getSupplierId();
-                        System.out.println("Selected Supplier ID on selected Row: " + menuItemID);
-                        selectedRowID = menuItemID;
-                    } else {
-                        System.out.println("The selected value is not a Menu Item object.");
-                    }
-                    break;
-
-
                 default:
                     System.out.println("Collection doesnt exist to store row ID");
             }
@@ -315,9 +303,6 @@ public class TableViewViewModel {
                     case "View Menu Items":
                         collectionName = "Menu";
                         break;
-                    case "Supplier View":
-                        collectionName = "Suppliers";
-                        break;
                     case "View Deliveries":
                         collectionName = "Deliveries";
                         break;
@@ -353,10 +338,6 @@ public class TableViewViewModel {
                             case "Menu":
                                 entireDataCollection = TableViewUtils.prepareTableViewData(MenuItem.class, collectionName, snapshot);
                                 storedColumnClickableName = "id";
-                                break;
-                            case "Suppliers":
-                                entireDataCollection = TableViewUtils.prepareTableViewData(Suppliers.class, collectionName, snapshot);
-                                storedColumnClickableName = "supplierId";
                                 break;
 
                             case "Deliveries":
