@@ -169,7 +169,7 @@ public class NewDeliveryFormController {
                     "Teaspoon (tsp)", "Tablespoon (tbsp)", "Fluid ounce (fl oz)", "Cup (c)",
                     "Pint (pt)", "Quart (qt)", "Gallon (gal)", "Liter (L)", "Milliliter (mL)",
                     "Ounce (oz)", "Pound (lb)", "Gram (g)", "Kilogram (kg)", "Whole",
-                    "Slice", "Clove", "Stick", "Dash, Pinch, Smidgen, Cases , Pieces"
+                    "Slice", "Clove", "Stick", "Dash, Pinch, Smidgen, Cases(CS) , Pieces(PC)"
             );
             Priority.getItems().addAll("Low", "Medium", "High");
             System.out.println("ComboBoxes initialized");
