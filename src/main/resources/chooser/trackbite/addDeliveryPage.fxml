@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
-
+<?import javafx.scene.layout.HBox?>
 <AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="chooser.view.addDeliveryController"
@@ -17,22 +17,38 @@
 
    <children>
 
-      <!-- Container for dynamic delivery rows -->
-      <VBox fx:id="deliveryItemsContainer" layoutX="20" layoutY="20" spacing="10" prefWidth="960" prefHeight="400" />
+      <Label text="Select Delivery:"
+             layoutX="20" layoutY="0" />
 
-      <!-- Add Row Button -->
+      <ComboBox fx:id="deliveryIdDropdown"
+                layoutX="130" layoutY="0"
+                prefWidth="200" />
+
+      <HBox layoutX="20" layoutY="40" spacing="10">
+         <Label text="Item ID"     prefWidth="100" />
+         <Label text="Item Name"   prefWidth="150" />
+         <Label text="Quantity"    prefWidth="60" />
+         <Label text="Price/Unit"  prefWidth="80" />
+         <Label text="Supplier"    prefWidth="120" />
+         <Label text="Delivery Date" prefWidth="120" />
+         <Label text="Expiration"  prefWidth="120" />
+
+      </HBox>
+
+      <VBox fx:id="deliveryItemsContainer"
+            layoutX="20" layoutY="70"
+            spacing="10" prefWidth="960" prefHeight="340" />
+
       <Button text="Add Item"
               layoutX="20" layoutY="430"
               onAction="#handleAddItemRow"
               prefWidth="100" />
 
-      <!-- Submit Button -->
       <Button text="Submit Deliveries"
               layoutX="140" layoutY="430"
               onAction="#handleSubmitDeliveries"
               prefWidth="150" />
 
-      <!-- Back Button -->
       <Button fx:id="backToMain"
               text="Back to Main Menu"
               layoutX="310" layoutY="430"
@@ -40,5 +56,6 @@
               prefWidth="150" />
 
    </children>
+
 </AnchorPane>
 

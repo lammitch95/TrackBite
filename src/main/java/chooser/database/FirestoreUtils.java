@@ -220,7 +220,7 @@ public class FirestoreUtils {
             pricePerUnit = 0f;
         }
 
-        // ✅ Supplier fallback for missing field
+
         String supplier = document.contains("supplier") && document.getString("supplier") != null
                 ? document.getString("supplier")
                 : "N/A";
@@ -252,11 +252,30 @@ public class FirestoreUtils {
                 LocalDate.parse(doc.getString("deliveryDate")),
                 LocalDate.parse(doc.getString("expirationDate")),
                 Float.parseFloat(String.valueOf(doc.get("pricePerUnit"))),
-                doc.getString("supplier"),
-                doc.contains("poNumber") ? doc.getString("poNumber") : "" // fallback if missing
+                doc.getString("supplier")
+
         );
     }
+
+    public static List<DocumentSnapshot> getUnsubmittedDeliveries() {
+        try {
+            Firestore db = FirestoreContext.getFirestore();
+            CollectionReference deliveries = db.collection("Deliveries");
+
+            // Temporary fallback: return all deliveries
+            QuerySnapshot snapshot = deliveries.get().get();
+            return new ArrayList<>(snapshot.getDocuments());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
+
 }
+
+
+
 
 
 

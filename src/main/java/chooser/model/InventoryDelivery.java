@@ -15,11 +15,11 @@ public class InventoryDelivery {
     private final LocalDate expDate;
     private final float pricePerUnit;
     private final String supplier;
-    private final String poNumber;
+
 
     public InventoryDelivery(String itemId, String itemName, float quantity,
                              LocalDate deliveryDate, LocalDate expDate,
-                             float pricePerUnit, String supplier, String poNumber) {
+                             float pricePerUnit, String supplier) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.quantity = quantity;
@@ -27,7 +27,7 @@ public class InventoryDelivery {
         this.expDate = expDate;
         this.pricePerUnit = pricePerUnit;
         this.supplier = supplier;
-        this.poNumber = poNumber;
+
     }
 
     public String getItemId() {
@@ -58,7 +58,6 @@ public class InventoryDelivery {
         return supplier;
     }
 
-    public String getPoNumber() {
-        return poNumber;
+
     }
-}
+

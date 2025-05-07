@@ -6,6 +6,7 @@ import chooser.database.FirestoreUtils;
 import chooser.model.InventoryDelivery;
 import chooser.model.InventoryItem;
 import chooser.utils.SceneNavigator;
+import com.google.cloud.firestore.DocumentSnapshot;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,19 +33,81 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class addDeliveryController {
-    @FXML private VBox deliveryItemsContainer;
-    @FXML private Button backToMainSelected;
+    @FXML
+    private ComboBox<String> deliveryIdDropdown;
+    @FXML
+    private VBox deliveryItemsContainer;
+    @FXML
+    private Button backToMainSelected;
+
 
     private final Map<String, InventoryItem> itemMap = new HashMap<>();
     private final List<DeliveryRow> deliveryRows = new ArrayList<>();
+    private Map<String, DocumentSnapshot> deliveryMap = new HashMap<>();
+
 
     @FXML
     private void initialize() {
         List<InventoryItem> items = FirestoreUtils.readCollection("Inventory");
+        System.out.println("Loaded inventory items: " + (items != null ? items.size() : "null"));
         for (InventoryItem item : items) {
             itemMap.put(item.getItemId(), item);
         }
-        handleAddItemRow(); // Start with one row
+        handleAddItemRow();
+
+        List<DocumentSnapshot> unsubmitted = FirestoreUtils.getUnsubmittedDeliveries();
+        System.out.println("Loaded unsubmitted deliveries: " + (unsubmitted != null ? unsubmitted.size() : "null"));
+        for (DocumentSnapshot doc : unsubmitted) {
+            String id = doc.getId();
+            deliveryIdDropdown.getItems().add(id);
+            deliveryMap.put(id, doc);
+            deliveryIdDropdown.setOnAction(e -> loadDeliveryItems(deliveryIdDropdown.getValue()));
+        }
+
+    }
+
+
+    private void loadDeliveryItems(String deliveryId) {
+        deliveryItemsContainer.getChildren().clear();
+        deliveryRows.clear();
+
+        DocumentSnapshot doc = deliveryMap.get(deliveryId);
+        if (doc == null) return;
+
+        List<Map<String, Object>> items = (List<Map<String, Object>>) doc.get("items");
+        String supplierName = "Unknown";
+        Map<String, Object> supplierData = (Map<String, Object>) doc.get("supplier");
+        if (supplierData != null && supplierData.get("supplierName") != null) {
+            supplierName = supplierData.get("supplierName").toString();
+        }
+
+
+        System.out.println("SUPPLIER NAME FROM FIRESTORE: " + supplierName);
+
+        for (Map<String, Object> item : items) {
+            DeliveryRow row = new DeliveryRow();
+
+            String name = (String) item.get("name");
+            float quantity = ((Number) item.get("quantity")).floatValue();
+            String unit = (String) item.get("unit");
+
+            // lookup or create itemId
+            String itemId = findOrCreateInventoryItem(name, unit, item);
+
+            InventoryItem invItem = itemMap.get(itemId);
+            if (invItem != null) {
+                row.itemId.setValue(itemId);
+                row.itemName.setText(invItem.getItemName());
+                row.quantity.setText(String.valueOf(quantity));
+                row.pricePerUnit.setText(String.valueOf(invItem.getPricePerUnit()));
+                row.supplier.setText(supplierName);
+                row.deliveryDate.setValue(LocalDate.now());
+                row.expirationDate.setValue(LocalDate.now().plusDays(7));
+            }
+
+            deliveryRows.add(row);
+            deliveryItemsContainer.getChildren().add(row.rowUI);
+        }
     }
 
     @FXML
@@ -67,8 +130,8 @@ public class addDeliveryController {
                         "deliveryDate", delivery.getDeliveryDate().toString(),
                         "expirationDate", delivery.getExpDate().toString(),
                         "pricePerUnit", delivery.getPricePerUnit(),
-                        "supplier", delivery.getSupplier(),
-                        "poNumber", delivery.getPoNumber()
+                        "supplier", delivery.getSupplier()
+
                 ));
                 updateInventoryQuantityAndSupplier(delivery.getItemId(), delivery.getQuantity(), delivery.getSupplier());
             } catch (Exception e) {
@@ -79,7 +142,7 @@ public class addDeliveryController {
         showAlert("Success", "Deliveries recorded successfully.");
         deliveryItemsContainer.getChildren().clear();
         deliveryRows.clear();
-        handleAddItemRow(); // Add a new blank row after submit
+        handleAddItemRow();
     }
 
     @FXML
@@ -116,7 +179,7 @@ public class addDeliveryController {
         return Float.parseFloat(String.valueOf(value));
     }
 
-    // Inner class for each delivery row
+
     private class DeliveryRow {
         ComboBox<String> itemId = new ComboBox<>();
         TextField itemName = new TextField();
@@ -125,9 +188,9 @@ public class addDeliveryController {
         TextField supplier = new TextField();
         DatePicker deliveryDate = new DatePicker();
         DatePicker expirationDate = new DatePicker();
-        TextField poNumber = new TextField();
 
-        HBox rowUI = new HBox(10, itemId, itemName, quantity, pricePerUnit, supplier, deliveryDate, expirationDate, poNumber);
+
+        HBox rowUI = new HBox(10, itemId, itemName, quantity, pricePerUnit, supplier, deliveryDate, expirationDate);
 
         DeliveryRow() {
             itemId.getItems().addAll(itemMap.keySet());
@@ -135,11 +198,10 @@ public class addDeliveryController {
             quantity.setPromptText("Qty");
             pricePerUnit.setPromptText("Price");
             supplier.setPromptText("Supplier");
-            poNumber.setPromptText("PO Number");
             deliveryDate.setPromptText("Delivery Date");
             expirationDate.setPromptText("Expiration");
 
-            // Optional: set preferred widths
+
             itemId.setPrefWidth(100);
             itemName.setPrefWidth(150);
             quantity.setPrefWidth(60);
@@ -147,9 +209,8 @@ public class addDeliveryController {
             supplier.setPrefWidth(120);
             deliveryDate.setPrefWidth(120);
             expirationDate.setPrefWidth(120);
-            poNumber.setPrefWidth(100);
 
-            // Auto-fill on item selection
+
             itemId.setOnAction(e -> {
                 InventoryItem item = itemMap.get(itemId.getValue());
                 if (item != null) {
@@ -161,7 +222,8 @@ public class addDeliveryController {
         }
 
         InventoryDelivery toDelivery() {
-            if (itemId.getValue() == null || itemId.getValue().isEmpty()) throw new IllegalArgumentException("Item ID is required.");
+            if (itemId.getValue() == null || itemId.getValue().isEmpty())
+                throw new IllegalArgumentException("Item ID is required.");
             if (deliveryDate.getValue() == null) throw new IllegalArgumentException("Delivery Date is required.");
             if (expirationDate.getValue() == null) throw new IllegalArgumentException("Expiration Date is required.");
 
@@ -172,12 +234,57 @@ public class addDeliveryController {
                     deliveryDate.getValue(),
                     expirationDate.getValue(),
                     Float.parseFloat(pricePerUnit.getText()),
-                    supplier.getText(),
-                    poNumber.getText()
+                    supplier.getText()
             );
         }
     }
-}
+
+
+        private String findOrCreateInventoryItem(String name, String unit, Map<String, Object> item) {
+            for (InventoryItem inv : itemMap.values()) {
+                if (inv.getItemName().equalsIgnoreCase(name)) {
+                    // Update unit/category
+                    boolean updated = false;
+                    if (!inv.getUnit().equals(unit)) {
+                        inv = new InventoryItem(inv.getItemId(), name, unit,
+                                inv.getCategory(), inv.getQuantity(),
+                                inv.getPricePerUnit(), inv.getSupplier());
+                        updated = true;
+                    }
+                    if (updated) {
+                        FirestoreUtils.writeDoc("Inventory", inv.getItemId(), Map.of(
+                                "InventoryItemID", inv.getItemId(),
+                                "itemName", inv.getItemName(),
+                                "unit", inv.getUnit(),
+                                "category", inv.getCategory(),
+                                "quantity", inv.getQuantity(),
+                                "pricePerUnit", inv.getPricePerUnit(),
+                                "supplier", inv.getSupplier()
+                        ));
+                    }
+                    return inv.getItemId();
+                }
+            }
+
+            // if not found, create new one
+            String itemId = name.substring(0, 3).toUpperCase() + String.format("%03d", new Random().nextInt(1000));
+            InventoryItem newItem = new InventoryItem(itemId, name, unit, "Unknown", "0", 0f, "Unknown");
+            FirestoreUtils.writeDoc("Inventory", itemId, Map.of(
+                    "InventoryItemID", itemId,
+                    "itemName", name,
+                    "unit", unit,
+                    "category", "Unknown",
+                    "quantity", 0,
+                    "pricePerUnit", 0.0,
+                    "supplier", "Unknown"
+            ));
+            itemMap.put(itemId, newItem);
+            return itemId;
+        }
+
+
+    }
+
 
 
 

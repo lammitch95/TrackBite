@@ -1,7 +1,9 @@
 package chooser.view;
 
 import chooser.model.CurrentPageOptions;
+import chooser.model.InventoryItem;
 import chooser.model.TableViewColumnData;
+import chooser.utils.SystemMessageUtils;
 import chooser.utils.TableViewUtils;
 import chooser.viewmodel.TableViewViewModel;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,6 +20,7 @@ import javafx.scene.layout.HBox;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TableViewController {
 
@@ -68,7 +71,11 @@ public class TableViewController {
     private TableViewViewModel tableViewVM;
 
     @FXML
+    private HBox generatePOBtn;
+
+    @FXML
     private void initialize() {
+
 
         tableViewVM = new TableViewViewModel();
         tableViewVM.setCurrTableView(tableViewMain);
@@ -130,3 +137,6 @@ public class TableViewController {
         }
     }
 }
+
+
+

@@ -1,5 +1,8 @@
 package chooser.model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 import java.time.LocalDate;
 
 public class InventoryItem {
@@ -88,6 +91,21 @@ public class InventoryItem {
             return "In Stock";
         }
     }
+
+    private final BooleanProperty selected = new SimpleBooleanProperty(false);
+
+    public boolean isSelected() {
+        return selected.get();
+    }
+
+    public void setSelected(boolean value) {
+        selected.set(value);
+    }
+
+    public BooleanProperty selectedProperty() {
+        return selected;
+    }
+
 
 
 

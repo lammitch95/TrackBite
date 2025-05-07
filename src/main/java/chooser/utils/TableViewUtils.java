@@ -7,6 +7,8 @@ import chooser.model.InventoryDelivery;
 import chooser.model.InventoryItem;
 import chooser.model.MenuItem;
 import chooser.model.User;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -15,6 +17,7 @@ import javafx.scene.control.*;
 
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import javafx.scene.control.cell.CheckBoxTableCell;
 
 import java.lang.reflect.Method;
 import java.time.LocalDate;
@@ -60,6 +63,7 @@ public class TableViewUtils {
         entireColumnNames.get("Inventory").put("supplier", "Supplier");
         entireColumnNames.get("Inventory").put("stockStatus", "Stock Status");
         entireColumnNames.get("Inventory").put("status", "Expiration Status");
+        entireColumnNames.get("Inventory").put("expirationDate", "Expiration Date");
 
         entireColumnNames.put("inventoryDeliveries", new HashMap<>());
         entireColumnNames.get("inventoryDeliveries").put("supplier", "Supplier");
@@ -204,6 +208,21 @@ public class TableViewUtils {
 
             tableView.getColumns().add(expStatusCol);
 
+        }
+        if (firstItem instanceof chooser.model.InventoryItem) {
+            TableColumn<T, Boolean> selectCol = new TableColumn<>("Select");
+            selectCol.setCellValueFactory(cellData -> {
+                try {
+                    Method method = cellData.getValue().getClass().getMethod("selectedProperty");
+                    return (BooleanProperty) method.invoke(cellData.getValue());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return new SimpleBooleanProperty(false);
+                }
+            });
+
+            selectCol.setCellFactory(CheckBoxTableCell.forTableColumn(selectCol));
+            tableView.getColumns().add(0, selectCol);
         }
 
         for (var field : firstItem.getClass().getDeclaredFields()) {
