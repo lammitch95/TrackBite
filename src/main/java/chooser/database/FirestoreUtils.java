@@ -260,6 +260,231 @@ public class FirestoreUtils {
         return new LoggedOrder(loggedOrderid, loggedDate, loggedTime, signedBy, customerOrderList);
     }
 
+    public static SupplierInfo createSupplierFromDocument(DocumentSnapshot document) {
+
+        System.out.println("createSupplierFromDocument called");
+
+        try{
+
+            String supplierId = document.getString("supplierId");
+            String supplierName = document.getString("supplierName");
+            String description = document.getString("description");
+
+            String primaryContactFirstName = document.getString("primaryContactFirstName");
+            String primaryContactLastName = document.getString("primaryContactLastName");
+            String primaryContactPhoneNum = document.getString("primaryContactPhoneNum");
+            String primaryContactEmail = document.getString("primaryContactEmail");
+            String primaryContactWebsite = document.getString("primaryContactWebsite");
+
+            String busAddressLine = document.getString("busAddressLine");
+            String busAddressCity = document.getString("busAddressCity");
+            String busAddressState = document.getString("busAddressState");
+            String busAddressPostalCode = document.getString("busAddressPostalCode");
+            String busAddressCountry = document.getString("busAddressCountry");
+
+            String warAddressLine = document.getString("warAddressLine");
+            String warAddressCity = document.getString("warAddressCity");
+            String warAddressState = document.getString("warAddressState");
+            String warAddressPostalCode = document.getString("warAddressPostalCode");
+            String warAddressCountry = document.getString("warAddressCountry");
+
+
+            return new SupplierInfo(
+                    supplierId,
+                    supplierName,
+                    description,
+                    new PrimaryContactInfo(
+                            primaryContactFirstName,
+                            primaryContactLastName,
+                            primaryContactPhoneNum,
+                            primaryContactEmail,
+                            primaryContactWebsite
+                    ),
+                    new AddressInfo(
+                            busAddressLine,
+                            busAddressCity,
+                            busAddressState,
+                            busAddressPostalCode,
+                            busAddressCountry
+                    ),
+                    new AddressInfo(
+                            warAddressLine,
+                            warAddressCity,
+                            warAddressState,
+                            warAddressPostalCode,
+                            warAddressCountry
+                    )
+            );
+
+        }catch (Exception e) {
+            System.err.println("Error while creating supplierInfo: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+
+
+    }
+
+    public static PurchaseOrder createPurchaseOrderFromDocument(DocumentSnapshot document) {
+        try{
+
+            String id = document.getString("id");
+            String orderStatus = document.getString("orderStatus");
+            String estDelivery = document.getString("estDelivery");
+            String orderDate = document.getString("orderDate");
+            String signedBy = document.getString("signedBy");
+
+            String supplierId = document.getString("supplierId");
+            String supplierName = document.getString("supplierName");
+
+            String primaryContactFirstName = document.getString("primaryContactFirstName");
+            String primaryContactLastName = document.getString("primaryContactLastName");
+            String primaryContactPhoneNum = document.getString("primaryContactPhoneNum");
+            String primaryContactEmail = document.getString("primaryContactEmail");
+            String primaryContactWebsite = document.getString("primaryContactWebsite");
+
+            String warAddressLine = document.getString("warAddressLine");
+            String warAddressCity = document.getString("warAddressCity");
+            String warAddressState = document.getString("warAddressState");
+            String warAddressPostalCode = document.getString("warAddressPostalCode");
+            String warAddressCountry = document.getString("warAddressCountry");
+
+            List<Map<String, Object>> requestItemList = (List<Map<String, Object>>) document.get("requestItemList");
+
+            List<RequestItem> newRequestItemList = new ArrayList<>();
+            for (Map<String, Object> ingredientMap : requestItemList) {
+
+                String inventoryId = (String) ingredientMap.get("inventoryId");
+                String inventoryName = (String) ingredientMap.get("inventoryName");
+                String quantity = (String) ingredientMap.get("quantity");
+                String uom = (String) ingredientMap.get("uom");
+                String notes = (String) ingredientMap.get("notes");
+
+                RequestItem item = new RequestItem(
+                        inventoryId,
+                        inventoryName,
+                        quantity,
+                        uom,
+                        notes
+                );
+                newRequestItemList.add(item);
+            }
+
+
+            return new PurchaseOrder(
+                    id,
+                    orderStatus,
+                    estDelivery,
+                    orderDate,
+                    signedBy,
+                    supplierId,
+                    supplierName,
+                    new PrimaryContactInfo(
+                            primaryContactFirstName,
+                            primaryContactLastName,
+                            primaryContactPhoneNum,
+                            primaryContactEmail,
+                            primaryContactWebsite
+                    ),
+                    new AddressInfo(
+                            warAddressLine,
+                            warAddressCity,
+                            warAddressState,
+                            warAddressPostalCode,
+                            warAddressCountry
+                    ),
+                    newRequestItemList
+            );
+
+        }catch (Exception e) {
+            System.err.println("Error while creating purchase order info: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+
+
+    }
+
+    public static ReceiveItems createReceivedItemsFromDocument(DocumentSnapshot document) {
+        try{
+
+            String id = document.getString("id");
+            String deliveredDate = document.getString("deliveredDate");
+            String deliveredTime = document.getString("deliveredTime");
+            String receivedBy = document.getString("receivedBy");
+            String purchaseOrderId = document.getString("purchaseOrderId");
+
+            String supplierId = document.getString("supplierId");
+            String supplierName = document.getString("supplierName");
+
+            String primaryContactFirstName = document.getString("primaryContactFirstName");
+            String primaryContactLastName = document.getString("primaryContactLastName");
+            String primaryContactPhoneNum = document.getString("primaryContactPhoneNum");
+            String primaryContactEmail = document.getString("primaryContactEmail");
+            String primaryContactWebsite = document.getString("primaryContactWebsite");
+
+            String warAddressLine = document.getString("warAddressLine");
+            String warAddressCity = document.getString("warAddressCity");
+            String warAddressState = document.getString("warAddressState");
+            String warAddressPostalCode = document.getString("warAddressPostalCode");
+            String warAddressCountry = document.getString("warAddressCountry");
+
+            List<Map<String, Object>> requestItemList = (List<Map<String, Object>>) document.get("requestItemList");
+
+            List<RequestItem> newRequestItemList = new ArrayList<>();
+            for (Map<String, Object> ingredientMap : requestItemList) {
+
+                String inventoryId = (String) ingredientMap.get("inventoryId");
+                String inventoryName = (String) ingredientMap.get("inventoryName");
+                String quantity = (String) ingredientMap.get("quantity");
+                String uom = (String) ingredientMap.get("uom");
+                String notes = (String) ingredientMap.get("notes");
+
+                RequestItem item = new RequestItem(
+                        inventoryId,
+                        inventoryName,
+                        quantity,
+                        uom,
+                        notes
+                );
+                newRequestItemList.add(item);
+            }
+
+
+            return new ReceiveItems(
+                    id,
+                    deliveredDate,
+                    deliveredTime,
+                    receivedBy,
+                    purchaseOrderId,
+                    supplierId,
+                    supplierName,
+                    new PrimaryContactInfo(
+                            primaryContactFirstName,
+                            primaryContactLastName,
+                            primaryContactPhoneNum,
+                            primaryContactEmail,
+                            primaryContactWebsite
+                    ),
+                    new AddressInfo(
+                            warAddressLine,
+                            warAddressCity,
+                            warAddressState,
+                            warAddressPostalCode,
+                            warAddressCountry
+                    ),
+                    newRequestItemList
+            );
+
+        }catch (Exception e) {
+            System.err.println("Error while creating purchase order info: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+
+
+    }
+
     public static int getIntField(DocumentSnapshot document, String fieldName) {
         Object value = document.get(fieldName);
         if (value instanceof String) {

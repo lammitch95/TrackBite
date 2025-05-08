@@ -228,6 +228,11 @@ public class LogOrderFormController {
         logOrderVM.customerIDProperty().set("New Customer Order");
         logOrderVM.handleIngredientsTableView("RESET", IngredientTableView);
 
+        logOrderVM.updateValidImageViews(menuItemHbox, MenuItemSelectUtils.menuItemIDValidProperty());
+        logOrderVM.updateValidImageViews(ingredientQuantityHbox, logOrderVM.quantityValidProperty());
+        logOrderVM.updateValidImageViews(tableNumHbox, logOrderVM.tableNumValidProperty());
+
+
     }
 
     private void addValidationStyle(Control field, BooleanProperty validProperty) {

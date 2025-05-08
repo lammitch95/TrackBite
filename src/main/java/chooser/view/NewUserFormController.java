@@ -154,7 +154,6 @@ public class NewUserFormController {
         });
 
         newUserformViewModel.usernameValidProperty().addListener((obs, oldVal, newVal) -> {
-            System.out.println();
             employeeIDLabel.setText(newUserformViewModel.usernameProperty().get());
         });
 
@@ -222,6 +221,15 @@ public class NewUserFormController {
         //errMessLabel.setText("");
 
         newUserformViewModel.usernameProperty().set("New User");
+
+        newUserformViewModel.updateValidImageViews(nameHbox, newUserformViewModel.firstNameValidProperty(), newUserformViewModel.lastNameValidProperty());
+        newUserformViewModel.updateValidImageViews(nameHbox, newUserformViewModel.firstNameValidProperty(), newUserformViewModel.lastNameValidProperty());
+        newUserformViewModel.updateValidImageViews(dobHbox, newUserformViewModel.dobValidProperty());
+        newUserformViewModel.updateValidImageViews(phoneNumHbox, newUserformViewModel.phoneValidProperty());
+        newUserformViewModel.updateValidImageViews(createPassHbox, newUserformViewModel.passwordValidProperty());
+        newUserformViewModel.updateValidImageViews(confirmPassHbox, newUserformViewModel.confirmPasswordValidProperty());
+        newUserformViewModel.updateValidImageViews(roleHbox, newUserformViewModel.roleValidProperty());
+        newUserformViewModel.updateValidImageViews(roleHbox, newUserformViewModel.roleValidProperty());
 
     }
     private void addValidationStyle(TextField field, BooleanProperty validProperty) {

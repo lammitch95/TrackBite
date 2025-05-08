@@ -2,10 +2,7 @@ package chooser.viewmodel;
 
 import chooser.database.FirestoreUtils;
 import chooser.model.*;
-import chooser.utils.ProgressLoadUtils;
-import chooser.utils.SceneNavigator;
-import chooser.utils.SystemMessageUtils;
-import chooser.utils.TableViewUtils;
+import chooser.utils.*;
 import com.google.cloud.firestore.QuerySnapshot;
 import javafx.application.Platform;
 import javafx.beans.property.*;
@@ -61,6 +58,9 @@ public class TableViewViewModel {
         titleMapping.put("View Menu Items","Menu");
         titleMapping.put("View Inventory", "Inventory");
         titleMapping.put("View Order History", "Customer Order History");
+        titleMapping.put("View Suppliers", "Suppliers");
+        titleMapping.put("View Purchase Orders", "Purchase Orders");
+        titleMapping.put("View Received Items", "Received Items");
 
     }
 
@@ -184,6 +184,33 @@ public class TableViewViewModel {
                         selectedRowID = inventoryItemID;
                     } else {
                         System.out.println("The selected value is not a Inventory Item object.");
+                    }
+                    break;
+                case "SuppliersV2":
+                    if (value instanceof SupplierInfo selectedSupplier) {
+                        String supplierID = selectedSupplier.getSupplierId();
+                        System.out.println("Selected Supplier ID on selected Row: " + supplierID);
+                        selectedRowID = supplierID;
+                    } else {
+                        System.out.println("The selected value is not a Inventory Item object.");
+                    }
+                    break;
+                case "PurchaseOrders":
+                    if (value instanceof PurchaseOrder selectedPO) {
+                        String poId = selectedPO.getId();
+                        System.out.println("Selected Purcahse Order ID on selected Row: " + poId);
+                        selectedRowID = poId;
+                    } else {
+                        System.out.println("The selected value is not a Inventory Item object.");
+                    }
+                    break;
+                case "ReceivedItems":
+                    if (value instanceof ReceiveItems selectedRecv) {
+                        String poId = selectedRecv.getId();
+                        System.out.println("Selected ReceiveItems ID on selected Row: " + poId);
+                        selectedRowID = poId;
+                    } else {
+                        System.out.println("The selected value is not a ReceiveItems object.");
                     }
                     break;
                 case "CustomerOrderHistory":
@@ -317,6 +344,15 @@ public class TableViewViewModel {
                     case "View Inventory":
                         collectionName = "InventoryV2";
                         break;
+                    case "View Suppliers":
+                        collectionName = "SuppliersV2";
+                        break;
+                    case "View Purchase Orders":
+                        collectionName = "PurchaseOrders";
+                        break;
+                    case "View Received Items":
+                        collectionName = "ReceivedItems";
+                        break;
                     case "View Order History":
                         collectionName = "CustomerOrderHistory";
                         break;
@@ -355,7 +391,18 @@ public class TableViewViewModel {
                                 entireDataCollection = TableViewUtils.prepareTableViewData(InventoryItem.class, collectionName, snapshot);
                                 storedColumnClickableName = "inventoryId";
                                 break;
-
+                            case "SuppliersV2":
+                                entireDataCollection = TableViewUtils.prepareTableViewData(SupplierInfo.class, collectionName, snapshot);
+                                storedColumnClickableName = "supplierId";
+                                break;
+                            case "PurchaseOrders":
+                                entireDataCollection = TableViewUtils.prepareTableViewData(PurchaseOrder.class, collectionName, snapshot);
+                                storedColumnClickableName = "id";
+                                break;
+                            case "ReceivedItems":
+                                entireDataCollection = TableViewUtils.prepareTableViewData(ReceiveItems.class, collectionName, snapshot);
+                                storedColumnClickableName = "id";
+                                break;
                             case "CustomerOrderHistory":
                                 entireDataCollection = TableViewUtils.prepareTableViewData(LoggedOrder.class, collectionName, snapshot);
                                 storedColumnClickableName = "id";

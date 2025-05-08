@@ -88,6 +88,45 @@ public class TableViewUtils {
         entireColumnNames.get("OrderList").put("name", "Customer Name");
         entireColumnNames.get("OrderList").put("notes", "**Notes**");
 
+        entireColumnNames.put("SuppliersV2",new HashMap<>());
+        entireColumnNames.get("SuppliersV2").put("supplierId", "Supplier Id");
+        entireColumnNames.get("SuppliersV2").put("supplierName", "Supplier Name");
+        entireColumnNames.get("SuppliersV2").put("description", "Description");
+        entireColumnNames.get("SuppliersV2").put("contactInfo", "Primary Contact Info");
+        entireColumnNames.get("SuppliersV2").put("businessAddressInfo", "Business Address");
+        entireColumnNames.get("SuppliersV2").put("warehouseAddressInfo", "Warehouse Address");
+
+        entireColumnNames.put("PurchaseOrders",new HashMap<>());
+        entireColumnNames.get("PurchaseOrders").put("id", "Purchase Order Id");
+        entireColumnNames.get("PurchaseOrders").put("orderStatus", "Order Status");
+        entireColumnNames.get("PurchaseOrders").put("estDelivery", "Est. Delivery");
+        entireColumnNames.get("PurchaseOrders").put("orderDate", "Order Date");
+        entireColumnNames.get("PurchaseOrders").put("signedBy", "Signed By");
+        entireColumnNames.get("PurchaseOrders").put("supplierId", "Supplier Id");
+        entireColumnNames.get("PurchaseOrders").put("supplierName", "Supplier Name");
+        entireColumnNames.get("PurchaseOrders").put("primaryContact", "Primary Contact");
+        entireColumnNames.get("PurchaseOrders").put("addressInfo", "Warehouse Address");
+        entireColumnNames.get("PurchaseOrders").put("requestItemList", "Requested Items");
+
+        entireColumnNames.put("ReceivedItems",new HashMap<>());
+        entireColumnNames.get("ReceivedItems").put("id", "Received Items Id");
+        entireColumnNames.get("ReceivedItems").put("deliveredDate", "Received Date");
+        entireColumnNames.get("ReceivedItems").put("deliveredTime", "Received Time");
+        entireColumnNames.get("ReceivedItems").put("receivedBy", "Received By");
+        entireColumnNames.get("ReceivedItems").put("purchaseOrderId", "Purchase Order Id");
+        entireColumnNames.get("ReceivedItems").put("supplierId", "Supplier Id");
+        entireColumnNames.get("ReceivedItems").put("supplierName", "Supplier Name");
+        entireColumnNames.get("ReceivedItems").put("primaryContact", "Primary Contact");
+        entireColumnNames.get("ReceivedItems").put("addressInfo", "Warehouse Address");
+        entireColumnNames.get("ReceivedItems").put("requestItemList", "Requested Items");
+
+        entireColumnNames.put("RequestItem",new HashMap<>());
+        entireColumnNames.get("RequestItem").put("inventoryId", "Item Id");
+        entireColumnNames.get("RequestItem").put("inventoryName", "Item Name");
+        entireColumnNames.get("RequestItem").put("quantity", "Quantity");
+        entireColumnNames.get("RequestItem").put("uom", "UOM");
+        entireColumnNames.get("RequestItem").put("notes", "**Notes**");
+
     }
 
     public static void setStoreCollectionName(String value){storeCollectionName = value;}
@@ -112,6 +151,12 @@ public class TableViewUtils {
                 break;
             case "InventoryV2":
                 SceneNavigator.loadView("New Inventory");
+                break;
+            case "SuppliersV2":
+                SceneNavigator.loadView("New Supplier");
+                break;
+            case "PurchaseOrders":
+                SceneNavigator.loadView("New Purchase Order");
                 break;
             case "CustomerOrderHistory":
                 SceneNavigator.loadView("Log Order");
@@ -139,6 +184,12 @@ public class TableViewUtils {
                     retrieveId = ((LoggedOrder) obj).getId();
                 }else if(obj instanceof CustomerOrder) {
                     retrieveId = ((CustomerOrder) obj).getMenuItemId();
+                }else if(obj instanceof SupplierInfo) {
+                    retrieveId = ((SupplierInfo) obj).getSupplierId();
+                }else if(obj instanceof PurchaseOrder) {
+                    retrieveId = ((PurchaseOrder) obj).getId();
+                }else if(obj instanceof RequestItem) {
+                    retrieveId = ((RequestItem) obj).getInventoryId();
                 }else{
                     System.out.println("Unknown object type: " + obj.getClass().getName());
                     continue;
@@ -172,7 +223,9 @@ public class TableViewUtils {
         if (collectionName.equals("Employees") && clazz == User.class) {
             for (QueryDocumentSnapshot document : documents) {
                 User formatUserData = FirestoreUtils.createUserFromDocument(document);
-                tableData.add(clazz.cast(formatUserData));
+                if(!formatUserData.getUsername().equals("admin0")){
+                    tableData.add(clazz.cast(formatUserData));
+                }
             }
         }
 
@@ -184,11 +237,29 @@ public class TableViewUtils {
         }
 
         if (collectionName.equals("InventoryV2") && clazz == InventoryItem.class) {
-            System.out.println("Checking InventoryV2 if statement: ");
             for (QueryDocumentSnapshot document : documents) {
                 InventoryItem formatInventoryData = FirestoreUtils.createInventoryItemFromDocument(document);
-                //System.out.println("Checking formatInventoryData: "+formatInventoryData);
                 tableData.add(clazz.cast(formatInventoryData));
+            }
+        }
+
+        if (collectionName.equals("SuppliersV2") && clazz == SupplierInfo.class) {
+            for (QueryDocumentSnapshot document : documents) {
+                SupplierInfo formatSupplierData = FirestoreUtils.createSupplierFromDocument(document);
+                tableData.add(clazz.cast(formatSupplierData));
+            }
+        }
+
+        if (collectionName.equals("PurchaseOrders") && clazz == PurchaseOrder.class) {
+            for (QueryDocumentSnapshot document : documents) {
+                PurchaseOrder formatPOData = FirestoreUtils.createPurchaseOrderFromDocument(document);
+                tableData.add(clazz.cast(formatPOData));
+            }
+        }
+        if (collectionName.equals("ReceivedItems") && clazz == ReceiveItems.class) {
+            for (QueryDocumentSnapshot document : documents) {
+                ReceiveItems formatPOData = FirestoreUtils.createReceivedItemsFromDocument(document);
+                tableData.add(clazz.cast(formatPOData));
             }
         }
 
@@ -229,7 +300,10 @@ public class TableViewUtils {
             String columnTitle = columnNameMap.get(fieldName);
 
 
-            if (fieldName.equals(clickableField) && status.equals("DEFAULT") && !CurrentPageOptions.getCurrPageOption().equals("New Menu Item")) {
+            if (fieldName.equals(clickableField) && status.equals("DEFAULT")
+                    && !CurrentPageOptions.getCurrPageOption().equals("New Menu Item")
+                    && !CurrentPageOptions.getCurrPageOption().equals("New Purchase Order")
+                    && !CurrentPageOptions.getCurrPageOption().equals("New Received Items")) {
 
                 TableColumn<T, Hyperlink> hyperlinkColumn = new TableColumn<>(columnTitle);
 
@@ -246,10 +320,34 @@ public class TableViewUtils {
                                 System.out.println("Clicked: " + hyperlink.getText());
                                 TableViewUtils.setSelectedRowID(hyperlinkValue);
 
+                                T findObject = null;
+                                for(T item: data){
+                                    if(item instanceof PurchaseOrder poItem){
+                                        if(poItem.getId().equals(hyperlink.getText())){
+                                            findObject = item;
+                                            break;
+                                        }
+                                    }
+
+                                    if(item instanceof ReceiveItems poItem){
+                                        if(poItem.getId().equals(hyperlink.getText())){
+                                            findObject = item;
+                                            break;
+                                        }
+                                    }
+                                }
+
+
                                 if(storeCollectionName.equals("CustomerOrderHistory")){
                                     ViewLoggedOrderUtils.setSelectedLoggedUser(hyperlink.getText());
                                     ViewLoggedOrderUtils.displayChangeViewLoggedOrder("SHOW");
-                                }else{
+                                } else if (storeCollectionName.equals("PurchaseOrders") && findObject!=null) {
+                                    PurchaseOrderUtils.setSelectedPurchaseOrder((PurchaseOrder) findObject);
+                                    PurchaseOrderUtils.displayChangeViewPurchaseOrder("SHOW");
+                                } else if (storeCollectionName.equals("ReceivedItems") && findObject!=null) {
+                                    PurchaseOrderUtils.setSelectedReceivedItem((ReceiveItems) findObject);
+                                    PurchaseOrderUtils.displayChangeViewReceivedItems("SHOW");
+                                } else{
                                     handleNewDocument();
                                 }
 
@@ -297,6 +395,32 @@ public class TableViewUtils {
                                         setStyle("-fx-background-color: #FFF9C4;"); // yellow
                                         break;
                                     case "In Stock":
+                                        setStyle("-fx-background-color: #C8E6C9;"); // green
+                                        break;
+                                    default:
+                                        setStyle("");
+                                        break;
+                                }
+                            }
+                        }
+                    });
+                }
+
+                if (fieldName.equals("orderStatus")) {
+                    column.setCellFactory(col -> new TableCell<>() {
+                        @Override
+                        protected void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (empty || item == null) {
+                                setText(null);
+                                setStyle("");
+                            } else {
+                                setText(item);
+                                switch (item) {
+                                    case "In Progress":
+                                        setStyle("-fx-background-color: #FFF9C4;"); // yellow
+                                        break;
+                                    case "Delivered":
                                         setStyle("-fx-background-color: #C8E6C9;"); // green
                                         break;
                                     default:

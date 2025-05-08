@@ -361,6 +361,16 @@ public class NewInventoryItemController {
         newInvItemVM.inventoryIdProp().set("New Inventory Item");
         newInvItemVM.handleItemStockTableView("RESET", itemStockTableView);
 
+        newInvItemVM.updateValidImageViews(nameHbox, newInvItemVM.validNameProp());
+        newInvItemVM.updateValidImageViews(itemLimitHbox, newInvItemVM.validItemLimitProp());
+        newInvItemVM.updateValidImageViews(minStockHbox, newInvItemVM.validMinStockProp());
+        newInvItemVM.updateValidImageViews(categoryHbox, newInvItemVM.validCategoryProp());
+        newInvItemVM.updateValidImageViews(quantityUOMHbox, newInvItemVM.validQuantityUOM());
+        //newInvItemVM.updateValidImageViews(priceHbox, newInvItemVM.validPriceProp(), newInvItemVM.validPriceUOMProp());
+        newInvItemVM.updateValidImageViews(ingredientQuantityHbox, newInvItemVM.validQuantityProp());
+        newInvItemVM.updateValidImageViews(expireDateHbox, newInvItemVM.validExpireDateProp());
+
+
     }
 
     private void addValidationStyle(Control field, BooleanProperty validProperty) {

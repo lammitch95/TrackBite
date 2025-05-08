@@ -1,14 +1,8 @@
 package chooser.viewmodel;
 
 import chooser.database.FirestoreUtils;
-import chooser.model.CurrentPageOptions;
-import chooser.model.InventoryItem;
-import chooser.model.MenuItem;
-import chooser.model.User;
-import chooser.utils.NewInventoryItemUtils;
-import chooser.utils.NewMenuItemUtils;
-import chooser.utils.ProgressLoadUtils;
-import chooser.utils.TableViewUtils;
+import chooser.model.*;
+import chooser.utils.*;
 import com.google.cloud.firestore.QuerySnapshot;
 import javafx.application.Platform;
 import javafx.beans.property.*;
@@ -92,8 +86,6 @@ public class InventoryItemSelectViewModel {
             @Override
             protected Void call() {
 
-                collectionName = "InventoryV2";
-
                 currentTableViewPage.set(1);
                 leftArrowVisible.set(false);
                 leftArrowBtnDisable.set(true);
@@ -101,10 +93,29 @@ public class InventoryItemSelectViewModel {
                 rightArrowVisible.set(true);
                 rightArrowBtnDisable.set(false);
 
-                QuerySnapshot snapshot = FirestoreUtils.getAllDocuments(collectionName);
-                if (snapshot != null) {
-                    entireDataCollection = TableViewUtils.prepareTableViewData(InventoryItem.class, collectionName, snapshot);
-                    storedColumnClickableName = "inventoryId";
+                String currPageOption = CurrentPageOptions.getCurrPageOption();
+
+                if(currPageOption.equals("New Purchase Order") && PurchaseOrderUtils.trackUsageProp().get().equals("Suppliers")) {
+                    collectionName = "SuppliersV2";
+                    QuerySnapshot snapshot = FirestoreUtils.getAllDocuments(collectionName);
+                    if (snapshot != null) {
+                        entireDataCollection = TableViewUtils.prepareTableViewData(SupplierInfo.class, collectionName, snapshot);
+                        storedColumnClickableName = "supplierId";
+                    }
+                }else if(currPageOption.equals("New Received Items") && PurchaseOrderUtils.trackUsageProp().get().equals("PurchaseOrder")){
+                        collectionName = "PurchaseOrders";
+                        QuerySnapshot snapshot = FirestoreUtils.getAllDocuments(collectionName);
+                        if (snapshot != null) {
+                            entireDataCollection = TableViewUtils.prepareTableViewData(PurchaseOrder.class, collectionName, snapshot);
+                            storedColumnClickableName = "id";
+                        }
+                }else{
+                    collectionName = "InventoryV2";
+                    QuerySnapshot snapshot = FirestoreUtils.getAllDocuments(collectionName);
+                    if (snapshot != null) {
+                        entireDataCollection = TableViewUtils.prepareTableViewData(InventoryItem.class, collectionName, snapshot);
+                        storedColumnClickableName = "inventoryId";
+                    }
                 }
 
                 return null;
@@ -145,9 +156,98 @@ public class InventoryItemSelectViewModel {
             String inventoryItemID = selectedInventoryItem.getInventoryId();
             System.out.println("Selected Inventory Item ID on selected Row: " + inventoryItemID);
             selectedRowID.set(inventoryItemID);
+
+            String checkOption = CurrentPageOptions.getCurrPageOption();
+            switch(checkOption){
+                case "New Purchase Order":
+                    PurchaseOrderUtils.itemInventoryIdProp().set(selectedInventoryItem.getInventoryId());
+                    PurchaseOrderUtils.itemNameProp().set(selectedInventoryItem.getInventoryName());
+                    PurchaseOrderUtils.itemUOMProp().set(selectedInventoryItem.getQuantityUOM());
+                    break;
+                case "New Received Items":
+                    PurchaseOrderUtils.itemInventoryIdProp().set(selectedInventoryItem.getInventoryId());
+                    PurchaseOrderUtils.itemNameProp().set(selectedInventoryItem.getInventoryName());
+                    PurchaseOrderUtils.itemUOMProp().set(selectedInventoryItem.getQuantityUOM());
+                    break;
+            }
         } else {
             System.out.println("The selected value is not a Inventory Item object.");
         }
+
+        String checkOption = CurrentPageOptions.getCurrPageOption();
+
+        if (value instanceof PurchaseOrder selectedItem) {
+
+            String retrieveId = selectedItem.getId();
+            selectedRowID.set(retrieveId);
+
+
+            switch(checkOption){
+                case "New Received Items":
+
+                    PurchaseOrderUtils.setStoreRequestItemList(selectedItem.getRequestItemList());
+                    PurchaseOrderUtils.triggerPopulateTableProp().set(!PurchaseOrderUtils.triggerPopulateTableProp().get());
+
+                    PurchaseOrderUtils.purchaseOrderIdProp().set(retrieveId);
+
+                    PurchaseOrderUtils.supplerIdProp().set(selectedItem.getSupplierId());
+                    PurchaseOrderUtils.supplierNameProp().set(selectedItem.getSupplierName());
+
+                    PrimaryContactInfo contact = selectedItem.getPrimaryContact();
+
+                    PurchaseOrderUtils.prmcFirstNameProp().set(contact.getFirstName());
+                    PurchaseOrderUtils.prmcLastNameProp().set(contact.getLastName());
+
+                    PurchaseOrderUtils.prmcPhoneNumberProp().set(contact.getPhoneNum());
+                    PurchaseOrderUtils.prmcEmailProp().set(contact.getEmail());
+
+                    String checkWebsite = contact.getWebsite().isEmpty() ? "N/A" : contact.getWebsite();
+                    PurchaseOrderUtils.prmcWebsiteProp().set(checkWebsite);
+
+                    AddressInfo address = selectedItem.getAddressInfo();
+
+                    PurchaseOrderUtils.warAddressLineProp().set(address.getAddressLine());
+                    PurchaseOrderUtils.warCityProp().set(address.getCity());
+                    PurchaseOrderUtils.warStateProp().set(address.getState());
+                    PurchaseOrderUtils.warPostalCodeProp().set(address.getPostalCode());
+                    PurchaseOrderUtils.warCountryProp().set(address.getCountry());
+
+                    break;
+            }
+
+
+        }
+
+        if (value instanceof SupplierInfo selectedItem) {
+            String retrieveId = selectedItem.getSupplierId();
+            selectedRowID.set(retrieveId);
+
+            switch(checkOption){
+                case "New Purchase Order":
+                    PurchaseOrderUtils.supplerIdProp().set(retrieveId);
+                    PurchaseOrderUtils.supplierNameProp().set(selectedItem.getSupplierName());
+
+                    PurchaseOrderUtils.prmcFirstNameProp().set(selectedItem.getContactInfo().getFirstName());
+                    PurchaseOrderUtils.prmcLastNameProp().set(selectedItem.getContactInfo().getLastName());
+
+                    PurchaseOrderUtils.prmcPhoneNumberProp().set(selectedItem.getContactInfo().getPhoneNum());
+                    PurchaseOrderUtils.prmcEmailProp().set(selectedItem.getContactInfo().getEmail());
+
+                    String checkWebsite = selectedItem.getContactInfo().getWebsite().isEmpty() ? "N/A" : selectedItem.getContactInfo().getWebsite();
+                    PurchaseOrderUtils.prmcWebsiteProp().set(checkWebsite);
+
+                    PurchaseOrderUtils.warAddressLineProp().set(selectedItem.getWarehouseAddressInfo().getAddressLine());
+                    PurchaseOrderUtils.warCityProp().set(selectedItem.getWarehouseAddressInfo().getCity());
+                    PurchaseOrderUtils.warStateProp().set(selectedItem.getWarehouseAddressInfo().getState());
+                    PurchaseOrderUtils.warPostalCodeProp().set(selectedItem.getWarehouseAddressInfo().getPostalCode());
+                    PurchaseOrderUtils.warCountryProp().set(selectedItem.getWarehouseAddressInfo().getCountry());
+
+                    break;
+            }
+        } else {
+            System.out.println("The selected value is not a Inventory Item object.");
+        }
+
 
     }
 

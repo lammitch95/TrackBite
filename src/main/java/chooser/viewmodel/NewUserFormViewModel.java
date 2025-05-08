@@ -14,10 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class NewUserFormViewModel {
 
@@ -180,22 +177,28 @@ public class NewUserFormViewModel {
 
     public void updateValidImageViews(HBox hBox, BooleanProperty... properties) {
 
+        Image requiredIconImg = new Image(Objects.requireNonNull(getClass().getResource("/chooser/trackbite/requiredIcon.png")).toExternalForm());
+        Image validIconImage = new Image(Objects.requireNonNull(getClass().getResource("/chooser/trackbite/valid.png")).toExternalForm());
+
         ImageView imageView = (ImageView) hBox.lookup(".image-view");
         Label label = (Label) hBox.lookup(".label");
 
-        if (imageView != null) {
-            boolean allTrue = true;
+        if (imageView != null && requiredIconImg!=null && validIconImage != null) {
+
+            imageView.setVisible(true);
+            imageView.setImage(requiredIconImg);
+
+            boolean allTrue = false;
             for (BooleanProperty property : properties) {
-                if (!property.get()) {
-                    allTrue = false;
+                if (property.get()) {
+                    allTrue = true;
                     break;
                 }
             }
 
             if (allTrue) {
-                imageView.setVisible(true);
-                Image validImage = new Image(getClass().getResource("/chooser/trackbite/valid.png").toExternalForm());
-                imageView.setImage(validImage);
+
+                imageView.setImage(validIconImage);
 
                 if(label.getText().equals("Name:") && isNewRecord.get()){
                     String newEmployeeId = generateEmployeeID();
@@ -204,7 +207,7 @@ public class NewUserFormViewModel {
                 }
 
             } else {
-                imageView.setVisible(false);
+
 
                 if(label.getText().equals("Name:") && isNewRecord.get()){
                     username.set("New User");
