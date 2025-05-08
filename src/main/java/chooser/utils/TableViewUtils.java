@@ -239,6 +239,11 @@ public class TableViewUtils {
         if (collectionName.equals("InventoryV2") && clazz == InventoryItem.class) {
             for (QueryDocumentSnapshot document : documents) {
                 InventoryItem formatInventoryData = FirestoreUtils.createInventoryItemFromDocument(document);
+                if(CurrentPageOptions.getCurrPageOption().equals("New Purchase Order")){
+                    if(formatInventoryData.getStockStatus().equals("In Stock")){
+                        continue;
+                    }
+                }
                 tableData.add(clazz.cast(formatInventoryData));
             }
         }
@@ -253,6 +258,11 @@ public class TableViewUtils {
         if (collectionName.equals("PurchaseOrders") && clazz == PurchaseOrder.class) {
             for (QueryDocumentSnapshot document : documents) {
                 PurchaseOrder formatPOData = FirestoreUtils.createPurchaseOrderFromDocument(document);
+                if(CurrentPageOptions.getCurrPageOption().equals("New Received Items")){
+                    if(formatPOData.getOrderStatus().equals("Delivered")){
+                        continue;
+                    }
+                }
                 tableData.add(clazz.cast(formatPOData));
             }
         }

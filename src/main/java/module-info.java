@@ -16,7 +16,8 @@ module chooser.trackbite {
 
     opens chooser to javafx.fxml, javafx.graphics;
     opens chooser.model to javafx.base;
-
-    exports chooser.view;
     opens chooser.view to javafx.fxml;
+
+    exports chooser;
+    exports chooser.view;
 }
