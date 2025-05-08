@@ -2,6 +2,7 @@ package chooser.view;
 
 import chooser.utils.NewInventoryItemUtils;
 import chooser.utils.NewMenuItemUtils;
+import chooser.utils.PurchaseOrderUtils;
 import chooser.viewmodel.InventoryItemSelectViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -64,10 +66,14 @@ public class InventoryItemSelectController {
         exitBtn.setOnMouseClicked(event->{
             NewMenuItemUtils.linkInventoryId().set("Select Inventory");
             NewInventoryItemUtils.selectInventoryItem("HIDE",null);
+
+            PurchaseOrderUtils.itemInventoryIdProp().set("Search Inventory");
+            PurchaseOrderUtils.searchSystemData("HIDE", null, null);
         });
 
         selectBtn.setOnAction(actionEvent -> {
             NewInventoryItemUtils.selectInventoryItem("HIDE",null);
+            PurchaseOrderUtils.searchSystemData("HIDE", null, null);
         });
 
         selectBtn.disableProperty().bind(invItemSelectVM.validItemSelectProp().not());
@@ -108,6 +114,7 @@ public class InventoryItemSelectController {
         tableViewMain.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 invItemSelectVM.storeRowSelectedID(newSelection);
+
             }
         });
     }

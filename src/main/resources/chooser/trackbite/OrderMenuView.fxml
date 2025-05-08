@@ -13,17 +13,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" prefHeight="632.0" prefWidth="1114.0" stylesheets="@lightMode.css" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.OrderMenuViewController">
+<AnchorPane fx:id="rootPane" prefHeight="549.0" prefWidth="951.0" stylesheets="@lightMode.css" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.OrderMenuViewController">
    <children>
       <BorderPane fx:id="mainLayout" prefHeight="706.0" prefWidth="929.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
             <VBox fx:id="mainContentPane" prefHeight="549.0" prefWidth="951.0" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
                <children>
-                  <VBox fx:id="pageMenuHeader" prefHeight="217.0" prefWidth="1114.0">
+                  <VBox fx:id="pageMenuHeader" prefHeight="195.0" prefWidth="951.0">
                      <children>
-                        <VBox alignment="CENTER_LEFT" minHeight="0.0" prefHeight="58.0" prefWidth="1114.0" style="-fx-background-color: transparent;">
+                        <VBox minHeight="0.0" prefHeight="43.0" prefWidth="951.0" style="-fx-background-color: transparent;">
                            <children>
-                              <Label fx:id="pageName" prefHeight="35.0" text="Order Menu">
+                              <Label fx:id="pageName" alignment="TOP_LEFT" prefHeight="35.0" text="Log Order Menu">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -34,46 +34,46 @@
                               <Insets left="30.0" right="30.0" />
                            </padding>
                         </VBox>
-                        <HBox alignment="CENTER_LEFT" minHeight="0.0" prefHeight="84.0" prefWidth="1114.0" spacing="15.0">
+                        <HBox alignment="CENTER_LEFT" minHeight="0.0" prefHeight="84.0" prefWidth="951.0" spacing="15.0">
                            <children>
-                              <HBox fx:id="chooseCategoryBtn" alignment="CENTER" prefHeight="60.0" prefWidth="152.0" spacing="7.0">
+                              <HBox fx:id="chooseCategoryBtn" alignment="CENTER" prefHeight="57.0" prefWidth="152.0" spacing="7.0">
                                  <children>
-                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@chooseCategoryIcon.png" />
                                        </image>
                                     </ImageView>
-                                    <Label fx:id="chooseCategoryLabel" prefHeight="58.0" prefWidth="85.0" text="Choose Category" textFill="WHITE" wrapText="true">
+                                    <Label fx:id="chooseCategoryLabel" prefHeight="74.0" prefWidth="89.0" text="Choose Category" textFill="WHITE" wrapText="true">
                                        <font>
-                                          <Font name="System Bold" size="15.0" />
+                                          <Font name="System Bold" size="13.0" />
                                        </font>
                                     </Label>
                                  </children>
                               </HBox>
-                              <HBox fx:id="logOrderBtn" alignment="CENTER" layoutX="40.0" layoutY="20.0" prefHeight="60.0" prefWidth="152.0" spacing="7.0">
+                              <HBox fx:id="logOrderBtn" alignment="CENTER" layoutX="40.0" layoutY="20.0" prefHeight="65.0" prefWidth="152.0" spacing="7.0">
                                  <children>
-                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@newLogOrderIcon.png" />
                                        </image>
                                     </ImageView>
-                                    <Label prefHeight="58.0" prefWidth="85.0" text="Log Order" textFill="WHITE" wrapText="true">
+                                    <Label prefHeight="58.0" prefWidth="89.0" text="Log Order" textFill="WHITE" wrapText="true">
                                        <font>
-                                          <Font name="System Bold" size="15.0" />
+                                          <Font name="System Bold" size="13.0" />
                                        </font>
                                     </Label>
                                  </children>
                               </HBox>
-                              <HBox fx:id="viewOrderHistBtn" alignment="CENTER" layoutX="207.0" layoutY="20.0" prefHeight="60.0" prefWidth="152.0" spacing="7.0">
+                              <HBox fx:id="viewOrderHistBtn" alignment="CENTER" layoutX="207.0" layoutY="20.0" prefHeight="65.0" prefWidth="152.0" spacing="7.0">
                                  <children>
-                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@logOrderIcon.png" />
                                        </image>
                                     </ImageView>
-                                    <Label prefHeight="58.0" prefWidth="85.0" text="View Order History" textFill="WHITE" wrapText="true">
+                                    <Label prefHeight="58.0" prefWidth="89.0" text="View Order History" textFill="WHITE" wrapText="true">
                                        <font>
-                                          <Font name="System Bold" size="15.0" />
+                                          <Font name="System Bold" size="13.0" />
                                        </font>
                                     </Label>
                                  </children>

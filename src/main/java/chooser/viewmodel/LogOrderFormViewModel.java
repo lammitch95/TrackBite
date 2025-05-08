@@ -93,6 +93,7 @@ public class LogOrderFormViewModel {
 
 
     public LogOrderFormViewModel(){
+
         customerOrderList = FXCollections.observableArrayList();
         menutItemsAddedCounter.set(0);
         isLoadedOrder.set(false);
@@ -307,7 +308,6 @@ public class LogOrderFormViewModel {
         MenuItemSelectUtils.resetChangeItemSelectedStatus();
     }
 
-
     public void clearAddOrderInputs(){
         for(StringProperty userInput: orderAddInputList){
             userInput.set("");
@@ -321,26 +321,27 @@ public class LogOrderFormViewModel {
 
     public void updateValidImageViews(HBox hBox, BooleanProperty... properties) {
 
+        Image requiredIconImg = new Image(Objects.requireNonNull(getClass().getResource("/chooser/trackbite/requiredIcon.png")).toExternalForm());
+        Image validIconImage = new Image(Objects.requireNonNull(getClass().getResource("/chooser/trackbite/valid.png")).toExternalForm());
+
         ImageView imageView = (ImageView) hBox.lookup(".image-view");
         Label label = (Label) hBox.lookup(".label");
 
-        if (imageView != null) {
-            boolean allTrue = true;
+        if (imageView != null && requiredIconImg!=null && validIconImage != null) {
+
+            imageView.setVisible(true);
+            imageView.setImage(requiredIconImg);
+
+            boolean allTrue = false;
             for (BooleanProperty property : properties) {
-                if (!property.get()) {
-                    allTrue = false;
+                if (property.get()) {
+                    allTrue = true;
                     break;
                 }
             }
 
             if (allTrue) {
-                imageView.setVisible(true);
-                Image validImage = new Image(getClass().getResource("/chooser/trackbite/valid.png").toExternalForm());
-                imageView.setImage(validImage);
-
-            } else {
-                imageView.setVisible(false);
-
+                imageView.setImage(validIconImage);
             }
         } else {
             System.out.println("ImageView not found inside the HBox.");
@@ -375,7 +376,6 @@ public class LogOrderFormViewModel {
         }
         setTBVPageDisplay(customerOrderTableView);
     }
-
 
     public void handleMenuItemsLoggedCOunter(String status){
         switch (status){

@@ -200,7 +200,7 @@
                               </HBox>
                            </children>
                         </HBox>
-                        <HBox layoutX="10.0" layoutY="109.0" prefHeight="5.0" prefWidth="582.0" spacing="63.0">
+                        <HBox layoutX="10.0" layoutY="109.0" prefHeight="5.0" prefWidth="582.0" spacing="81.0">
                            <children>
                               <HBox fx:id="priceHbox" alignment="CENTER_LEFT" prefHeight="25.0" spacing="3.0">
                                  <children>
@@ -209,11 +209,6 @@
                                           <Font size="13.0" />
                                        </font>
                                     </Label>
-                                    <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                                       <image>
-                                          <Image url="@valid.png" />
-                                       </image>
-                                    </ImageView>
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_LEFT" prefHeight="9.0" prefWidth="292.0" spacing="5.0">

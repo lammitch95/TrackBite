@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="categoryMenu" alignment="CENTER" disable="true" prefHeight="521.0" prefWidth="770.0" spacing="5.0" style="-fx-background-color: rgb(0,0,0,0.5);;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chooser.view.ViewPurchaseOrderController">
+   <children>
+      <BorderPane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="489.0" prefWidth="745.0" stylesheets="@lightMode.css">
+         <top>
+            <VBox alignment="BOTTOM_LEFT" prefHeight="53.0" prefWidth="735.0" spacing="2.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="purchaseOrderIdLabel" layoutX="10.0" layoutY="73.0" prefHeight="27.0" prefWidth="745.0" text="PO_04202025_02030" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </VBox>
+         </top>
+         <padding>
+            <Insets right="10.0" />
+         </padding>
+         <center>
+            <HBox prefHeight="427.0" prefWidth="735.0" spacing="20.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox prefWidth="313.0" spacing="10.0">
+                     <children>
+                        <VBox layoutX="10.0" layoutY="10.0" prefWidth="313.0" spacing="5.0">
+                           <children>
+                              <Label alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="8.0" prefWidth="292.0" text="General Info" textFill="WHITE">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <HBox prefHeight="1.0" prefWidth="582.0" spacing="10.0">
+                                 <children>
+                                    <Pane prefWidth="387.0" style="-fx-background-color: white;" />
+                                 </children>
+                              </HBox>
+                              <Label fx:id="estDeliveryLabel" contentDisplay="CENTER" layoutX="10.0" layoutY="97.0" prefHeight="17.0" prefWidth="169.0" text="Est. Delivery:" textFill="WHITE">
+                                 <padding>
+                                    <Insets left="25.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="orderDateLabel" contentDisplay="CENTER" layoutX="10.0" layoutY="122.0" prefHeight="19.0" prefWidth="280.0" text="Order Date:" textFill="WHITE">
+                                 <padding>
+                                    <Insets left="25.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="orderStatusLabel" contentDisplay="CENTER" layoutX="10.0" layoutY="64.0" prefHeight="19.0" prefWidth="280.0" text="Order Status: In Progress" textFill="WHITE">
+                                 <padding>
+                                    <Insets left="25.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="signByLabel" contentDisplay="CENTER" layoutX="10.0" layoutY="147.0" prefHeight="19.0" prefWidth="280.0" text="Sign by:" textFill="WHITE">
+                                 <padding>
+                                    <Insets left="25.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="302.0" prefWidth="307.0" spacing="5.0">
+                           <children>
+                              <Label alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="8.0" prefWidth="292.0" text="Supplier Info" textFill="WHITE">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <HBox prefHeight="1.0" prefWidth="582.0" spacing="10.0">
+                                 <children>
+                                    <Pane prefWidth="387.0" style="-fx-background-color: white;" />
+                                 </children>
+                              </HBox>
+                              <Label fx:id="supplierIdNameLabel" prefWidth="263.0" text="SDS1234 | ABC Company" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="primary" prefWidth="263.0" text="Primary Contact" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="pmcNameLabel" contentDisplay="CENTER" layoutX="10.0" layoutY="97.0" prefHeight="7.0" prefWidth="263.0" text="Name: N/A" textFill="WHITE">
+                                 <padding>
+                                    <Insets left="25.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="pmcPhoneLabel" contentDisplay="CENTER" layoutX="10.0" layoutY="122.0" prefHeight="19.0" prefWidth="280.0" text="Phone Number: N/A" textFill="WHITE">
+                                 <padding>
+                                    <Insets left="25.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="pmcEmailLabel" contentDisplay="CENTER" layoutX="10.0" layoutY="147.0" prefHeight="19.0" prefWidth="280.0" text="Email: N/A" textFill="WHITE">
+                                 <padding>
+                                    <Insets left="25.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="pmcWebsiteLabel" contentDisplay="CENTER" layoutX="10.0" layoutY="171.0" prefHeight="19.0" prefWidth="280.0" text="Website: N/A" textFill="WHITE">
+                                 <padding>
+                                    <Insets left="25.0" />
+                                 </padding>
+                              </Label>
+                              <Label layoutX="10.0" layoutY="97.0" prefWidth="263.0" text="Warehouse Address" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="addressLine1Label" contentDisplay="CENTER" layoutX="10.0" layoutY="122.0" prefHeight="19.0" prefWidth="280.0" text="1234 Somehting Something" textFill="WHITE">
+                                 <padding>
+                                    <Insets left="25.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="addressLine2Label" contentDisplay="CENTER" layoutX="10.0" layoutY="245.0" prefHeight="19.0" prefWidth="280.0" text="Babylon New York, 11757" textFill="WHITE">
+                                 <padding>
+                                    <Insets left="25.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="addressLine3Label" contentDisplay="CENTER" layoutX="10.0" layoutY="270.0" prefHeight="19.0" prefWidth="280.0" text="United States of America" textFill="WHITE">
+                                 <padding>
+                                    <Insets left="25.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </children></VBox>
+                  <VBox alignment="TOP_CENTER" prefWidth="395.0" spacing="5.0">
+                     <children>
+                        <Label alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="20.0" prefWidth="410.0" text="Requested Items" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <HBox prefHeight="1.0" prefWidth="582.0" spacing="10.0">
+                           <children>
+                              <Pane prefHeight="1.0" prefWidth="415.0" style="-fx-background-color: white;" />
+                           </children>
+                        </HBox>
+                        <TableView fx:id="tableViewMain" prefHeight="347.0" prefWidth="394.0" />
+                        <HBox alignment="CENTER" prefHeight="27.0" prefWidth="480.0">
+                           <children>
+                              <Label fx:id="recordsCountLbl" prefHeight="16.0" text="0-0 of 0 records" textFill="WHITE">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Label>
+                              <Pane prefHeight="39.0" prefWidth="12.0" HBox.hgrow="ALWAYS" />
+                              <HBox alignment="CENTER" prefHeight="39.0" prefWidth="205.0" spacing="10.0">
+                                 <children>
+                                    <HBox fx:id="leftArrowBtn" alignment="CENTER" prefHeight="11.0" prefWidth="25.0">
+                                       <children>
+                                          <ImageView fx:id="leftArrowImage" fitHeight="18.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@grayLArrow.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </HBox>
+                                    <TextField fx:id="currentPageText" alignment="CENTER_RIGHT" prefHeight="13.0" prefWidth="63.0" text="1">
+                                       <font>
+                                          <Font size="10.0" />
+                                       </font>
+                                    </TextField>
+                                    <Label fx:id="pageCountLbl" prefHeight="25.0" text="of 1 pages" textFill="WHITE" />
+                                    <HBox fx:id="rightArrowBtn" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="6.0" prefWidth="25.0">
+                                       <children>
+                                          <ImageView fx:id="rightArrowImage" fitHeight="18.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@grayRArrow.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="7.0" left="10.0" right="10.0" top="7.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </center>
+      </BorderPane>
+      <Label fx:id="exitBtn" text="Go back" textFill="WHITE" underline="true">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+   </children>
+</VBox>

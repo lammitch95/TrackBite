@@ -134,13 +134,10 @@ public class NewMenuItemViewModel {
     public void setIsNewRedcordBoolean(boolean value){
         isNewRecord.set(value);
     }
-
     public BooleanProperty formValidProperty() {
         return formValid;
     }
-
     public BooleanProperty allowSaveProperty(){return allowSave;}
-
     public BooleanProperty ingredientItemValidProperty(){return ingredientFormValid;}
 
 
@@ -427,22 +424,28 @@ public class NewMenuItemViewModel {
 
     public void updateValidImageViews(HBox hBox, BooleanProperty... properties) {
 
+        Image requiredIconImg = new Image(Objects.requireNonNull(getClass().getResource("/chooser/trackbite/requiredIcon.png")).toExternalForm());
+        Image validIconImage = new Image(Objects.requireNonNull(getClass().getResource("/chooser/trackbite/valid.png")).toExternalForm());
+
         ImageView imageView = (ImageView) hBox.lookup(".image-view");
         Label label = (Label) hBox.lookup(".label");
 
-        if (imageView != null) {
-            boolean allTrue = true;
+        if (imageView != null && requiredIconImg!=null && validIconImage != null) {
+
+            imageView.setVisible(true);
+            imageView.setImage(requiredIconImg);
+
+            boolean allTrue = false;
             for (BooleanProperty property : properties) {
-                if (!property.get()) {
-                    allTrue = false;
+                if (property.get()) {
+                    allTrue = true;
                     break;
                 }
             }
 
             if (allTrue) {
-                imageView.setVisible(true);
-                Image validImage = new Image(getClass().getResource("/chooser/trackbite/valid.png").toExternalForm());
-                imageView.setImage(validImage);
+
+                imageView.setImage(validIconImage);
 
                 if(label.getText().equals("Name:") && isNewRecord.get()){
                     String newEmployeeId = generateMenuItemID();
@@ -451,7 +454,6 @@ public class NewMenuItemViewModel {
                 }
 
             } else {
-                imageView.setVisible(false);
 
                 if(label.getText().equals("Name:") && isNewRecord.get()){
                     menuItemID.set("New Menu Item");

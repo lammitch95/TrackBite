@@ -31,12 +31,22 @@ public class HomepageViewModel {
         ));
         navMap.put("Menu", List.of(
                 new NavOptions("New Menu Item", "newMenuItemBtn", "newMenuItem.png"),
-                new NavOptions("View Menu Items", "viewMenuItemsBtn", "viewMenuItemsIcon.png"),
-                new NavOptions("Order Menu", "orderMenuIconBtn", "orderMenuIcon.png")
+                new NavOptions("View Menu Items", "viewMenuItemsBtn", "viewMenuItemsIcon.png")
+                //new NavOptions("Order Menu", "orderMenuIconBtn", "orderMenuIcon.png")
         ));
+
         navMap.put("Inventory", List.of(
                 new NavOptions("New Inventory", "newInventoryBtn", "addInventoryIcon.png"),
-                new NavOptions("View Inventory", "viewInventoryBtn", "viewInventoryIcon.png")
+                new NavOptions("View Inventory", "viewInventoryBtn", "viewInventoryIcon.png"),
+                new NavOptions("New Received Items", "newReceivedItems", "recItemsIcon.png"),
+                new NavOptions("View Received Items", "viewReceivedItems", "viewRecItemsIcon.png")
+        ));
+
+        navMap.put("Purchases", List.of(
+                new NavOptions("New Purchase Order", "newPurchaseOrderBtn", "newPurchaseOrderIcon.png"),
+                new NavOptions("View Purchase Orders", "viewPurchaseOrdersIcon", "viewPurchaseOrderIcon.png"),
+                new NavOptions("New Supplier", "newSupplierBtn", "newSupplierIcon.png"),
+                new NavOptions("View Suppliers", "viewSuppliersBtn", "viewSupplierIcon.png")
         ));
 
 

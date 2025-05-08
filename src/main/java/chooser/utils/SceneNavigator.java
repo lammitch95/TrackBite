@@ -25,11 +25,16 @@ public class SceneNavigator {
     private static final Map<String, String> pageMappings = new HashMap<>();
 
     static{
+
         pageMappings.put("New User", "NewUserForm.fxml");
         pageMappings.put("View Accounts", "TableView.fxml");
 
         pageMappings.put("New Menu Item","NewMenuItemForm.fxml");
         pageMappings.put("View Menu Items", "TableView.fxml");
+
+        pageMappings.put("New Received Items","ReceivedItemsForm.fxml");
+        pageMappings.put("View Received Items", "TableView.fxml");
+
         pageMappings.put("Order Menu", "OrderMenuView.fxml");
 
         pageMappings.put("New Inventory","NewInventoryItemForm.fxml");
@@ -37,6 +42,12 @@ public class SceneNavigator {
 
         pageMappings.put("Log Order","LogOrderForm.fxml");
         pageMappings.put("View Order History","TableView.fxml");
+
+        pageMappings.put("New Supplier","SupplierInfoForm.fxml");
+        pageMappings.put("View Suppliers","TableView.fxml");
+
+        pageMappings.put("New Purchase Order","PurchaseOrderForm.fxml");
+        pageMappings.put("View Purchase Orders","TableView.fxml");
 
     }
 

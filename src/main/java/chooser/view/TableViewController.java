@@ -2,6 +2,7 @@ package chooser.view;
 
 import chooser.model.CurrentPageOptions;
 import chooser.model.TableViewColumnData;
+import chooser.utils.PurchaseOrderUtils;
 import chooser.utils.TableViewUtils;
 import chooser.utils.ViewLoggedOrderUtils;
 import chooser.viewmodel.TableViewViewModel;
@@ -71,6 +72,7 @@ public class TableViewController {
     public void initialize(){
 
         ViewLoggedOrderUtils.setStoreRoot(rootPane);
+        PurchaseOrderUtils.setstoreRootPurchaseOrder(rootPane);
 
         tableViewVM = new TableViewViewModel();
 

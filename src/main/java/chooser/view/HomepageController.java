@@ -46,7 +46,7 @@ public class HomepageController {
     private HBox inventoryBtn;
 
     @FXML
-    private ImageView lightDarkIcon;
+    private HBox logCustomerOrderBtn;
 
     @FXML
     private VBox mainContentPane;
@@ -67,13 +67,19 @@ public class HomepageController {
     private Label pageName;
 
     @FXML
+    private HBox pageOptionFourBtn;
+
+    @FXML
     private HBox pageOptionOneBtn;
+
+    @FXML
+    private HBox pageOptionThreeBtn;
 
     @FXML
     private HBox pageOptionTwoBtn;
 
     @FXML
-    private HBox pageOptionThreeBtn;
+    private HBox purchasesBtn;
 
     @FXML
     private AnchorPane rootPane;
@@ -107,7 +113,7 @@ public class HomepageController {
         SystemMessageUtils.setSystemMessageBox(systemMessageBox);
         SystemMessageUtils.setSysteMessageLabel(systemMessageLbl);
 
-        pageOptionBtnList = new HBox[]{pageOptionOneBtn,pageOptionTwoBtn,pageOptionThreeBtn};
+        pageOptionBtnList = new HBox[]{pageOptionOneBtn,pageOptionTwoBtn,pageOptionThreeBtn,pageOptionFourBtn};
 
         homepageViewModel = new HomepageViewModel();
 
@@ -146,10 +152,13 @@ public class HomepageController {
                 inventoryBtn,
                 menuBtn,
                 accountsBtn,
+                purchasesBtn,
+                logCustomerOrderBtn,
                 settingBtn,
                 pageOptionOneBtn,
                 pageOptionTwoBtn,
                 pageOptionThreeBtn,
+                pageOptionFourBtn,
                 darkLightBtn,
                 signOutBtn,
                 changeLanguageBtn
@@ -252,6 +261,19 @@ public class HomepageController {
         homepageViewModel.setCurrentPage("Menu");
         changeUIPageOptions("Menu");
     }
+
+    @FXML
+    void onPurchasesClick(MouseEvent event) {
+        homepageViewModel.setCurrentPage("Purchases");
+        changeUIPageOptions("Purchases");
+    }
+
+    @FXML
+    void onLogCustomerOrderClick(MouseEvent event) {
+        homepageViewModel.setCurrentPage("LogOrder");
+        SceneNavigator.loadView("Order Menu");
+    }
+
 
     @FXML
     void onChangeLanguageClick(ActionEvent event) {

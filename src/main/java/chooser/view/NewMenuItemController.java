@@ -409,6 +409,17 @@ public class NewMenuItemController {
         newMenuItemVM.uploadItemImage(ItemImageDisplay, "DEFAULT");
         newMenuItemVM.handleIngredientsTableView("RESET", IngredientTableView);
 
+        newMenuItemVM.updateValidImageViews(nameHbox, newMenuItemVM.nameValidProperty());
+        newMenuItemVM.updateValidImageViews(descriptionHbox, newMenuItemVM.descriptionValidProperty());
+        newMenuItemVM.updateValidImageViews(categoryHbox, newMenuItemVM.categoryValidProperty());
+        newMenuItemVM.updateValidImageViews(priceHbox, newMenuItemVM.priceValidProperty(), newMenuItemVM.priceUOMValidProperty());
+        //newMenuItemVM.updateValidImageViews(itemImageHbox, newMenuItemVM.itemImageValidProperty());
+        newMenuItemVM.updateValidImageViews(ingredientNameHbox, newMenuItemVM.ingredientNameValidProperty());
+        newMenuItemVM.updateValidImageViews(ingredientQuantityHbox, newMenuItemVM.ingredientQuantityValidProperty());
+        newMenuItemVM.updateValidImageViews(ingredientUOMHbox, newMenuItemVM.ingredientUOMValidProperty());
+        newMenuItemVM.updateValidImageViews(linkInventoryHbox, NewMenuItemUtils.linkInventoryIdValidProp());
+
+
     }
 
     private void addValidationStyle(Control field, BooleanProperty validProperty) {
