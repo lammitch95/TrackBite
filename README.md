@@ -23,6 +23,13 @@ and helps ensure that the kitchen always has what it needs.
 
 **Real-time Updates:** Ensure accurate and up to date tracking of inventory levels and menu availability.
 
+## Application Demo
+### Inventory Tracking
+![Image](https://github.com/user-attachments/assets/64390512-bfe4-4a19-9de0-3bccc01ccd73) 
+### Menu Items/Customer Order Logging
+![Image](https://github.com/user-attachments/assets/ea6eebfb-5a3a-4242-b42b-748e4fcdaf92) 
+![Image](https://github.com/user-attachments/assets/9ee767fe-e3da-4a53-8b33-b72df6d0d29f)
+
 ## Technologies Used
 **TrackBite is built using the following technologies:**
 - IntelliJ: Integrated Development Environment (IDE) for Java development.
