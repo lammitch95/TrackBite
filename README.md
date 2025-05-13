@@ -29,6 +29,8 @@ and helps ensure that the kitchen always has what it needs.
 ### Menu Items/Customer Order Logging
 ![Image](https://github.com/user-attachments/assets/ea6eebfb-5a3a-4242-b42b-748e4fcdaf92) 
 ![Image](https://github.com/user-attachments/assets/9ee767fe-e3da-4a53-8b33-b72df6d0d29f)
+### Purchases/Suppliers
+![Image](https://github.com/user-attachments/assets/bf95a8e3-6da8-4a4e-9a90-cb0126237e36) 
 
 ## Technologies Used
 **TrackBite is built using the following technologies:**
