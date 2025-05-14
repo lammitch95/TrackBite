@@ -42,7 +42,7 @@ public class NewMenuItemUtils {
 
         linkInventoryId.addListener((obs, oldVal, newVal) -> {
             if(newVal!=null){
-                isValidLinkInventoryId.set(!newVal.equals("Select Inventory"));
+                isValidLinkInventoryId.set(!newVal.equals("Select Inventory") && !newVal.equals("**Link Error**"));
             }
 
         });

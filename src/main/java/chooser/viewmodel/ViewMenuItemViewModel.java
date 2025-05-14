@@ -146,6 +146,9 @@ public class ViewMenuItemViewModel {
                             IngredientItem ingItem = retrieveIngredientList.get(i);
                             String retrieveLinkInvId = ingItem.getLinkInventoryId();
 
+                            boolean hasFoundItemLink = false;
+
+
                             for(int j = 0; j < inventoryItemList.size(); ++j){
 
                                 InventoryItem invItem = inventoryItemList.get(j);
@@ -159,7 +162,7 @@ public class ViewMenuItemViewModel {
                                             invItem.getQuantityUOM()
                                     );
 
-                                    System.out.println("Remaining Uses for ingredient: "+ingItem.getName()+"/"+calculateRemainUses);
+                                    //System.out.println("Remaining Uses for ingredient: "+ingItem.getName()+"/"+calculateRemainUses);
                                     newDisplayData.add(new OrderMenuDisplay(
                                             ingItem.getName(),
                                             ingItem.getQuantity(),
@@ -170,8 +173,24 @@ public class ViewMenuItemViewModel {
                                             invItem.getTotalQuantity(),
                                             invItem.getQuantityUOM()
                                     ));
+
+                                    hasFoundItemLink = true;
                                     break;
                                 }
+                            }
+
+
+                            if(!hasFoundItemLink){
+                                newDisplayData.add(new OrderMenuDisplay(
+                                        ingItem.getName(),
+                                        ingItem.getQuantity(),
+                                        ingItem.getUom(),
+                                        0,
+                                        "**Link Error**",
+                                        "Out of Stock",
+                                        0,
+                                        "null"
+                                ));
                             }
                         }
 

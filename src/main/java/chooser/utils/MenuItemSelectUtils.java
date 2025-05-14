@@ -125,6 +125,10 @@ public class MenuItemSelectUtils {
             IngredientItem ingItem = retrieveIngredientList.get(i);
             String retrieveLinkInvId = ingItem.getLinkInventoryId();
 
+            if(ingItem.getLinkInventoryId().equals("**Link Error**")){
+                return 0;
+            }
+
             for(int j = 0; j < inventoryItemList.size(); ++j){
 
                 InventoryItem invItem = inventoryItemList.get(j);
@@ -143,7 +147,10 @@ public class MenuItemSelectUtils {
 
                     break;
                 }
+
             }
+
+
         }
 
         return calculateMaxServings(remainingUsesList);
@@ -351,6 +358,78 @@ public class MenuItemSelectUtils {
 
         return false;
 
+    }
+
+
+    public static List<MenuItem> setUpMenuItemList(){
+
+        String inventoryCollection = "Menu";
+        QuerySnapshot snapshotInventory = FirestoreUtils.getAllDocuments(inventoryCollection);
+        if (snapshotInventory != null) {
+            List<MenuItem> menuItemList= new ArrayList<>();
+
+            for (QueryDocumentSnapshot document : snapshotInventory) {
+                MenuItem formatMeuItemData = FirestoreUtils.createMenuItemFromDocument(document);
+                menuItemList.add(formatMeuItemData);
+
+            }
+            return  menuItemList;
+        }
+        return null;
+    }
+
+    public static void updateFireStoreMenuItem(MenuItem menuItemData){
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", menuItemData.getId());
+        data.put("name", menuItemData.getName());
+        data.put("description", menuItemData.getDescription());
+        data.put("category", menuItemData.getCategory());
+        data.put("price", menuItemData.getPrice());
+        data.put("uom", menuItemData.getUom());
+        data.put("itemImage", menuItemData.getItemImage());
+
+
+        List<IngredientItem> entireIngredientsList = menuItemData.getIngredientsList();
+
+        List<Map<String, Object>> ingredientsForFirestore = new ArrayList<>();
+        for (IngredientItem ingredient : entireIngredientsList) {
+            Map<String, Object> ingredientMap = new HashMap<>();
+
+            ingredientMap.put("name", ingredient.getName());
+            ingredientMap.put("quantity", ingredient.getQuantity());
+            ingredientMap.put("uom", ingredient.getUom());
+            ingredientMap.put("prepDetails", ingredient.getPrepDetails());
+            ingredientMap.put("linkInventoryId", ingredient.getLinkInventoryId());
+            ingredientMap.put("remainingUses", ingredient.getRemainingUses());
+
+            ingredientsForFirestore.add(ingredientMap);
+        }
+
+        data.put("ingredientsList",ingredientsForFirestore);
+
+        FirestoreUtils.writeDoc("Menu", menuItemData.getId(), data);
+
+    }
+
+
+    public static void updateMenuItemInventoryLinkError(String inventoryId){
+        List<MenuItem> menuItemList = setUpMenuItemList();
+
+        for (MenuItem item : menuItemList) {
+            boolean shouldUpdate = false;
+
+            List<IngredientItem> ingredList = item.getIngredientsList();
+            for (IngredientItem ingredItem : ingredList) {
+                if (ingredItem.getLinkInventoryId().equals(inventoryId)) {
+                    ingredItem.setLinkInventoryId("**Link Error**");
+                    shouldUpdate = true;
+                }
+            }
+
+            if (shouldUpdate) {
+                updateFireStoreMenuItem(item);
+            }
+        }
     }
 
 

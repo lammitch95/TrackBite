@@ -160,8 +160,8 @@ public class PurchaseOrderViewModel {
 
         itemQuantity.set(currentSelectedItem.getQuantity());
         itemNotes.set(currentSelectedItem.getNotes());
-        PurchaseOrderUtils.itemNameProp().set("Name: "+currentSelectedItem.getInventoryName());
-        PurchaseOrderUtils.itemUOMProp().set("UOM: "+currentSelectedItem.getUom());
+        PurchaseOrderUtils.itemNameProp().set(currentSelectedItem.getInventoryName());
+        PurchaseOrderUtils.itemUOMProp().set(currentSelectedItem.getUom());
         PurchaseOrderUtils.itemInventoryIdProp().set(currentSelectedItem.getInventoryId());
 
     }

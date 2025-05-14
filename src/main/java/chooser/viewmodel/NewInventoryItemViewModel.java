@@ -203,12 +203,28 @@ public class NewInventoryItemViewModel {
         });
 
         itemLimit.addListener((obs, oldVal, newVal) -> {
-            isValidItemLimit.set(NewInventoryItemUtils.isValidQuantity(newVal));
+            isValidItemLimit.set(NewInventoryItemUtils.isValidQuantity(newVal)
+                    && Integer.parseInt(newVal) > Integer.parseInt(minStock.get())
+                    && Integer.parseInt(newVal) > 0
+            );
+
+            isValidMinStock.set(NewInventoryItemUtils.isValidQuantity(newVal)
+                    && Integer.parseInt(newVal) > Integer.parseInt(minStock.get())
+                    && Integer.parseInt(newVal) > 0
+            );
             hasChanged.set(true);
         });
 
         minStock.addListener((obs, oldVal, newVal) -> {
-            isValidMinStock.set(NewInventoryItemUtils.isValidQuantity(newVal));
+            isValidMinStock.set(NewInventoryItemUtils.isValidQuantity(newVal)
+                    && Integer.parseInt(newVal) < Integer.parseInt(itemLimit.get())
+                    && Integer.parseInt(newVal) > 0
+            );
+
+            isValidItemLimit.set(NewInventoryItemUtils.isValidQuantity(newVal)
+                    && Integer.parseInt(newVal) < Integer.parseInt(itemLimit.get())
+                    && Integer.parseInt(newVal) > 0
+            );
             hasChanged.set(true);
         });
 
