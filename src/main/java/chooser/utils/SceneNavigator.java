@@ -90,17 +90,11 @@ public class SceneNavigator {
 
         try {
 
-            boolean wasFullscreen = mainStage.isFullScreen();
 
             FXMLLoader loader = new FXMLLoader(SceneNavigator.class.getResource("/chooser/trackbite/"+fxmlFile+".fxml"));
             Parent root = loader.load();
 
-            if(width > 0.0 && height > 0.0){
-                currWidth = width;
-                currHeight = height;
-            }
-
-            Scene newScene = new Scene(root, currWidth, currHeight);
+            Scene newScene = new Scene(root, mainStage.getWidth(), mainStage.getHeight());
 
             if (root instanceof AnchorPane) {
                 ProgressLoadUtils.setUpProgressLoad((AnchorPane) root);
@@ -110,9 +104,7 @@ public class SceneNavigator {
             mainStage.setTitle(title);
             mainStage.setResizable(resizable);
 
-            if (wasFullscreen) {
-                mainStage.setFullScreen(true);
-            }
+
             mainStage.show();
         } catch (IOException e) {
             e.printStackTrace();
