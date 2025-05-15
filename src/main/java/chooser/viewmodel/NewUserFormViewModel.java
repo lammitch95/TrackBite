@@ -200,7 +200,7 @@ public class NewUserFormViewModel {
 
                 imageView.setImage(validIconImage);
 
-                if(label.getText().equals("Name:") && isNewRecord.get()){
+                if(label.getText().equals("Name:") && isNewRecord.get() && firstNameValid.get() && lastNameValid.get()){
                     String newEmployeeId = generateEmployeeID();
                     username.set(newEmployeeId);
                     System.out.println("CHECKING NEW GENERATED EMPLOYEEID: "+newEmployeeId);

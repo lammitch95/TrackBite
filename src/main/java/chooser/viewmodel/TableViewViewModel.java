@@ -266,8 +266,6 @@ public class TableViewViewModel {
 
         checkArrowDisable();
 
-
-
         System.out.println("User Page Direction: "+direction);
         System.out.println("Current Table View:: "+currentTableViewPage.get());
 
@@ -310,7 +308,6 @@ public class TableViewViewModel {
             recordsAmountLbl.set(minRecordNumDisplayed+"-"+maxRecordNumDisplayed+" of "+maxRecordCount+" records");
 
             maxTableViewPageLbl.set("of "+splitPageRowData.size()+" pages");
-
 
         }
     }

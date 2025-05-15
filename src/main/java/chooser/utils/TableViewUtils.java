@@ -453,8 +453,8 @@ public class TableViewUtils {
 
         ObservableList<T> observableData = FXCollections.observableArrayList(data);
         tableView.setItems(observableData);
+        //tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
     }
 }
