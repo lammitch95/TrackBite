@@ -92,9 +92,6 @@ public class SupplierInfoController {
     private TextField phoneNumText;
 
     @FXML
-    private CheckBox sameBACheckBox;
-
-    @FXML
     private HBox saveBtn;
 
     @FXML

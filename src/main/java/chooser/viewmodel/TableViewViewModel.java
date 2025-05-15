@@ -87,6 +87,10 @@ public class TableViewViewModel {
                 SystemMessageUtils.setCurrPropertyColor("SUCCESS");
                 SystemMessageUtils.messageAnimation();
                 setUp();
+
+                if(collectionName.equals("InventoryV2")){
+                    MenuItemSelectUtils.updateMenuItemInventoryLinkError(selectedRowID);
+                }
             }else{
                 System.out.println("DOCUMENT DELETION FAILED. SOMETHING WENT WRONG!!");
                 SystemMessageUtils.setCurrSystemText("An error occurred when deleting account for user: "+selectedRowID);

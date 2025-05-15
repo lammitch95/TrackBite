@@ -355,7 +355,9 @@ public class PurchaseOrderUtils {
     }
 
     public static String getFirstThreeChars(String input) {
-        return input !=null&&input.length()>=3?input.substring(0,3):input;
+        return input != null && input.length() >= 3
+                ? input.substring(0, 3).toLowerCase()
+                : input != null ? input.toLowerCase() : null;
     }
 
     public static Map<String, Object> setupFirebaseData(PurchaseOrder purchaseOrder) {

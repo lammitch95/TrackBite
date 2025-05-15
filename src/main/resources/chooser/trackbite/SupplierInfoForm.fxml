@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -387,11 +386,6 @@
                               <HBox prefHeight="1.0" prefWidth="582.0" spacing="10.0">
                                  <children>
                                     <Pane prefHeight="0.0" prefWidth="387.0" style="-fx-background-color: #1e90f5;" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="TOP_RIGHT" prefHeight="28.0" prefWidth="373.0" spacing="46.0">
-                                 <children>
-                                    <CheckBox fx:id="sameBACheckBox" mnemonicParsing="false" text="Use Business Address" />
                                  </children>
                               </HBox>
                               <HBox prefHeight="28.0" prefWidth="373.0" spacing="20.0">
