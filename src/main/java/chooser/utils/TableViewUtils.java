@@ -161,6 +161,9 @@ public class TableViewUtils {
             case "CustomerOrderHistory":
                 SceneNavigator.loadView("Log Order");
                 break;
+            case "ReceivedItems":
+                SceneNavigator.loadView("New Received Items");
+                break;
 
                 default:
                 System.out.println("Collection doesnt exist for ADD NEW operations");
